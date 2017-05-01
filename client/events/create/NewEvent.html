@@ -1,0 +1,18 @@
+<template name="NewEvent">
+  <div class="row">
+    <div class="col m2 other-background">
+      {{> Avatar}}
+      {{> EventMenu}}
+    </div>
+
+    <div class="col m6">
+      <div class="container">
+        <legend>Crear evento</legend>
+        {{> quickForm collection="Events" id="insertEventForm" type="insert" class=""}}
+      </div>
+    </div>
+
+    <div class="col m4">
+    </div>
+  </div>
+</template>

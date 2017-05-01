@@ -1,0 +1,31 @@
+<template name="Event">
+  <article>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{name}}</h3>
+      </div>
+      <div class="panel-body">
+        <p>Descripcion: {{desc}}</p>
+        <p>Direccion: {{location}}</p>
+        <p>Inscritos: </p>
+        {{#each participants}}
+          {{this}}
+        {{/each}}
+        <a href="/events/{{_id}}">Ver detalles</a>
+        {{#if isEnrolled}}
+          {{> unsubscribeParticipant}}
+        {{else}}
+          {{> enrollParticipant}}
+        {{/if}}
+      </div>
+    </div>
+  </article>
+</template>
+
+<template name="enrollParticipant">
+  <a class="btn btn-info enroll-participant">Inscribirse a evento</a>
+</template>
+
+<template name="unsubscribeParticipant">
+  <a class="btn btn-warning unsubscribe-participant">Desinscribirse del evento </a>
+</template>

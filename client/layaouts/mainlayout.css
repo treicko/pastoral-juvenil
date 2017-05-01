@@ -1,0 +1,6 @@
+body {
+  background-image: url('images/bg02.png');
+  background-repeat: repeat;
+  height:100%;
+  /*overflow:hidden;*/ 
+}

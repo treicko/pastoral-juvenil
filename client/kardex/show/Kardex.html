@@ -1,0 +1,36 @@
+<template name="Kardex">
+  <article>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Kardex: {{> CurrentUser}}</h3>
+      </div>
+      <div class="panel-body">
+        <p>_id kardex: {{ kardex._id }}</p>
+        <p>Grupos: </p>
+        {{#each kardex.groups}}
+          {{> GroupOnKardex}}
+        {{/each}}
+        <p>Eventos: </p>
+        {{#each kardex.events}}
+          {{> EventOnKardex}}
+        {{/each}}
+      </div>
+    </div>
+  </article>
+</template>
+
+<template name="CurrentUser">
+  {{#each currentUser.emails}}
+    {{this.address}}
+  {{/each}}
+</template>
+
+<template name="GroupOnKardex">
+  <p>Grupo: {{ groupOnKardex.name }}</p>
+  <p>Creado en: {{createdGroupAt}}</p>
+</template>
+
+<template name="EventOnKardex">
+  <p>Grupo: {{ eventOnKardex.name }}</p>
+  <p>Creado en: {{createdEventAt}}</p>
+</template>

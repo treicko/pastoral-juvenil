@@ -1,0 +1,13 @@
+<template name="Parishes">
+  {{> NewParish}}
+  <legend>Parroquias:</legend>
+  <section>
+    {{#if Template.subscriptionsReady}}
+      {{#each parishes}}
+        {{> Parish}}
+      {{/each}}
+    {{else}}
+      <p>Loading...</p>
+    {{/if}}
+  </section>
+</template>

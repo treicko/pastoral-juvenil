@@ -12,21 +12,21 @@
           <span class="day">14</span>
         </span>
         <span class="stats">
-          <i class="material-icons">comment</i>
+          <i class="material-icons">forum</i>
           <label class="info-style">9999</label>
         </span>
         <span class="stats">
-          <i class="material-icons">comment</i>
+          <i class="material-icons">supervisor_account</i>
           <label class="info-style"> 16</label>
         </span>
-        <span class="stats">
+        <span class="stats" style="text-align: center;">
+          <i class="material-icons">location_on</i>
+          <!--<label class="info-style"> 16</label>-->
+        </span>
+        <!--<span class="stats">
           <i class="material-icons">comment</i>
           <label class="info-style"> 16</label>
-        </span>
-        <span class="stats">
-          <i class="material-icons">comment</i>
-          <label class="info-style"> 16</label>
-        </span>
+        </span>-->
       </div>
       
       <div class="info-card">
@@ -35,14 +35,14 @@
           <div class="card-content event-content">
             <img class="activator event-image" src="images/4.jpg">
             <div class="event-information">
-              <span class="card-title">Card Title</span>
+              <span class="card-title">Event Title</span>
               <p>I am a very simple card. I am good at containing small bits of information.
               I am convenient because I require little markup to use effectively.</p>
             </div>
           </div>
           <div class="card-action">
-            <a href="#">This is a link</a>
-            <a href="#">This is a link</a>
+            <a href="#">Detalles</a>
+            <a href="#">Me Interesa</a>
           </div>
         </div>
 
@@ -65,7 +65,7 @@
         </div>-->
       </div>
 
-      <section class="events">
+      <!--<section class="events">
         {{#if Template.subscriptionsReady}}
           {{#each events}}
             {{> Event}}
@@ -73,43 +73,54 @@
         {{else}}
           <p>Loading...</p>
         {{/if}}
-      </section>
+      </section>-->
     </div>
 
     <div class="col m4 back-ground">
+      {{ title }}
+      {{#each selectedEvents}}
+        {{> Event}}
+      {{/each}}
       <ul class="collection">
         <li class="collection-item avatar">
-          <img src="images/yuna.jpg" alt="" class="circle">
-          Julio - 16
-          <span class="title">Title</span>
-          <p>First Line <br>
-            Second Line
+          <!--{{#each selectedEvents}}
+            miaaaaaaaaaaaaaaaaaaaaaaaa
+            {{> Event}}
+          {{/each}}-->
+          <img src="images/5.jpg" alt="" class="circle">
+          Mayi - 2
+          <span class="title">Visita al centro de ancianitos</span>
+          <p>Hora: 8am - 15:00pm <br>
+            Se realizara una visita al hogar de ancianitos, para mayor informacion llamar al 74301597
           </p>
-          <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+          <!--<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>-->
         </li>
         <li class="collection-item avatar">
-          <i class="material-icons circle">folder</i>
-          <span class="title">Title</span>
-          <p>First Line <br>
-            Second Line
+          <img src="images/5.jpg" alt="" class="circle">
+          <!--<i class="material-icons circle">folder</i>-->
+          <span class="title">Reunion de coordinadores Fac</span>
+          <p>Hora: 17:00pm<br>
+            A todos los cordinadores de la JUB se les precisa a la Reunion en el colegio Santo Domingo
           </p>
-          <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+          <!--<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>-->
         </li>
         <li class="collection-item avatar">
-          <i class="material-icons circle green">insert_chart</i>
-          <span class="title">Title</span>
-          <p>First Line <br>
-            Second Line
+          <!--<i class="material-icons circle green">insert_chart</i>-->
+          <img src="images/5.jpg" alt="" class="circle">
+          <span class="title">Misa de 9 dias para el Padre Bartolom'e</span>
+          <p>Hora: 19:00pm - 20:00pm<br>
+            Templo Recoleta
           </p>
-          <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+          <!--<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>-->
         </li>
         <li class="collection-item avatar">
-          <i class="material-icons circle red">play_arrow</i>
-          <span class="title">Title</span>
-          <p>First Line <br>
-            Second Line
+          <!--<i class="material-icons circle red">play_arrow</i>-->
+          <img src="images/5.jpg" alt="" class="circle">
+          <span class="title">Oracion por venezuela</span>
+          <p>8:00pm - 9:00pm<br>
+            Templo Cala Cala
           </p>
-          <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+          <!--<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>-->
         </li>
       </ul>
     </div>
@@ -122,3 +133,6 @@
   </script>
 </template>
 
+<template name="dayEvents">
+
+</template>

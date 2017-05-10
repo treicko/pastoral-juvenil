@@ -3,5 +3,19 @@
     "ga": {
       "account": "UA-96358959-1"
     }
-  }
+  },
+  "compilerOptions": {
+  "target": "ES6",
+  "module": "es6"
+  },
+  "exclude": [
+  "node_modules",
+  ".meteor",
+  ".gagarin"
+  ],
+  "files": [
+  "client/*",
+  "server/*",
+  "lib/*"
+  ]
 }

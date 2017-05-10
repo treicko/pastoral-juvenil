@@ -1,0 +1,19 @@
+.my-background {
+  background-image: url('images/bg.png');
+  background-repeat: repeat;
+}
+
+a {
+  border-bottom: 2px solid white;
+  opacity: 0.8;
+}
+
+a:hover {
+  opacity: 1;
+}
+
+.layout-active {
+  background-image: url('images/bg.png');
+  background-color: #00453a;
+  /*background-color: yellow;*/
+}

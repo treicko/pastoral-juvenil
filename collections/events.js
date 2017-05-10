@@ -28,6 +28,15 @@ EventSchema = new SimpleSchema({
       type: "hidden"
     }
   },
+  comments: {
+    type: [String],
+    autoValue: function() {
+      return [];
+    },
+    autoform: {
+      type: "hidden"
+    }
+  },
   isDeleted: {
     type: Boolean,
     label: "Is deleted",
@@ -36,6 +45,13 @@ EventSchema = new SimpleSchema({
     },
     autoform: {
       type: "hidden"
+    }
+  },
+  date: {
+    type: Date,
+    label: "Event date",
+    autoValue: function() {
+      return new Date();
     }
   },
   createdAt: {

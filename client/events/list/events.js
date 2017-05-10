@@ -10,7 +10,13 @@ Template.Events.onRendered(function() {
 });
 
 Template.Events.helpers({
-  events: () => {
-    return Events.find({});
+  selectedEvents: () => {
+    const currentDate = new Date();
+    const finded = Events.find({date: currentDate});
+    console.log('este es mi resultado', finded);
+    return Events.find({date: currentDate});
+  },
+  title: () => {
+    return 'Eventos del dia';
   }
 });

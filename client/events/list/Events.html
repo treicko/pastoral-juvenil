@@ -1,11 +1,7 @@
 <template name="Events">
   <div class="row">
-    <div class="col m2 other-background">
-      {{> Avatar}}
-      {{> EventMenu}}
-    </div>
 
-    <div class="col m6">
+    <div class="col m7">
       <div class="info">
         <span class="date">
           <span class="month">Jul</span>
@@ -21,109 +17,74 @@
         </span>
         <span class="stats" style="text-align: center;">
           <i class="material-icons">location_on</i>
-          <!--<label class="info-style"> 16</label>-->
         </span>
-        <!--<span class="stats">
-          <i class="material-icons">comment</i>
-          <label class="info-style"> 16</label>
-        </span>-->
       </div>
       
       <div class="info-card">
 
         <div class="card event-card">
           <div class="card-content event-content">
-            <img class="activator event-image" src="images/4.jpg">
+            <img class="activator event-image" style="width: 100%; height: 200px;" src="images/4.jpg">
             <div class="event-information">
               <span class="card-title">Event Title</span>
               <p>I am a very simple card. I am good at containing small bits of information.
               I am convenient because I require little markup to use effectively.</p>
             </div>
           </div>
+
           <div class="card-action">
             <a href="#">Detalles</a>
             <a href="#">Me Interesa</a>
           </div>
         </div>
-
-        <!--<div class="card large event-card">
-          <div class="card-image waves-effect waves-block waves-light event-image">
-            <img class="activator" src="images/4.jpg">
-          </div>
-          <div class="card-content event-content">
-            <span class="card-title activator grey-text text-darken-4">
-              Card Title<i class="material-icons right">more_vert</i>
-            </span>
-
-            <p><a href="#!">This is a link</a></p>
-          </div>
-
-          <div class="card-action">
-            <a href="#">This is a link</a>
-            <a href="#">This is a link</a>
-          </div>
-        </div>-->
       </div>
 
-      <!--<section class="events">
-        {{#if Template.subscriptionsReady}}
-          {{#each events}}
-            {{> Event}}
-          {{/each}}
-        {{else}}
-          <p>Loading...</p>
-        {{/if}}
-      </section>-->
     </div>
 
-    <div class="col m4 back-ground">
+    <div class="col m5">
       {{ title }}
       {{#each selectedEvents}}
         {{> Event}}
       {{/each}}
       <ul class="collection">
         <li class="collection-item avatar">
-          <!--{{#each selectedEvents}}
-            miaaaaaaaaaaaaaaaaaaaaaaaa
-            {{> Event}}
-          {{/each}}-->
           <img src="images/5.jpg" alt="" class="circle">
           Mayi - 2
           <span class="title">Visita al centro de ancianitos</span>
           <p>Hora: 8am - 15:00pm <br>
             Se realizara una visita al hogar de ancianitos, para mayor informacion llamar al 74301597
           </p>
-          <!--<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>-->
+
         </li>
         <li class="collection-item avatar">
           <img src="images/5.jpg" alt="" class="circle">
-          <!--<i class="material-icons circle">folder</i>-->
+
           <span class="title">Reunion de coordinadores Fac</span>
           <p>Hora: 17:00pm<br>
             A todos los cordinadores de la JUB se les precisa a la Reunion en el colegio Santo Domingo
           </p>
-          <!--<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>-->
+
         </li>
         <li class="collection-item avatar">
-          <!--<i class="material-icons circle green">insert_chart</i>-->
+          
           <img src="images/5.jpg" alt="" class="circle">
           <span class="title">Misa de 9 dias para el Padre Bartolom'e</span>
           <p>Hora: 19:00pm - 20:00pm<br>
             Templo Recoleta
-          </p>
-          <!--<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>-->
+          </p>          
         </li>
         <li class="collection-item avatar">
-          <!--<i class="material-icons circle red">play_arrow</i>-->
+          
           <img src="images/5.jpg" alt="" class="circle">
           <span class="title">Oracion por venezuela</span>
           <p>8:00pm - 9:00pm<br>
             Templo Cala Cala
           </p>
-          <!--<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>-->
+          
         </li>
       </ul>
     </div>
+
   </div>
 
   <script>

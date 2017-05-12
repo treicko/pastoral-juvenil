@@ -3,10 +3,10 @@
 FlowRouter.route('/', {
   name: 'home',
   action() {
-    BlazeLayout.render('MainLayout');
+    BlazeLayout.render('MainPastoral');
   }
 });
-
+/*
 FlowRouter.route('/menu', {
   name: 'menu',
   action() {
@@ -14,7 +14,7 @@ FlowRouter.route('/menu', {
     BlazeLayout.render('MainLayout', {main: 'main'});
   }
 })
-
+*/
 /* Groups */
 
 /*FlowRouter.route('/groups', {

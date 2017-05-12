@@ -1,10 +1,24 @@
 <template name="MainLayout">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  {{> Layout}}
-  <div class="row">
-    <main class="main-layout">
-      {{> Template.dynamic template=main}}
-    </main>
+  <div class="navbar-container">
+    <div class="navbar-icon">
+      <label for="navbar-id-check">
+        <i class="material-icons">menu</i>
+      </label>
+    </div>
+    <div class="navbar-class">
+      {{> Layout}}
+    </div>    
   </div>
-  <!--{{> SideNav}}-->
+  <input class="check-sidebar" type="checkbox" id="navbar-id-check">
+  <div class="body-container">
+    <div class="sidebar-container">
+      {{> Avatar}}
+      {{> EventMenu}}  
+    </div>
+    <div class="content-dynamic">
+      <main class="main-layout">        
+        {{> Template.dynamic template=main}}
+      </main>      
+    </div>  
+  </div>  
 </template>

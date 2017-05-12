@@ -1,4 +1,4 @@
-.my-background {
+/*.my-background {
   background-image: url('images/bg.png');
   background-repeat: repeat;
 }
@@ -15,5 +15,5 @@ a:hover {
 .layout-active {
   background-image: url('images/bg.png');
   background-color: #00453a;
-  /*background-color: yellow;*/
-}
+  /*background-color: yellow;
+}*/

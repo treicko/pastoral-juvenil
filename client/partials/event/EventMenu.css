@@ -1,0 +1,27 @@
+.my-menu {
+    background-color: transparent;
+    height: calc(100% - 194px);
+    border-right: solid .1px  #004d40;
+}
+
+.list-options {
+    height: auto;
+}
+
+.list-options li { 
+    height: 40px;
+    line-height: 40px;
+    font-size: 20px;
+    color: white;
+    padding-left: 20px;
+    box-shadow: 0px 0px 2px 2px #004d40;
+    margin: 8px 4px 8px 0;
+    background-color:#00695C;
+    border-radius: 0 20px 20px 0;
+}
+
+.list-options li:hover { 
+    background-color: rgba(0, 77, 64, 1);
+    cursor: pointer;
+    border: solid 1px rgba(0, 77, 77, 1);
+}

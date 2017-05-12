@@ -14,6 +14,7 @@ Template.Events.helpers({
     const currentDate = new Date();
     const finded = Events.find({date: currentDate});
     console.log('este es mi resultado', finded);
+    console.log('leo gay --------> ', moment.locale());
     return Events.find({date: currentDate});
   },
   title: () => {

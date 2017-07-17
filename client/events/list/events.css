@@ -81,3 +81,31 @@
 .event-information {
   height: 90px;
 }
+
+.collection {
+  background-color: #009688;
+}
+
+.collection .collection-item.active>.collection-date{
+  color: white;
+  opacity: 0.8;
+}
+
+.collection .collection-item.active>.collection-content{
+  color: white;
+}
+
+.collection-title {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.collection-date {
+  color: #90949c;
+  font-size: 12px;
+}
+
+.collection-content {
+  color: #5b5b5b;
+  font-size: 12px;
+}

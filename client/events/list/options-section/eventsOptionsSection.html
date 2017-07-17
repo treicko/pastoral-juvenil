@@ -1,0 +1,27 @@
+<template name="EventsOptionsSection">
+  <div class="eventOptions">
+    <div class="headerOptions">FECHA</div>
+    <div class="contentOptions">
+      <p>
+        <input class="with-gap checked-date" name="dateOptions" type="radio" id="all" {{checkedDate 'all'}}/>
+        <label for="all">Todos</label>
+      </p>
+      <p>
+        <input class="with-gap checked-date" name="dateOptions" type="radio" id="today" {{checkedDate 'today'}}/>
+        <label for="today">Hoy</label>
+      </p>
+      <p>
+        <input class="with-gap checked-date" name="dateOptions" type="radio" id="tomorrow" {{checkedDate 'tomorrow'}}/>
+        <label for="tomorrow">Maniana</label>
+      </p>
+      <p>
+        <input class="with-gap checked-date" name="dateOptions" type="radio" id="thisWeek" {{checkedDate 'thisWeek'}}/>
+        <label for="thisWeek">Esta semana</label>
+      </p>
+      <p>
+        <input class="with-gap checked-date" name="dateOptions" type="radio" id="nextWeek" {{checkedDate 'nextWeek'}}/>
+        <label for="nextWeek">Proxima semana</label>
+      </p>
+    </div>
+  </div>
+</template>

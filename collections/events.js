@@ -15,10 +15,35 @@ EventSchema = new SimpleSchema({
     type: String,
     label: "Description"
   },
-  location: {
-    type: String,
-    label: "Location"
+  latitude: {
+    type: String
   },
+  longitude: {
+    type: String
+  },
+  /*map: {
+    type: Array,
+    minCount: 1,
+    maxCount: 2,
+    autoform: {
+      type: "hidden"
+    }
+  },
+  'map.$': {
+    type: Object
+  },
+  'map.$.type': {
+    type: String
+  },
+  'map.$.latitude': {
+    type: String
+  },
+  'map.$.longitude': {
+    type: String
+  },
+  'map.$.radius': {
+    type: Number
+  },*/
   participants: {
     type: [String],
     autoValue: function() {
@@ -50,8 +75,8 @@ EventSchema = new SimpleSchema({
   date: {
     type: Date,
     label: "Event date",
-    autoValue: function() {
-      return new Date();
+    autoform: {
+        value: new Date(moment().format())
     }
   },
   createdAt: {
@@ -84,6 +109,10 @@ Meteor.methods({
       }
     });
   },
+  insertEvent: function(event) {
+    console.log("Call events: ", event);
+    Events.insert(event);
+  }
 });
 
 Events.attachSchema(EventSchema);

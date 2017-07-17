@@ -37,3 +37,6 @@ datariot:ganalytics
 check@1.2.5
 fourseven:scss
 poetic:materialize-scss
+momentjs:moment
+dburles:google-maps
+mdg:geolocation

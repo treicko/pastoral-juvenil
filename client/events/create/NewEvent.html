@@ -8,11 +8,50 @@
     <div class="col m6">
       <div class="container">
         <legend>Crear evento</legend>
-        {{> quickForm collection="Events" id="insertEventForm" type="insert" class=""}}
+        <form class="new-event">
+          <div class="input-field">
+            <input id="event_name" type="text" class="validate" autocomplete="off">
+            <label for="event_name">Nombre del evento</label>
+          </div>
+          <div class="input-field">
+            <p>Ubication</p>
+            <div class="map-container">
+              <input id="search-input" class="controls" type="text" placeholder="Campo de busqueda">
+              {{> googleMap name="locationMap" options=mapOptions}}
+            </div>
+          </div>
+          <div class="input-field">
+            <div class="row">
+              <div class="col 12">
+                <p>Fecha/hora</p>
+                <div class="col m6">
+                  <i class="material-icons prefix">perm_contact_calendar</i>
+                  <input id="event_date" type="date" value="{{currentDate}}" class="validate">
+                </div>
+                <div class="col m6">
+                  <i class="material-icons prefix">schedule</i>
+                  <input id="event_hour" type="time" value="{{currentHour}}" class="validate">
+                </div>
+              </div>
+            </div>
+            <!--<label for="event_date">Fecha</label>-->
+          </div>
+          <div class="input-field">
+            <input id="event_description" type="text" class="validate">
+            <label for="event_description">Description</label>
+          </div>
+          
+          <div class="input-field">
+            <input type="submit">
+          </div>
+        </form>
+        <!--{{> quickForm collection="Events" id="insertEventForm" type="insert" class=""}}-->
       </div>
     </div>
 
     <div class="col m4">
     </div>
   </div>
+  <!--<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVKw1zfv0JsOsrH9yeAwoIjwcF7_JDAHY&callback=initMap"
+  type="text/javascript"></script>-->
 </template>

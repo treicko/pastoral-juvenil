@@ -1,0 +1,47 @@
+<template name="EventsDashboardSection">
+  <div class="eventDashboardList">
+    <div class="eventDashboardHeader">
+      {{ this.eventOption }}
+    </div>
+    {{#each this.events}}
+    <div class="eventDashboardItem">
+      <div class="eventDashboardContent">
+        <div class="scaledImageContainer">
+          <img class="scaledImage" src="images/7.jpg">
+        </div>
+        <div class="scaledEventContainer">
+          <div class="eventTitle">
+            <a>{{ name }}</a>
+          </div>
+          <div class="eventContent eventDate"><span><i class="tiny material-icons">query_builder</i> {{ date }}</span></div>
+          <div class="eventContent"><span>{{ desc }}</span></div>
+          <div class="eventContent eventOrganization"><span>Organizado por Leonardo Mp</span></div>
+          <div class="eventActions">
+            <button id="{{this._id}}" class="eventButton waves-effect waves-light eventRegister">
+              Registrar Asistencia
+              <i class="material-icons right">send</i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+
+  <!-- Modal Structure -->
+  <div id="modalRegister" class="modal">
+    <div class="modal-content">      
+      {{> googleMap name="registerMap" options=mapRegisterOptions}}
+    </div>
+    <div class="modal-footer">
+      <button class="modal-action modal-close waves-effect waves-light cancel-modal">
+        Cancel
+      </button>
+      <!--{{#if isRegisterEnable}}-->
+        <button class="modal-action modal-close waves-effect waves-light register-modal">
+          Registrar aistencia
+        </button>
+      <!--{{/if}}-->
+    </div>
+  </div>
+</template>

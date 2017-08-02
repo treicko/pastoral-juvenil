@@ -16,7 +16,17 @@
           <div class="input-field">
             <p>Ubication</p>
             <div class="map-container">
-              <input id="search-input" class="controls" type="text" placeholder="Campo de busqueda">
+
+              <!-- <div id="search-input" placeholder="Enter a query" autocomplete="off" style="z-index: 0; position: absolute; left: 113px; top: 0px;">
+                <input class="controls" type="text" placeholder="Buscar en google maps">
+                <a class="waves-effect waves-light btn"><i class="material-icons left">search</i></a>
+              </div> -->
+
+              <div id="search-content" >
+                <input id="search-input" class="search-input" type="text" placeholder="Buscar en google maps">
+                <a id="search-btn" class="waves-effect waves-light btn"><i class="material-icons left">search</i></a>
+              </div>
+              
               {{> googleMap name="locationMap" options=mapOptions}}
             </div>
           </div>

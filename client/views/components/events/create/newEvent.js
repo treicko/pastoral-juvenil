@@ -1,69 +1,25 @@
-function getHour(hour) {
-  let newHour;
-  switch(hour) {
-    case '1':
-      newHour = 13;
-      break;
-    case '2':
-      newHour = 14;
-      break;
-    case '3':
-      newHour = 15;
-      break;
-    case '4':
-      newHour = 16;
-      break;
-    case '5':
-      newHour = 17;
-      break;
-    case '6':
-      newHour = 18;
-      break;
-    case '7':
-      newHour = 19;
-      break;
-    case '8':
-      newHour = 20;
-      break;
-    case '9':
-      newHour = 21;
-      break;
-    case '10':
-      newHour = 22;
-      break;
-    case '11':
-      newHour = 23;
-      break;
-    default:
-      newHour = 24;
-      break;
-  }
-  return newHour;
-}
-
-function getCurrentDate() {
-  const date = moment().format('L').split('/');
-  return `${date[2]}-${date[0]}-${date[1]}`;
-}
-
-function getCurrentHour() {
-  const data = moment().add(1, 'hours').format('LT').split(' ');
-  const hour = data[0].split(':');
-  let currentHour = (hour[0] > 9) ? `${hour[0]}:00` : `0${hour[0]}:00`;
-  if(data[1] === 'PM') {
-    currentHour = `${getHour(hour[0])}:00`;
-  }
-  return currentHour;
-};
+import EventController from './../../../../../lib/controllers/event.controller';
+import TimeHelper from './../../../../../lib/helpers/time.helper';
 
 Template.NewEvent.onRendered(function() {
+  console.log('En el onRendered... leoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo');
   GoogleMaps.load({
     key: 'AIzaSyCVKw1zfv0JsOsrH9yeAwoIjwcF7_JDAHY',
     libraries: 'places'
   });
+  // Template.timeHelper.set();
+  
 });
 
 Template.NewEvent.onCreated(function() {
+  const eventController = new EventController();
+  this.timeHelper = new ReactiveVar(new TimeHelper());
+  console.log('En el onCreated...');
+  
+  //this.timeHelper = new TimeHelper();
+  //console.log('Veremos si llama al fuckig helper...', timeHelper.getHour());
+  
+  console.log(eventController.lala());
   var self = this;
   var radius = new ReactiveVar(100);
   var newEventShapeLocation = new ReactiveVar(null);
@@ -104,15 +60,51 @@ Template.NewEvent.onCreated(function() {
       map.instance.setCenter(marker.getPosition());
       map.instance.setZoom(15);
 
-      var input = document.getElementById('search-input');
+      const searchContent = document.getElementById('search-content');
+      const searchInput = document.getElementById('search-input');
       console.log('Leooooo mira el searchBox antes: ');
-      var searchBox = new google.maps.places.SearchBox(input);
+      var searchBox = new google.maps.places.SearchBox(searchInput);
       console.log('Leooooo mira el searchBox despues: ', searchBox);
-      map.instance.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+      map.instance.controls[google.maps.ControlPosition.TOP_LEFT].push(searchContent);
+      const searchBtn = document.getElementById('search-btn');
+      searchBtn.onclick = function() {
+        const location = searchInput.value;
+        geocoder = new google.maps.Geocoder();
+        console.log('geocoder: ', geocoder, 'input value: ', location);
+        geocoder.geocode({'address': location}, function (results, status) {
+          console.log('Hola leoooooooooo');
+          /* var lat = data[0].geometry.location.lat();
+          var lng = data[0].geometry.location.lng();
+          var origin = new google.maps.LatLng(lat, lng);
+          console.log('lat: ', lat, ' lng: ', lng, ' orign: ', origin, ' data: ', data, ' location: ', location); */
+          // plot origin
+
+
+          if (status === 'OK') {
+            //map.instance.setZoom(15);
+            map.instance.setCenter(results[0].geometry.location);
+            markers.forEach(function(marker) {
+              marker.setMap(null);
+            });
+            markers = [];
+
+            // Create a marker for each place.
+            markers.push(new google.maps.Marker({
+              map: map.instance,              
+              //title: place.name,
+              position: results[0].geometry.location
+            }));
+            /* resultsMap.setCenter(); */
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+        //proccessButtonSearch(location);
+      };
 
       // Bias the SearchBox results towards current map's viewport.
       map.instance.addListener('bounds_changed', function() {
-        searchBox.setBounds(map.instance.getBounds());
+        searchBox.setBounds(map.instance.getBounds());        
       });
 
       var markers = [];
@@ -120,7 +112,7 @@ Template.NewEvent.onCreated(function() {
         // more details for that place.
       searchBox.addListener('places_changed', function() {
         var places = searchBox.getPlaces();
-
+        console.log('This is the enter event lat: ', places[0].geometry.location.lat(), ' lang: ', places[0].geometry.location.lng());
         if (places.length == 0) {
           return;
         }
@@ -154,12 +146,14 @@ Template.NewEvent.onCreated(function() {
             position: place.geometry.location
           }));
 
-          if (place.geometry.viewport) {
+          
+
+           if (place.geometry.viewport) {
             // Only geocodes have viewport.
             bounds.union(place.geometry.viewport);
           } else {
             bounds.extend(place.geometry.location);
-          }
+          } 
         });
         map.instance.fitBounds(bounds);
       });
@@ -192,19 +186,23 @@ Template.NewEvent.helpers({
       };
     }
   },
-  currentDate: () => {
-    const myDate = getCurrentDate();
-    return myDate;
+  currentDate: function() {
+    var timeHelper = Template.instance().timeHelper.get();
+    console.log('En el helpers...');
+    // console.log('desde el helper perros....', tmp.timeHelper.get().getCurrentDate());
+    return timeHelper.getCurrentDate();    
   },
-  currentHour: () => {
-    var myHour = getCurrentHour();
-    return myHour;
+  currentHour: function() {
+    var timeHelper = Template.instance().timeHelper.get();
+    return timeHelper.getCurrentHour();
   }
 });
 
 Template.NewEvent.events({
   'submit .new-event': function(event) {
+    console.log('esta es mi event compadre: ', event);
     event.preventDefault();
+    
     const eventDate = new Date(`${event.target.event_date.value} ${event.target.event_hour.value}`)
     const location = { 'latitude': 24, 'longitude': 34 };
     console.log('mira hermano este es el date: ', eventDate);
@@ -224,5 +222,12 @@ Template.NewEvent.events({
     }
     Meteor.call('insertEvent', newEvent);
     FlowRouter.go("/events");
-  }
+  },
+
+  'keypress #search-input': function (event, template) {
+    if (event.which === 13) {
+      event.stopPropagation();
+      return false;
+    }
+  },
 });

@@ -38,3 +38,30 @@
   padding-left: 10px !important;
   padding-right: 5px !important;
 }
+
+.map-event-location-button {
+  background-color: rgba(255,255,255,1);
+  border-radius: 2px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  color: #333333;
+  display: block;
+  font-size: 12px;
+  margin-right: 10px;
+  overflow: hidden;
+  padding: 0px 2px;
+  padding-top: 2px;
+  cursor: pointer;
+  transition: background-color 0.16s ease-out;
+}
+
+.map-event-location-button:hover {
+  color: #26a69a;
+}
+
+/* map-event-location-button > a {
+  text-transform: none !important;
+} */
+
+.map-button-add-event {
+  text-transform: none !important;
+}

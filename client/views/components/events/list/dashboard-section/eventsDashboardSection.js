@@ -126,7 +126,11 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay, start, e
 }
 
 Template.EventsDashboardSection.onRendered(function() {
-  GoogleMaps.load({key: 'AIzaSyCVKw1zfv0JsOsrH9yeAwoIjwcF7_JDAHY'});
+  GoogleMaps.load({
+    v: '3',
+    libraries: 'places',
+    key: 'AIzaSyCVKw1zfv0JsOsrH9yeAwoIjwcF7_JDAHY'
+  });
 });
 
 Template.EventsDashboardSection.onCreated(function() {

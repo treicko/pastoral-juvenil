@@ -8,25 +8,20 @@
     <div class="col m6">
       <div class="container">
         <legend>Crear evento</legend>
-        <form class="new-event">
+        <form class="new-event" id="new-event">
           <div class="input-field">
-            <input id="event_name" type="text" class="validate" autocomplete="off">
-            <label for="event_name">Nombre del evento</label>
+            <input id="event_name" type="text" class="validate" autocomplete="off" data-length="64" maxlength="64" required>
+            <label for="event_name" data-error="Agrega un nombre para tu evento">Nombre del evento</label>
           </div>
           <div class="input-field">
-            <p>Ubication</p>
+            <input id="event_ubication" type="text" class="validate" disabled>
+            <label for="event_ubication" class="active">Ubicacion del evento</label>
+
             <div class="map-container">
-
-              <!-- <div id="search-input" placeholder="Enter a query" autocomplete="off" style="z-index: 0; position: absolute; left: 113px; top: 0px;">
-                <input class="controls" type="text" placeholder="Buscar en google maps">
-                <a class="waves-effect waves-light btn"><i class="material-icons left">search</i></a>
-              </div> -->
-
               <div id="search-content" >
                 <input id="search-input" class="search-input" type="text" placeholder="Buscar en google maps">
                 <a id="search-btn" class="waves-effect waves-light btn"><i class="material-icons left">search</i></a>
               </div>
-              
               {{> googleMap name="locationMap" options=mapOptions}}
             </div>
           </div>

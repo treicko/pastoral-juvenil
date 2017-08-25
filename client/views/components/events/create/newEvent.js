@@ -1,6 +1,5 @@
 
 import EventController from './../../../../../lib/controllers/event.controller';
-import TimeHelper from './../../../../../lib/helpers/time.helper';
 
 Template.NewEvent.onRendered(function() {
   console.log('onRendered NewEvent');
@@ -41,13 +40,8 @@ Template.NewEvent.onRendered(function() {
 });
 
 Template.NewEvent.onCreated(function() {
-  const self = this;
-  //const eventController = new EventController();
+  const self = this;  
   this.eventController = new ReactiveVar(new EventController());
-  this.timeHelper = new ReactiveVar(new TimeHelper());
-  
-  //var radius = new ReactiveVar(100);
-  //var newEventShapeLocation = new ReactiveVar(null);
 
   GoogleMaps.ready('locationMap', (map) => {
     this.eventController.get().setMap(map);
@@ -66,19 +60,15 @@ Template.NewEvent.helpers({
 
 Template.NewEvent.events({
   'submit .new-event': function(event) {
-    console.log('esta es mi event compadre: ', event);
     event.preventDefault();
-    const pors = Template.instance().eventController.get().getEventPosition();
-    console.log('NewEvent - SubmitEvent --> lat: ', pors.lat(), ' lng: ', pors.lng());
+    const eventPosition = Template.instance().eventController.get().getEventPosition();
     const eventDate = new Date(`${event.target.event_date.value} ${event.target.event_hour.value}`)
-    const location = { 'latitude': 24, 'longitude': 34 };
     const newEvent = {
       'name': event.target.event_name.value,
       'description': event.target.event_description.value,
       'ubication': event.target.event_ubication.value,
-      'latitude': pors.lat(),
-      'longitude': pors.lng(),
-      'map': [{'LEo': 'llalala'}],
+      'latitude': eventPosition.lat(),
+      'longitude': eventPosition.lng(),
       'date': eventDate,
       'participants': [],
       'comments': [],

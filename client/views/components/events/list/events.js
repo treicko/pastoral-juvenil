@@ -66,17 +66,32 @@ function getCurrentYear() {
   return s;
 }
 
+Template.Events.onRendered(function() {    
+  GoogleMaps.load({
+    v: '3',
+    libraries: 'places',
+    key: 'AIzaSyCVKw1zfv0JsOsrH9yeAwoIjwcF7_JDAHY'
+  });
+
+  $('.carousel-slider').carousel({full_width: true});
+  $('ul.tabs').tabs();
+  $('ul.tabs').tabs({onShow: (tab) => {
+    if(GoogleMaps.loaded()) {
+      google.maps.event.trigger(GoogleMaps.maps.locationMap.instance, "resize");
+    }
+  }});
+});
+
 Template.Events.onCreated(function() {
+
+  console.log('OnCreated Events');
+
   var self = this;
   self.autorun(function() {
     self.subscribe('events');
   });
   this.selectedEvent = new ReactiveVar(false);
-  Session.set('selectedEventsDate', 'today');
-});
-
-Template.Events.onRendered(function() {
-    $('.carousel-slider').carousel({full_width: true});
+  Session.set('selectedEventsDate', 'Todos');
 });
 
 Template.Events.helpers({
@@ -92,16 +107,16 @@ Template.Events.helpers({
     const selectedEventOption = Session.get('selectedEventsDate');
     
     switch(selectedEventOption) {
-      case 'tomorrow':
+      case 'Mañana':
         untilDate = getDayFromCurrentDate(1);
         break;
-      case 'thisWeek':
+      case 'Esta semana':
         untilDate = getWeek();
         break;
-      case 'nextWeek':
+      case 'Siguente semana':
         untilDate = getNextWeek();
         break;
-      case 'all':
+      case 'Todos':
         untilDate = getCurrentYear();
         break;
       default:

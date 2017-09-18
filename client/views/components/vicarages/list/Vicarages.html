@@ -1,0 +1,30 @@
+<template name="Vicarages">
+    <div class="row">
+      <div class="col s12 m12 l12">
+        <ul class="tabs tabs-fixed-width">
+          <li class="tab col s6 m6 l6"><a class="active" href="#vicarages"><i class="material-icons">list</i> Vicarias</a></li>
+          <li class="tab col s6 m6 l6"><a href="#create_vicarage"><i class="material-icons">add</i> Crear vicaria</a></li>
+        </ul>
+      </div>
+      <div id="vicarages" class="col s12 m12 l12">
+        <div class="tabs-container">
+          <div class="collection">
+            {{#if Template.subscriptionsReady}}
+              {{#each vicarages}}
+              <a href="/vicarages/{{_id}}" class="collection-item">
+                <span class="title">{{name}}</span>
+                <p>{{department}}</p>
+                <i class="material-icons secondary-content">input</i>
+              </a>
+              {{/each}}
+            {{else}}
+              <p>Cargando...</p>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+      <div id="create_vicarage" class="col s12 m12 l12">
+        {{> NewVicarage}}
+      </div>
+    </div>
+  </template>

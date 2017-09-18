@@ -9,6 +9,7 @@ Template.GroupSingle.onCreated(function() {
 Template.GroupSingle.helpers({
   group: () => {
     var id = FlowRouter.getParam('id');
+    console.log('My id loko grupo: ', id);
     return Groups.findOne({_id: id});
   }
 });

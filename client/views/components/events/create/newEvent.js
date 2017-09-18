@@ -1,16 +1,7 @@
-
 import EventController from './../../../../../lib/controllers/event.controller';
 
 Template.NewEvent.onRendered(function() {
   console.log('onRendered NewEvent');
-  GoogleMaps.load({
-    v: '3',
-    libraries: 'places',
-    key: 'AIzaSyCVKw1zfv0JsOsrH9yeAwoIjwcF7_JDAHY'
-  });
-
-  $('input#event_name').characterCounter();
-
   const $dateInput = $('.datepicker').pickadate({
     selectMonths: true, // Creates a dropdown to control month
     selectYears: 15, // Creates a dropdown of 15 years to control year,
@@ -36,17 +27,19 @@ Template.NewEvent.onRendered(function() {
     aftershow: function(){} //Function for after opening timepicker
   });
 
+  $('input#event_name').characterCounter();
+
   document.getElementById('event_hour').value = moment().add(1, 'hours').format('HH:mm');
 });
 
 Template.NewEvent.onCreated(function() {
+  console.log('OnCreated - NewEvent');
   const self = this;  
   this.eventController = new ReactiveVar(new EventController());
 
   GoogleMaps.ready('locationMap', (map) => {
-    this.eventController.get().setMap(map);
+    this.eventController.get().setMap(map, 'event_ubication');
     self.autorun(() => {
-      console.log('onCreated - self.autorun NewEvent'); 
       this.eventController.get().setMapAttributes();
     });
   });
@@ -71,13 +64,12 @@ Template.NewEvent.events({
       'longitude': eventPosition.lng(),
       'date': eventDate,
       'participants': [],
-      'comments': [],
-      'isDeleted': false,
-      'createdAt': new Date(),
-      'updatedAt': new Date()
+      'comments': []
     }
     Meteor.call('insertEvent', newEvent);
-    FlowRouter.go("/events");
+    Materialize.updateTextFields();
+    $("form")[0].reset();
+    $('ul.tabs').tabs('select_tab', 'test1');
   },
 
   'keypress #search-input': function (event, template) {

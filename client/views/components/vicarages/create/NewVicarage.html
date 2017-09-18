@@ -1,0 +1,32 @@
+<template name="NewVicarage">
+    <div class="row">
+      <div class="col s12 m12 l12">      
+        <form id="new_vicarage" class="new-group-container">
+          <div class="input-field">
+            <input id="vicarage_name" type="text" class="validate" autocomplete="off" data-length="64" maxlength="64" required>
+            <label for="vicarage_name" data-error="Agrega un nombre para la vicaria">Nombre de la vicaria</label>
+          </div>
+          <div class="input-field">
+            <select id="vicarage_department">
+              <option value="Cochabamba" selected>Cochabamba</option>
+              <option value="La Paz">La Paz</option>
+              <option value="Santa Cruz">Santa Cruz</option>
+              <option value="Oruro">Oruro</option>
+              <option value="Potosi">Potosi</option>
+              <option value="Tarija">Tarija</option>
+              <option value="Chuquisaca">Chuquisaca</option>
+              <option value="Beni">Beni</option>
+              <option value="Pando">Pando</option>
+            </select>
+            <label>Departamento</label>
+          </div>
+          
+          <div class="input-field">
+            <div class="row">
+              <input type="submit" class="btn btn-primary col s12 m6 l6 offset-m3 offset-l3" value="Crear">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </template>

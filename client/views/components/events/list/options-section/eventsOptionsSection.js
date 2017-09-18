@@ -5,6 +5,6 @@ Template.registerHelper('checkedDate', function(checkedName) {
 
 Template.Events.events({
   'click .checked-date': function(elem, template) {
-    Session.set('selectedEventsDate', elem.currentTarget.id)
+    Session.set('selectedEventsDate', elem.currentTarget.name)
   }
 });

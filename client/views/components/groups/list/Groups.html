@@ -1,4 +1,35 @@
 <template name="Groups">
+  <div class="row">
+    <div class="col s12 m12 l12">
+      <ul class="tabs tabs-fixed-width">
+        <li class="tab col s6 m6 l6"><a class="active" href="#groups"><i class="material-icons">list</i> Grupos</a></li>
+        <li class="tab col s6 m6 l6"><a href="#create-group"><i class="material-icons">add</i> Crear grupo</a></li>
+      </ul>
+    </div>
+    <div id="groups" class="col s12 m12 l12">
+      <div class="parishes-container">
+        <div class="collection">
+          {{#if Template.subscriptionsReady}}
+            {{#each groups}}
+            <a href="/groups/{{_id}}" class="collection-item">
+              <span class="title">{{name}}</span>
+              <p>{{location}}</p>
+              <i class="material-icons secondary-content">input</i>
+            </a>
+            {{/each}}
+          {{else}}
+            <p>Loading...</p>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+    <div id="create-group" class="col s12 m12 l12">
+      {{> NewGroup}}
+    </div>
+  </div>
+</template>
+
+<!-- <template name="Groups">
   {{> NewGroup}}
   <legend>Grupos:</legend>
   <button class="waves-effect waves-light btn">leo pappapa</button>
@@ -37,4 +68,4 @@
 
 <template name="email">
   <li>{{address}}</li>
-</template>
+</template> -->

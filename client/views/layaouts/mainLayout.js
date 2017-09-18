@@ -1,0 +1,3 @@
+Template.MainLayout.onRendered(function() {
+  
+})

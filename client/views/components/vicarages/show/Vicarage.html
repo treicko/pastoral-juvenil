@@ -1,0 +1,29 @@
+<template name="Vicarage">
+    <div class="">
+      <div>
+        <nav class="breadcrumb-nav">
+          <div class="nav-wrapper">
+            <div class="col s12 m12 l12">
+              <a href="/vicarages" class="breadcrumb">Vicarias</a>
+              <a class="breadcrumb">{{vicarage.name}}</a>
+            </div>
+          </div>
+        </nav>
+        
+      </div>
+      <div class="parish-show-container">
+        <div class="center-align">
+          <h3>Vicaria</h3>
+        </div>
+        <div class="input-field">
+          <input id="vicarage_name_show" class="input-disabled" type="text" value="{{vicarage.name}}" disabled>
+          <label class="active label-disabled" for="vicarage_name_show">Nombre de la vicaria</label>
+        </div>
+        <div class="input-field">
+          <input id="vicarage_department_show" class="input-disabled" type="text" value="{{vicarage.department}}" disabled>
+          <label class="active label-disabled" for="vicarage_department_show">Departamento</label>
+        </div>
+      </div>
+    </div>  
+  </template>
+  

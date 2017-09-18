@@ -1,12 +1,28 @@
-/* Meteor.subscribe('groups'); */
+Template.Groups.onRendered(function() {
+  GoogleMaps.load({
+    v: '3',
+    libraries: 'places',
+    key: 'AIzaSyCVKw1zfv0JsOsrH9yeAwoIjwcF7_JDAHY'
+  });
 
-/*Meteor.subscribe('userData');*/
+  $('ul.tabs').tabs();
+  $('ul.tabs').tabs({onShow: (tab) => {
+    if(GoogleMaps.loaded()) {
+      google.maps.event.trigger(GoogleMaps.maps.groupMap.instance, "resize");
+    }
+  }});
+});
 
 Template.Groups.onCreated(function() {
   var self = this;
   self.autorun(function() {
     self.subscribe('groups');
   });
+
+  const tabs = document.getElementsByClassName('tabs-content');
+  for (let i = 0; i < tabs.length; i++) {
+    $(".tabs-content").remove();
+  }
 });
 
 Template.Groups.helpers({
@@ -27,7 +43,7 @@ Template.Groups.helpers({
   }
 });*/
 
-Template.Grupito.onCreated(function() {
+/* Template.Grupito.onCreated(function() {
   var self = this;
   self.autorun(function() {
     var id = Meteor.userId();
@@ -40,4 +56,4 @@ Template.Grupito.helpers({
     var id = Meteor.userId();
     return Meteor.users.findOne({_id: id});
   }
-});
+}); */

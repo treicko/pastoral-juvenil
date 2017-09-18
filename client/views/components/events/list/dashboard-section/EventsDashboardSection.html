@@ -1,4 +1,20 @@
 <template name="EventsDashboardSection">
+  <!-- <div class="chip">
+    Todos
+  </div>
+  <div class="chip">
+    Hoy
+  </div>
+  <div class="chip">
+    Manana
+  </div>
+  <div class="chip">
+    Esta semana
+  </div>
+  <div class="chip">
+    Proxima semana
+  </div> -->
+  
   <div class="eventDashboardList">
     <div class="eventDashboardHeader">
       {{ this.eventOption }}
@@ -11,7 +27,7 @@
         </div>
         <div class="scaledEventContainer">
           <div class="eventTitle">
-            <a>{{ name }}</a>
+            <a href='/events/{{this._id}}'>{{ name }}</a>
           </div>
           <div class="eventContent eventDate"><span><i class="tiny material-icons">query_builder</i> {{ date }}</span></div>
           <div class="eventContent"><span>{{ desc }}</span></div>

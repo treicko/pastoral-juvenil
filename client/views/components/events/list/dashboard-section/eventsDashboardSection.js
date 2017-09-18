@@ -126,11 +126,20 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay, start, e
 }
 
 Template.EventsDashboardSection.onRendered(function() {
+  console.log('EventDashboardSection OnRendered');
   GoogleMaps.load({
     v: '3',
     libraries: 'places',
     key: 'AIzaSyCVKw1zfv0JsOsrH9yeAwoIjwcF7_JDAHY'
   });
+
+  //$('.chips').material_chip();
+  $('.chip').click(function() {
+    console.log('Hola hermano me seleccionaron...', this);
+    $('.chip').removeClass('chip-selected');
+    $(this).addClass('chip-selected');
+  });
+  $('.modal').modal();
 });
 
 Template.EventsDashboardSection.onCreated(function() {
@@ -184,11 +193,22 @@ Template.EventsDashboardSection.events({
       console.log('ready again el fuking map...');
     });
 
-    $('#modalRegister').openModal({
+    /* $('#modalRegister').openModal({
       ready: function() {
         google.maps.event.trigger(GoogleMaps.maps.registerMap.instance, 'resize');
       }
-    });
+    }); */
+
+    $('#modalRegister').modal('open');
+
+    $('.modal').modal({
+      ready: (modal, trigger) => { // Callback for Modal open. Modal and trigger parameters available.
+        //alert("Ready");
+        google.maps.event.trigger(GoogleMaps.maps.registerMap.instance, 'resize');
+        console.log(modal, trigger);
+      }
+    }
+  );
 
     if (GoogleMaps.loaded()) {
       /*console.log('EN EL EVENT markers: ', eventMarkers.length);*/

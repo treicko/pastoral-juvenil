@@ -1,9 +1,9 @@
-.other-background {
+/* .other-background {
   background-image: url('images/bg.png');
   background-repeat: repeat;
   background-color:#00695C;
   height: 768px;
-}
+} */
 
 .info {
   background-color: white;
@@ -59,13 +59,11 @@
 .event-content {
   padding: 5px;
   padding-left: 5px;
-  /*height: calc(100% - 250px);*/
 }
 
 .back-ground {
   background-image: url('images/bg.png');
   background-repeat: repeat;
-  /*background-color: red;*/
   background-color: #e1e1e1;
   height: 768px;
   width: 100%;
@@ -108,4 +106,13 @@
 .collection-content {
   color: #5b5b5b;
   font-size: 12px;
+}
+
+.tabs .tab a.active {
+  color: #009a80 !important;
+}
+
+.tabs .tab a {
+  color: #2a2c2e !important;
+  text-decoration: none !important;
 }

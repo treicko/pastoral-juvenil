@@ -3,9 +3,17 @@ Template.Group.onCreated(function() {
   kardex.autorun(function() {
     kardex.subscribe('singleKardexByUser', Meteor.userId());
   });
+  var self = this;
+  self.autorun(function() {
+    var id = FlowRouter.getParam('id');
+    self.subscribe('singleGroup', id);
+  });
 });
 
 Template.Group.helpers({
+  group: () => {
+    return Groups.findOne({_id: FlowRouter.getParam('id')});
+  },
   isEnrolled: function() {
     let isMemberEnrolled = false;
     if (this.members) {

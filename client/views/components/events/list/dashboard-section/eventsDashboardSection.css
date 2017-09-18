@@ -1,10 +1,11 @@
 .eventDashboardList {
   /*border: 1px solid red;*/
-  background-color: white;
+  /* background-color: white;
   border-radius: 3px;
   border-top-left-radius: 0.4em;
   border-bottom-left-radius: 0.4em;
-  box-shadow: 0.25em 0 0 0 #fbfbfb, 0 0 0.25em 0em rgba(0, 0, 0, 0.25);
+  box-shadow: 0.25em 0 0 0 #fbfbfb, 0 0 0.25em 0em rgba(0, 0, 0, 0.25); */
+  margin: 20px;
 }
 
 .eventDashboardItem {
@@ -15,10 +16,15 @@
 }
 
 .eventDashboardHeader {
-  background-color: #009688;
+  /* background-color: #009688;
   color: white;
   font-size: 11px;
-  padding: 5px 12px;
+  padding: 5px 12px; */
+  border-bottom: 1px solid;
+  border-color: #e5e6e9 #dfe0e4 #d0d1d5;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 10px;
   text-transform: uppercase;
 }
 
@@ -197,4 +203,9 @@
 
 .map-single-button:hover {
   color: #26a69a;
+}
+
+.chip-selected {
+  background-color: #26a69a !important;
+  color: #fff !important;
 }

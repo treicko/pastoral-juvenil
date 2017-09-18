@@ -9,6 +9,7 @@ Template.EventSingle.onCreated(function() {
 Template.EventSingle.helpers({
   event: () => {
     var id = FlowRouter.getParam('id');
+    console.log('My id loko: ', id);
     return Events.findOne({_id: id});
   }
 });

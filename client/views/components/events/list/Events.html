@@ -1,65 +1,45 @@
 <template name="Events">
   <div class="row">
-    <div class="col m2 other-background">
-      {{> Avatar}}
-      {{> EventMenu}}
+    <div class="col s12 m12 l12">
+      <ul class="tabs tabs-fixed-width">
+        <li class="tab col s6 m6 l6"><a class="active" href="#test1"><i class="material-icons">list</i> Eventos</a></li>
+        <li class="tab col s6 m6 l6"><a href="#test2"><i class="material-icons">add</i> Crear evento</a></li>
+      </ul>
     </div>
-
-    <div class="col m6">
-      <!--<div class="info">
-        <span class="date">
-          <span class="month">Jul</span>
-          <span class="day">14</span>
-        </span>
-        <span class="stats">
-          <i class="material-icons">forum</i>
-          <label class="info-style">9999</label>
-        </span>
-        <span class="stats">
-          <i class="material-icons">supervisor_account</i>
-          <label class="info-style"> 16</label>
-        </span>
-        <span class="stats" style="text-align: center;">
-          <i class="material-icons">location_on</i>
-        </span>
+    <div id="test1" class="col s12 m12 l12">
+      <div class="row">
+        <div class="col s12 m3 l3">
+          {{ >EventsOptionsSection}}
+        </div>
+        <div class="col s12 m9 l9">
+          {{#with events}}
+            {{ >EventsDashboardSection}}
+          {{/with}}
+        </div>
       </div>
-      
-      <div class="info-card">
-        {{#if selectedEvent}}
-          <div class="card event-card">
-            <div class="card-content event-content">
-              <img class="activator event-image" src="images/4.jpg">
-              <div class="event-information">
-                <span class="card-title">{{selectedEvent.name}}</span>
-                <p>{{selectedEvent.desc}}</p>
-              </div>
-            </div>
-            <div class="card-action">
-              <a href="#">Detalles</a>
-              <a href="#">Me Interesa</a>
-            </div>
-          </div>
-        {{/if}}
-      </div>-->
-      {{#with events}}
-        {{ >EventsDashboardSection}}
-      {{/with}}
     </div>
-
-    <div class="col m4 back-ground">      
-      <!--{{ title }}
-      <ul class="collection">
-        {{#each events}}
-          <li class="collection-item avatar" id="{{this._id}}">
-            <img src="images/5.jpg" alt="" class="circle">
-            <span class="title collection-title">{{ this.name }}</span>
-            <p class="collection-date"><i class="tiny material-icons">query_builder</i> {{ this.date }}</p>
-            <p class="collection-content">{{ this.desc }}</p>
-          </li>
-        {{/each}}
-      </ul>-->
-
-      {{ >EventsOptionsSection}}
+    <div id="test2" class="col s12 m12 l12">
+      {{> NewEvent}}
     </div>
   </div>
+
+  <!-- <ul id="tabs-swipe-demo" class="tabs">
+    <li class="tab col s3"><a href="#test-swipe-1"><i class="material-icons">add</i> Crear evento</a></li>
+    <li class="tab col s3"><a class="active" href="#test-swipe-2"><i class="material-icons">list</i> Eventos</a></li>
+  </ul>
+  <div id="test-swipe-1" class="col s12 tab-height">
+    {{> NewEvent}}
+  </div>
+  <div id="test-swipe-2" class="col s12 tab-height">
+    <div class="row">
+      <div class="col m6">
+        {{ >EventsOptionsSection}}
+      </div>
+      <div class="col m6">
+        {{#with events}}
+          {{ >EventsDashboardSection}}
+        {{/with}}
+      </div>
+    </div>
+  </div> -->
 </template>

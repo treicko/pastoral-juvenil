@@ -65,3 +65,7 @@
 .map-button-add-event {
   text-transform: none !important;
 }
+
+.new-event {
+  margin: 20px;
+}

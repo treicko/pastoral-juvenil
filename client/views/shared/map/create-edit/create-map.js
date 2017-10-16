@@ -1,22 +1,22 @@
 import GroupController from './../../../../../lib/controllers/group.controller';
 
-Template.GroupSingle.onRendered(function() {
+Template.CreateEditMap.onRendered(function() {
+  GoogleMaps.load({
+    v: '3',
+    libraries: 'places',
+    key: 'AIzaSyCVKw1zfv0JsOsrH9yeAwoIjwcF7_JDAHY'
+  });
 });
 
-Template.GroupSingle.onCreated(function() {
+Template.CreateEditMap.onCreated(function() {
   let groupId;
   const self = this;
   this.groupController = new ReactiveVar(new GroupController());
+  
   self.autorun(function() {
     groupId = FlowRouter.getParam('id');
     self.subscribe('singleGroup', groupId);
-  });
-
-  GoogleMaps.ready('groupMap', (map) => {
-    this.groupController.get().setMapForCreateEdit(map, 'group_ubication');
-    self.autorun(() => {
-      this.groupController.get().setMapAttributes();
-    });
+    self.subscribe('members');
   });
 
   GoogleMaps.ready('showMap', (map) => {
@@ -24,18 +24,19 @@ Template.GroupSingle.onCreated(function() {
     const groupFound = this.groupController.get().getGroupById(groupId);
     if (groupFound) {
       this.groupController.get().setGroupForShowOnMap(groupFound);
+      this.groupController.get().setMapAttributes();
     }
   });
 });
 
-Template.GroupSingle.helpers({
-  group: () => {
-    const groupId = FlowRouter.getParam('id');
-    if (Template.instance().groupController) {
-      const groupFound = Template.instance().groupController.get().getGroupById(groupId);
-      if (groupFound) {
-        return groupFound;
+Template.CreateEditMap.helpers({
+  mapOptions: function() {
+    if (GoogleMaps.loaded()) {
+      return {
+        center: new google.maps.LatLng( 0, 0),
+        zoom: (this.location) ? 15 : 1
       }
     }
+    return {};
   }
 });

@@ -1,4 +1,60 @@
 <template name="GroupSingle">
-  <h1>Edit Group</h1>
-  {{group.name}}
+  <div>
+    <nav class="breadcrumb-nav">
+      <div class="nav-wrapper">
+        <div class="col s12 m12 l12">
+          <a href="/groups" class="breadcrumb">Grupos</a>
+          <a class="breadcrumb">{{group.name}}</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="center-align">
+    <h3>Editando grupo </h3>
+  </div>
+
+  <div class="row">
+    <div class="col s12 m12 l12">      
+      <form id="new-group" class="new-group-container">
+        <div class="input-field">
+          <input id="group_name_edit" type="text" class="validate" autocomplete="off" data-length="64" maxlength="64" value="{{group.name}}" required>
+          <label class="active" for="group_name_edit" data-error="Agrega un nombre para el grupo">Nombre del grupo</label>
+        </div>
+        <div class="input-field">
+          <input id="group_ubication_edit" type="text" class="validate" value="{{group.location}}" >
+          <label for="group_ubication_edit" class="active">Ubicacion del grupo</label>
+        </div>
+
+        {{> CreateEditMap }}
+
+        <div class="input-field">
+          <label>Encargadas/os del grupo</label>
+          <div id="inCharges_edit" class="chips chips-placeholder chips-autocomplete"></div>
+        </div>
+
+        <div class="input-field">
+            <label>Miembros del grupo</label>
+          <div id="members_edit" class="chips chips-placeholder chips-autocomplete"></div>
+        </div>
+
+        <div class="row">
+          <div class="col s12">
+            <div class="input-field">
+              <i class="material-icons prefix">description</i>
+              <textarea id="group_description_edit" class="materialize-textarea"></textarea>
+              <label for="group_description_edit">Descripcion del grupo</label>
+            </div>
+          </div>
+        </div>
+        
+        <div class="input-field">
+          <div class="row">
+            <input type="submit" class="btn btn-primary col s12 m6 l6 offset-m3 offset-l3" value="Crear grupo">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
+    

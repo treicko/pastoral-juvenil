@@ -34,13 +34,14 @@ Template.NewParish.helpers({
 Template.NewParish.events({
   'submit #new-parish': function(event) {
     event.preventDefault();
-    const eventPosition = Template.instance().eventController.get().getEventPosition();
+    const parishPosition = Template.instance().eventController.get().getEventPosition();
     const newParish = {
       'name': event.target.parish_name.value,
       'location': event.target.parish_ubication.value,
-      'inCharge': event.target.parish_in_charge.value
+      'inCharge': event.target.parish_in_charge.value,
+      'latitude': parishPosition.lat(),
+      'longitude': parishPosition.lng(),
     }
-    console.log('La puta madreeee no entra aqui cuando presioo submit: ', newParish);
     Meteor.call('insertParish', newParish);    
     $("form")[0].reset();
     $('ul.tabs').tabs('select_tab', 'parishes');

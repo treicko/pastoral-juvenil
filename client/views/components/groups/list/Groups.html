@@ -11,11 +11,11 @@
         <div class="collection">
           {{#if Template.subscriptionsReady}}
             {{#each groups}}
-            <a href="/groups/{{_id}}" class="collection-item">
-              <span class="title">{{name}}</span>
-              <p>{{location}}</p>
-              <i class="material-icons secondary-content">input</i>
-            </a>
+              <a href="/groups/{{_id}}" class="collection-item">
+                <span class="title">{{name}}</span>
+                <p>{{location}}</p>
+                <i class="material-icons secondary-content">input</i>
+              </a>
             {{/each}}
           {{else}}
             <p>Loading...</p>

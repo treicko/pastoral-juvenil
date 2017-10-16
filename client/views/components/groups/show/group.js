@@ -1,18 +1,47 @@
+import GroupController from './../../../../../lib/controllers/group.controller';
+
+Template.Group.onRendered(function() {
+  $('.tooltipped').tooltip({delay: 50});
+  $('.chips').material_chip();
+});
+
 Template.Group.onCreated(function() {
-  var kardex = this;
+  /* var kardex = this;
   kardex.autorun(function() {
     kardex.subscribe('singleKardexByUser', Meteor.userId());
-  });
-  var self = this;
+  }); */
+  let groupId;
+  const self = this;
+  this.groupController = new ReactiveVar(new GroupController());
   self.autorun(function() {
-    var id = FlowRouter.getParam('id');
-    self.subscribe('singleGroup', id);
+    groupId = FlowRouter.getParam('id');
+    self.subscribe('singleGroup', groupId);
+    self.subscribe('members');
+  });
+
+  GoogleMaps.ready('showMap', (map) => {
+    this.groupController.get().setMapForShow(map, '');
+    const groupFound = this.groupController.get().getGroupById(groupId);
+    if (groupFound) {
+      this.groupController.get().setGroupForShowOnMap(groupFound);
+    }
   });
 });
 
 Template.Group.helpers({
   group: () => {
-    return Groups.findOne({_id: FlowRouter.getParam('id')});
+    const groupId = FlowRouter.getParam('id');
+    if (Template.instance().groupController) {
+      const groupFound = Template.instance().groupController.get().getGroupById(groupId);
+      if (groupFound) {
+        Template.instance().groupController.get().setGroupForShowOnMap(groupFound);
+        const inChargeForShow = Template.instance().groupController.get().getInChargeForShow(groupFound);
+        const membersForShow = Template.instance().groupController.get().getMembersForShow(groupFound);
+        groupFound.inCharge = inChargeForShow;
+        groupFound.membersForShow = membersForShow;
+        return groupFound;
+      }
+    }
   },
   isEnrolled: function() {
     let isMemberEnrolled = false;

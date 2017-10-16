@@ -76,6 +76,24 @@
   visibility: visible;
 }
 
+.collection-charge-members:not(.active):hover {
+  background-color: transparent !important;
+}
+
+.map-container {
+  width: 100%;
+  height: 300px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.map-show-container {
+  margin-bottom: 2rem;
+}
+
+.members-info {
+  font-weight: bold;
+}
+
 .tabs-container {
   margin: 20px;
 }

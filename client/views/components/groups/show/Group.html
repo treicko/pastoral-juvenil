@@ -9,12 +9,22 @@
           </div>
         </div>
       </nav>
-      
     </div>
+    
     <div class="parish-show-container">
       <div class="center-align">
-        <h3>Grupo</h3>
+        <h3>Grupo
+          <a
+            href="/groups/{{group._id}}/edit"
+            class="btn-floating btn-large waves-effect waves-light orange accent-4 right-align tooltipped"
+            data-position="right"
+            data-delay="50"
+            data-tooltip="Editar grupo">
+            <i class="material-icons">edit</i>
+          </a>
+        </h3>
       </div>
+      
       <div class="input-field">
         <input id="group_name_show" class="input-disabled" type="text" value="{{group.name}}" disabled>
         <label class="active label-disabled" for="group_name_show">Nombre del grupo</label>
@@ -23,9 +33,44 @@
         <input id="group_ubication_show" class="input-disabled" type="text" value="{{group.location}}" disabled>
         <label class="active label-disabled" for="group_ubication_show">Lugar de reunion</label>
       </div>
+
+      {{> ShowMap }}
+
       <div class="input-field">
-        <input id="group_in_charge_show" class="input-disabled" type="text" value="{{group.inCharge}}" disabled>
-        <label class="active label-disabled" for="group_ubication_show">Encargado del grupo</label>
+        <label class="active label-disabled">Encargadas/os del grupo:</label><br>
+        <div class="row">
+          {{#each group.inCharge}}
+            <div class="col s12 m6 l6">
+              <ul class="collection">
+                <li class="collection-item avatar collection-charge-members">
+                  <i class="material-icons circle gray">person</i>
+                  <span class="title">{{name}}</span>
+                  <p>Telefono: {{phone}}<br></p>
+                  <a href="#!"><i class="tiny material-icons">mail</i> Mensaje</a>
+                </li>
+              </ul>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+
+      <div class="input-field">
+        <label class="active label-disabled">Miembros del grupo:</label><br>
+        <div class="row">
+          {{#each group.membersForShow}}
+            <div class="col s12 m6 l6">
+              <ul class="collection">
+                <li class="collection-item avatar collection-charge-members">
+                  <i class="material-icons circle green">person</i>
+                  <span class="title">{{name}}</span>
+                  <p>Telefono: {{phone}}</p>
+                  <a href="#!"><i class="tiny material-icons">mail</i> Mensaje</a>
+                </li>
+              </ul>
+            </div>
+          {{/each}}
+        </div>
+        <p><span class="members-info">{{group.members.length }} peronas</span> son parte de este grupo. <a href="#!">Ver todos.</a></p>
       </div>
     </div>
   </div>  

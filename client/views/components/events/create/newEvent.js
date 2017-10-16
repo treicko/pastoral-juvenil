@@ -38,6 +38,7 @@ Template.NewEvent.onCreated(function() {
   this.eventController = new ReactiveVar(new EventController());
 
   GoogleMaps.ready('locationMap', (map) => {
+    console.log('En elevento controller: ', map);
     this.eventController.get().setMap(map, 'event_ubication');
     self.autorun(() => {
       this.eventController.get().setMapAttributes();

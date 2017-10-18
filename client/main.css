@@ -26,6 +26,16 @@
   color: #009a80;
 }
 
+.btn-margin {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.chip-input-field {
+  margin-top: 60px;
+  margin-bottom: 30px;
+}
+
 .collection {
   margin: 0rem !important;
   border: 0px !important;
@@ -92,6 +102,10 @@
 
 .members-info {
   font-weight: bold;
+}
+
+.label-chip {
+  top: 0px !important;
 }
 
 .tabs-container {

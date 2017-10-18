@@ -4,14 +4,19 @@
       <div class="nav-wrapper">
         <div class="col s12 m12 l12">
           <a href="/groups" class="breadcrumb">Grupos</a>
-          <a class="breadcrumb">{{group.name}}</a>
+          <a href="/groups/{{group._id}}" class="breadcrumb">{{group.name}}</a>
+          <a class="breadcrumb">Modificando</a>
         </div>
       </div>
     </nav>
   </div>
 
   <div class="center-align">
-    <h3>Editando grupo </h3>
+    <h3>
+      <i class="small material-icons">edit</i>
+      Modificando grupo
+      <i class="small material-icons">edit</i>
+    </h3>
   </div>
 
   <div class="row">
@@ -26,31 +31,40 @@
           <label for="group_ubication_edit" class="active">Ubicacion del grupo</label>
         </div>
 
-        {{> CreateEditMap }}
-
         <div class="input-field">
-          <label>Encargadas/os del grupo</label>
-          <div id="inCharges_edit" class="chips chips-placeholder chips-autocomplete"></div>
+          <div id="search-content" style="visibility: hidden">
+            <input id="search-input" class="search-input" type="text" placeholder="Buscar en google maps">
+            <a id="search-btn" class="waves-effect waves-light btn"><i class="material-icons left">search</i></a>
+          </div>
+          <div class="map-container">
+            {{> ShowMap }}
+          </div>
         </div>
 
-        <div class="input-field">
-            <label>Miembros del grupo</label>
-          <div id="members_edit" class="chips chips-placeholder chips-autocomplete"></div>
+        <div class="input-field chip-input-field">
+          <div id="inCharges_edit" class="chips chips-autocomplete"></div>
+          <label class="active label-chip" for="inCharges_edit">Encargadas/os del grupo</label>
+        </div>
+
+        <div class="input-field chip-input-field">
+          <div id="members_edit" class="chips chips-autocomplete"></div>
+          <label class="active label-chip" for="members_edit">Miembros del grupo</label>
         </div>
 
         <div class="row">
           <div class="col s12">
             <div class="input-field">
               <i class="material-icons prefix">description</i>
-              <textarea id="group_description_edit" class="materialize-textarea"></textarea>
-              <label for="group_description_edit">Descripcion del grupo</label>
+              <textarea id="group_description_edit" class="materialize-textarea" value="{{group.description}}"></textarea>
+              <label class="active" for="group_description_edit">Descripcion del grupo</label>
             </div>
           </div>
         </div>
         
         <div class="input-field">
           <div class="row">
-            <input type="submit" class="btn btn-primary col s12 m6 l6 offset-m3 offset-l3" value="Crear grupo">
+            <input type="submit" class="btn btn-primary col s6 m3 l3 offset-m3 offset-l3" value="Guardar cambios">
+            <input type="submit" class="btn btn-secondary col s5 m3 l3 offset-s1 offset-m1 offset-l1" value="Cancelar">
           </div>
         </div>
       </form>

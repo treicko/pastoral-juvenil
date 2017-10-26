@@ -8,6 +8,14 @@
     </div>
     <div id="groups" class="col s12 m12 l12">
       <div class="parishes-container">
+        <div class="row">
+          <div class="input-field">
+            <i class="material-icons prefix">search</i>
+            <input type="text" id="search_group" class="autocomplete">
+            <label for="search_group">Busca un grupo por nombre</label>
+          </div>
+        </div>
+        <label class="active label-disabled">Grupos:</label>
         <div class="collection">
           {{#if Template.subscriptionsReady}}
             {{#each groups}}

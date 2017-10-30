@@ -28,30 +28,33 @@
                 </div>
               </div>
               <div class="input-field">
-                  <input type="hidden" id="group_publication_groupId" value="{{group._id}}">
+                <input type="hidden" id="group_publication_groupId" value="{{group._id}}">
                 <input type="hidden" id="group_publication_userName" value="{{user.name}}">
                 <input type="hidden" id="group_publication_userId" value="{{user._id}}">
                 <textarea id="group_publication_description" class="materialize-textarea"></textarea>
-                <label for="group_publication">Textarea</label>
+                <label for="group_publication">Escribe una publicacion</label>
               </div>      
             </div>
             <div class="card-action">
               <!-- <input type="submit" class="btn btn-primary col s12 m6 l6" value="Publicar"> -->
 
-              <a class="waves-effect waves-light btn" href="#" onclick="$(this).closest('form').submit(); return false;">button</a>
-              <a type="submit">Publicar</a>
-              <a href="#">Publicar</a>
+              <a class="publications-action waves-effect waves-light btn" href="#" onclick="$(this).closest('form').submit(); return false;">Publicar</a>
+              <a href="!#" class="publications-action"><i class="tiny material-icons">mode_comment</i> Commentar</a>
             </div>
           </div>
         </div>
       </div>
-    </form>
+
+      <div class="row">
+        
+      </div>
+    <!-- </form> -->
     
     {{#if Template.subscriptionsReady}}
       {{#each group.publications}}
         <div class="row">
           <div class="col s12 m10 l10 offset-m1 offset-l1">
-            <div class="card">
+            <div class="card publication">
               <div class="card-content">
                 <div class="row valign-wrapper">
                   <div class="col s2 m2 l1">
@@ -64,16 +67,51 @@
                     <span class="card-title"> {{userName}}</span>
                   </div>
                 </div>
-                <p>{{description}}</p>
+                <p>{{description}}</p>                
+                <input type="hidden" id="group_comment_publicationId" value="{{_id}}">
               </div>
               <div class="card-action">
-                <a href="#">This is a link</a>
+                <a href="!#" class="publications-action"><i class="tiny material-icons">mode_comment</i> Commentar</a>
               </div>
-            </div>
+            </div>            
+              <div class="card publication-comment">
+                <div class="card-content card-content-publication">
+                  <div class="row valign-wrapper">
+                    <div class="col s2 m2 l1">
+                      <img class="circle responsive-img" src="/images/2.jpg">
+                    </div>
+                    <div class="col s10 m10 l11">
+                      <div class="input-field">
+                        <textarea id="group_publication_comment" class="materialize-textarea group-publication-comment"></textarea>
+                        <label for="group_publication_comment" id="label_group_publication_comment">Ingresa un comentario</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="card-action">  
+                </div> -->
+              </div>
+            
+            {{#each this.comments}}
+              <div class="card publication-comment">
+                <div class="card-content card-content-publication">
+                  <div class="row valign-wrapper">
+                    <div class="col s2 m2 l1">
+                      <img class="circle responsive-img" src="/images/2.jpg">
+                    </div>
+                    <div class="col s10 m10 l11">
+                      <span class="card-title"> {{userName}}</span>
+                    </div>
+                  </div>
+                  <p>{{comment}}</p>
+                </div>
+              </div>
+            {{/each}}
           </div>
         </div>
       {{/each}}
     {{else}}
       <p>Loading...</p>
     {{/if}}
+  </form>
   </template>

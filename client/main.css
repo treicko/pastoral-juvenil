@@ -94,6 +94,10 @@
   background-color: transparent !important;
 }
 
+.label-chip {
+  top: 0px !important;
+}
+
 .map-container {
   width: 100%;
   height: 300px;
@@ -108,8 +112,16 @@
   font-weight: bold;
 }
 
-.label-chip {
-  top: 0px !important;
+.publication {
+  margin-bottom: 0px;
+}
+
+.publication-comment {
+  margin-top: 1px;
+}
+
+.publications-action {
+  margin-right: 15px;
 }
 
 .tabs-container {

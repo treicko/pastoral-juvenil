@@ -78,24 +78,8 @@ Template.GroupPublications.events({
       
       console.log('Coment: ', event);
       Template.instance().groupController.get().saveComment(newComment);
-      // event.target.value  = '';
-      // const label = document.getElementById("label_group_publication_comment");
-      // console.log('El form: ', $("#new_comment_publication")[0].reset());
-      // $("#new_comment_publication")[0].reset();
-      // $('#new_comment_publication').trigger("reset");
-      $(':focus').blur();
-      $("#new_comment_publication").focus();
-      // document.getElementById("mytext").focus();
-      Materialize.updateTextFields();
-      $("form")[0].reset();
-      
-      
-      // $("form")[0].reset();
-      // console.log('Labelll: ', label);
-      // $('#label_group-publication-comment').classList.remove("active");
-      // group_publication_comment
-      // $('#group-publication-comment').trigger('autoresize');
-      // event.stopPropagation();
+      event.target.value  = '';
+      $(':focus').blur();    
       return false;
     }
   },

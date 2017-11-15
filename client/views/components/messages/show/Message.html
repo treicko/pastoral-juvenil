@@ -1,0 +1,82 @@
+<template name="Message">
+  <div class="">
+    <div>
+      <nav class="breadcrumb-nav">
+        <div class="nav-wrapper">
+          <div class="col s12 m12 l12">
+            <a href="/messages/" class="breadcrumb">Mensajes</a>
+            <a class="breadcrumb">{{message.currentReceiver.name}}</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <div class="parish-show-container">
+      <div class="center-align">
+        <h3>Conversacion</h3>
+        <h4>User: {{user.name}}</h4>
+      </div>
+
+      <div class="row">
+        <div class="col s12 m10 l10 offset-m1 offset-l1">
+          <div class="card publication">
+            <div class="card-content card-content-publication">
+              <div class="row valign-wrapper publication">
+                <div class="col s2 m2 l1">
+                  <img class="circle responsive-img" src="/images/2.jpg">
+                </div>
+                <div class="col s10 m10 l11">
+                  <span class="card-title">{{message.currentReceiver.name}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-action"></div>
+          </div>            
+          
+          <div class="card publication-comment">
+            <div class="card-content card-content-comment-list">
+              {{#each message.comments}}
+                <div class="comments-list">
+                  <div class="row row-comment valign-wrapper">
+                    <div class="col s1 m1 l1">
+                      <img class="circle responsive-img" src="/images/2.jpg">
+                    </div>
+                    <div class="col s11 m11 l11">
+                      {{# if isMessageMailer userId message.currentMailer._id }}
+                        <p class="content-comment right-align">{{comment}}</p>
+                      {{else}}
+                        <p class="content-comment">{{comment}}</p>
+                      {{/if}}
+                    </div>
+                  </div>
+                </div>
+              {{/each}}
+
+              <div class="card publication-comment">
+                <div class="card-content card-content-commnet">
+                  <div class="row valign-wrapper">
+                    <div class="col s1 m1 l1">
+                      <img class="circle responsive-img" src="/images/2.jpg">
+                    </div>
+                    <div class="col s11 m11 l11">
+                      <div class="input-field">
+                        <input id="message_id" type="hidden" value="{{message._id}}">
+                        <input id="message_mailer_id" type="hidden" value="{{message.mailerId}}">
+                        <input id="message_receiver_id" type="hidden" value="{{message.receiverId}}">
+                        <input id="message_comment_user_id" type="hidden" value="{{message.currentMailer._id}}">
+                        <input id="message_comment_user_image" type="hidden" value="{{message.currentMailer.image}}">
+                        <input id="message_comment" type="text" class="validate group-publication-comment">
+                        <label for="message_comment" id="label_message_comment">Ingresa un comentario</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  
+</template>
+  

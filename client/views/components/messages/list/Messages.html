@@ -1,0 +1,75 @@
+<template name="Messages">
+  <div class="row">
+    <div class="col s12 m12 l12">
+      <ul class="tabs tabs-fixed-width">
+        <li class="tab col s6 m6 l6"><a class="active" href="#messages"><i class="material-icons">list</i> Mensajes</a></li>
+        <li class="tab col s6 m6 l6"><a href="#create-message"><i class="material-icons">add</i> Crear mensaje</a></li>
+      </ul>
+    </div>
+    <div id="messages" class="col s12 m12 l12">
+      <div class="parishes-container">
+        <div class="row">
+          <div class="input-field">
+            <i class="material-icons prefix">search</i>
+            <input type="text" id="search_member_message" class="autocomplete" >
+            <label for="search_member_message">Buscar por nombre</label>
+          </div>
+        </div>
+        <label class="active label-disabled">Mensajes:</label>
+
+        <!-- <div class="collection">
+          {{#if Template.subscriptionsReady}}
+            {{#each groups}}
+              <a href="/groups/{{_id}}" class="collection-item">
+                <span class="title">{{name}}</span>
+                <p>{{location}}</p>
+                <i class="material-icons secondary-content">input</i>
+              </a>
+            {{/each}}
+          {{else}}
+            <p>Loading...</p>
+          {{/if}}
+        </div> -->
+
+        
+          {{#if Template.subscriptionsReady}}
+            <div class="collection">
+            {{#each userMessages}}
+            
+              <a href="/messages/{{message._id}}" class="collection-item">
+                <div class="comments-list">
+                  <div class="row row-comment valign-wrapper">
+                    <div class="col s2 m1 l1">
+                      <img class="circle responsive-img" src="/images/2.jpg">
+                    </div>
+                    <div class="col s10 m11 l11">
+                      {{# if hasUnreadMessage unReadMessage}}
+                        <span class="title-message">{{unReadMessage}} <i class="tiny material-icons">mail</i></span>
+                      {{/if}}
+                      <span class="content-message">{{message.receiverName}}</span>
+                      
+                    </div>
+                  </div>
+                </div>
+                <!-- <span class="right-align">4 mensajes nuevos</span> -->
+                <i class="material-icons secondary-content">input</i>
+              </a>
+              
+              <!-- <a href="/groups/{{_id}}" class="collection-item">
+                <span class="title">{{name}}</span>
+                <p>{{location}}</p>
+                <i class="material-icons secondary-content">input</i>
+              </a> -->
+            {{/each}}
+            </div>
+          {{else}}
+            <p>Loading...</p>
+          {{/if}}
+        
+      </div>
+    </div>
+    <div id="create-message" class="col s12 m12 l12">
+      {{> NewMessage}}
+    </div>
+  </div>
+</template>

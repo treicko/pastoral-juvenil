@@ -1,21 +1,60 @@
 <template name="GroupPublications">
-    <div>
-      <nav class="breadcrumb-nav">
-        <div class="nav-wrapper">
-          <div class="col s12 m12 l12">
-            <a href="/groups" class="breadcrumb">Grupos</a>
-            <a href="/groups/{{group._id}}" class="breadcrumb">{{group.name}} Nombre</a>
-            <a class="breadcrumb">Publicaciones</a>
+  <div>
+    <nav class="breadcrumb-nav">
+      <div class="nav-wrapper">
+        <div class="col s12 m12 l12">
+          <a href="/groups" class="breadcrumb">Grupos</a>
+          <a href="/groups/{{group._id}}" class="breadcrumb">{{group.name}} Nombre</a>
+          <a class="breadcrumb">Publicaciones</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <form id="new-publication-group">
+    <div class="row">
+      <div class="col s12 m10 l10 offset-m1 offset-l1">
+        <div class="card">
+          <div class="card-content card-content-publication">
+            <div class="row valign-wrapper">
+              <div class="col s2 m2 l1">
+                <img class="circle responsive-img" src="/images/2.jpg">
+              </div>
+              <div class="col s10 m10 l11">
+                <!-- <span class="black-text">
+                  This is a square image. Add the "circle" class to it to make it appear circular.
+                </span> -->
+                <span class="card-title">{{user.name}}</span>
+              </div>
+            </div>
+            <div class="input-field">
+              <input type="hidden" id="group_publication_groupId" value="{{group._id}}">
+              <input type="hidden" id="group_publication_userName" value="{{user.name}}">
+              <input type="hidden" id="group_publication_userId" value="{{user._id}}">
+              <textarea id="group_publication_description" class="materialize-textarea"></textarea>
+              <label for="group_publication">Escribe una publicacion</label>
+            </div>      
+          </div>
+          <div class="card-action">
+            <!-- <input type="submit" class="btn btn-primary col s12 m6 l6" value="Publicar"> -->
+
+            <a class="publications-action waves-effect waves-light btn" href="#" onclick="$(this).closest('form').submit(); return false;">Publicar</a>
+            <a href="!#" class="publications-action"><i class="tiny material-icons">mode_comment</i> Commentar</a>
           </div>
         </div>
-      </nav>
+      </div>
     </div>
-
-    <form id="new-publication-group">
+  
+    <div class="row">
+    </div>
+  </form>
+  
+  {{#if Template.subscriptionsReady}}
+    {{#each group.publications}}
       <div class="row">
         <div class="col s12 m10 l10 offset-m1 offset-l1">
-          <div class="card">
-            <div class="card-content card-content-publication">
+          <div class="card publication">
+            <div class="card-content">
               <div class="row valign-wrapper">
                 <div class="col s2 m2 l1">
                   <img class="circle responsive-img" src="/images/2.jpg">
@@ -24,66 +63,58 @@
                   <!-- <span class="black-text">
                     This is a square image. Add the "circle" class to it to make it appear circular.
                   </span> -->
-                  <span class="card-title">{{user.name}}</span>
+                  <span class="card-title"> {{userName}}</span>
                 </div>
               </div>
-              <div class="input-field">
-                <input type="hidden" id="group_publication_groupId" value="{{group._id}}">
-                <input type="hidden" id="group_publication_userName" value="{{user.name}}">
-                <input type="hidden" id="group_publication_userId" value="{{user._id}}">
-                <textarea id="group_publication_description" class="materialize-textarea"></textarea>
-                <label for="group_publication">Escribe una publicacion</label>
-              </div>      
+              <p>{{description}}</p>                
+              <input type="hidden" id="group_comment_publicationId" value="{{_id}}">
             </div>
             <div class="card-action">
-              <!-- <input type="submit" class="btn btn-primary col s12 m6 l6" value="Publicar"> -->
-
-              <a class="publications-action waves-effect waves-light btn" href="#" onclick="$(this).closest('form').submit(); return false;">Publicar</a>
               <a href="!#" class="publications-action"><i class="tiny material-icons">mode_comment</i> Commentar</a>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        
-      </div>
-    <!-- </form> -->
-    
-    {{#if Template.subscriptionsReady}}
-      {{#each group.publications}}
-        <div class="row">
-          <div class="col s12 m10 l10 offset-m1 offset-l1">
-            <div class="card publication">
-              <div class="card-content">
-                <div class="row valign-wrapper">
-                  <div class="col s2 m2 l1">
-                    <img class="circle responsive-img" src="/images/2.jpg">
+          </div>            
+          
+          <div class="card publication-comment">
+            <div class="card-content card-content-comment-list">
+              {{#each this.comments}}
+                <!-- <div class="card publication-comment">
+                  <div class="card-content card-content-commnet">
+                    <div class="row row-comment valign-wrapper">
+                      <div class="col s1 m1 l1">
+                        <img class="circle responsive-img" src="/images/2.jpg">
+                      </div>
+                      <div class="col s11 m11 l11">
+                        <span class="card-title card-title-comment"> {{userName}}</span>
+                      </div>
+                    </div>
+                    <p>{{comment}}</p>
                   </div>
-                  <div class="col s10 m10 l11">
-                    <!-- <span class="black-text">
-                      This is a square image. Add the "circle" class to it to make it appear circular.
-                    </span> -->
-                    <span class="card-title"> {{userName}}</span>
-                  </div>
-                </div>
-                <p>{{description}}</p>                
-                <input type="hidden" id="group_comment_publicationId" value="{{_id}}">
-              </div>
-              <div class="card-action">
-                <a href="!#" class="publications-action"><i class="tiny material-icons">mode_comment</i> Commentar</a>
-              </div>
-            </div>            
-              <div class="card publication-comment">
-                <div class="card-content card-content-publication">
-                  <div class="row valign-wrapper">
-                    <div class="col s2 m2 l1">
+                </div> -->
+                <div class="comments-list">
+                  <div class="row row-comment valign-wrapper">
+                    <div class="col s1 m1 l1">
                       <img class="circle responsive-img" src="/images/2.jpg">
                     </div>
-                    <div class="col s10 m10 l11">
+                    <div class="col s11 m11 l11">
+                      <span class="title-comment"> {{userName}}</span>
+                      <span class="content-comment">{{comment}}</span>
+                    </div>
+                  </div>
+                </div>
+              {{/each}}
+
+              <div class="card publication-comment">
+                <div class="card-content card-content-commnet">
+                  <div class="row valign-wrapper">
+                    <div class="col s1 m1 l1">
+                      <img class="circle responsive-img" src="/images/2.jpg">
+                    </div>
+                    <div class="col s11 m11 l11">
                       <div class="input-field">
-                        <textarea id="group_publication_comment" class="materialize-textarea group-publication-comment"></textarea>
+                        <input id="group_publication_comment" type="text" class="validate group-publication-comment">
                         <label for="group_publication_comment" id="label_group_publication_comment">Ingresa un comentario</label>
+                        <!-- <textarea id="group_publication_comment" class="materialize-textarea group-publication-comment"></textarea>
+                        <label for="group_publication_comment" id="label_group_publication_comment">Ingresa un comentario</label> -->
                       </div>
                     </div>
                   </div>
@@ -91,27 +122,12 @@
                 <!-- <div class="card-action">  
                 </div> -->
               </div>
-            
-            {{#each this.comments}}
-              <div class="card publication-comment">
-                <div class="card-content card-content-publication">
-                  <div class="row valign-wrapper">
-                    <div class="col s2 m2 l1">
-                      <img class="circle responsive-img" src="/images/2.jpg">
-                    </div>
-                    <div class="col s10 m10 l11">
-                      <span class="card-title"> {{userName}}</span>
-                    </div>
-                  </div>
-                  <p>{{comment}}</p>
-                </div>
-              </div>
-            {{/each}}
+            </div>
           </div>
         </div>
-      {{/each}}
-    {{else}}
-      <p>Loading...</p>
-    {{/if}}
-  </form>
-  </template>
+      </div>
+    {{/each}}
+  {{else}}
+    <p>Loading...</p>
+  {{/if}}
+</template>

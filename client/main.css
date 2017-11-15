@@ -35,6 +35,18 @@
   padding-bottom: 0px;
 }
 
+.card .card-content-commnet {
+  padding-bottom: 0px;
+  padding-top: 0px;
+}
+
+.card .card-content-comment-list {
+  /* background-color: #e1e2e3; */
+  background-color: #f7f7f7;
+  padding-bottom: 1px;
+  padding-top: 20px;
+}
+
 .chip-input-field {
   margin-top: 60px;
   margin-bottom: 30px;
@@ -94,6 +106,19 @@
   background-color: transparent !important;
 }
 
+.comments-list {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.content-comment {
+  font-size: 12px;
+}
+
+.content-message {
+  font-size: 14px;
+}
+
 .label-chip {
   top: 0px !important;
 }
@@ -117,11 +142,16 @@
 }
 
 .publication-comment {
-  margin-top: 1px;
+  margin-top: 0px;
+  margin-bottom: 1px;
 }
 
 .publications-action {
   margin-right: 15px;
+}
+
+.row-comment {
+  margin-bottom: 0px;
 }
 
 .tabs-container {
@@ -137,3 +167,15 @@
   height: 3px !important;
 }
 
+.title-comment {
+  font-size: 12px !important;
+  font-weight: bold;
+  color: #009a80;
+}
+
+.title-message {
+  font-size: 14px !important;
+  font-weight: bold;
+  color: #009a80;
+  margin-right: 10px;
+}

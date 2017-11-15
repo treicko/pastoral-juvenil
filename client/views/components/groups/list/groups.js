@@ -1,26 +1,27 @@
+/* global Template GoogleMaps $ google ReactiveVar Meteor */
 import GroupController from './../../../../../lib/controllers/group.controller';
 
-Template.Groups.onRendered(function() {
+Template.groups.onRendered(function() {
   GoogleMaps.load({
     v: '3',
     libraries: 'places',
-    key: 'AIzaSyCVKw1zfv0JsOsrH9yeAwoIjwcF7_JDAHY'
+    key: 'AIzaSyCVKw1zfv0JsOsrH9yeAwoIjwcF7_JDAHY',
   });
 
-  // $('ul.tabs').tabs();
-  $('ul.tabs').tabs({onShow: (tab) => {
-    if(GoogleMaps.loaded()) {
-      google.maps.event.trigger(GoogleMaps.maps.groupMap.instance, "resize");
-    }
-  }});
+  $('ul.tabs').tabs({
+    onShow: () => {
+      if (GoogleMaps.loaded()) {
+        google.maps.event.trigger(GoogleMaps.maps.groupMap.instance, 'resize');
+      }
+    },
+  });
 });
 
-Template.Groups.onCreated(function() {
-  var self = this;
-  this.groupsFound = new ReactiveVar([]); 
+Template.groups.onCreated(function() {
+  this.groupsFound = new ReactiveVar([]);
   this.groupController = new ReactiveVar(new GroupController());
-  self.autorun(function() {
-    self.subscribe('groups');
+  this.autorun(() => {
+    this.subscribe('groups');
 
     if (Template.instance().subscriptionsReady()) {
       const groupController = Template.instance().groupController.get();
@@ -30,10 +31,10 @@ Template.Groups.onCreated(function() {
       $('input#search_group').autocomplete({
         data: groupController.getGroupsForSearch(groups),
         limit: 20,
-        onAutocomplete: function(val) {
-          if(groupController) {
-            const groups = groupController.findByName(val);
-            groupsFound.set(groups);
+        onAutocomplete: (val) => {
+          if (groupController) {
+            const groupsFoundByName = groupController.findByName(val);
+            groupsFound.set(groupsFoundByName);
           }
         },
         minLength: 1,
@@ -42,52 +43,24 @@ Template.Groups.onCreated(function() {
   });
 
   const tabs = document.getElementsByClassName('tabs-content');
-  for (let i = 0; i < tabs.length; i++) {
-    $(".tabs-content").remove();
+  for (let i = 0; i < tabs.length; i += 1) {
+    $('.tabs-content').remove();
   }
 });
 
-Template.Groups.helpers({
-  groups: () => {
-    return Template.instance().groupsFound.get();
-  },
-  users: () => {
-    return Meteor.users.find({});
-  }/*,
-  g: () => {
-    return Meteor.users.find({ _id: '25jYEFaPLD8ScZpmP' })
-  }*/
+Template.groups.helpers({
+  groups: () => Template.instance().groupsFound.get(),
+  users: () => Meteor.users.find({}),
 });
 
-/*Template.Grupito.helpers({
-  gru: () => {
-    return Groups.findOne({_id: 'bjHQy9ZdJsEgW4u9B'});
-  }
-});*/
-
-/* Template.Grupito.onCreated(function() {
-  var self = this;
-  self.autorun(function() {
-    var id = Meteor.userId();
-    self.subscribe('singleUser', id);
-  });
-});
-
-Template.Grupito.helpers({
-  gru: () => {
-    var id = Meteor.userId();
-    return Meteor.users.findOne({_id: id});
-  }
-}); */
-
-Template.Groups.events({
-  'keypress #search_group': function (event, template) {
+Template.groups.events({
+  'keypress #search_group': (event, templateInstance) => {
     if (event.which === 13) {
       const groups = Template.instance().groupController.get().findByName(event.target.value);
-      template.groupsFound.set(groups);
+      templateInstance.groupsFound.set(groups);
       const searchContent = document.getElementsByClassName('autocomplete-content dropdown-content');
       searchContent[0].innerHTML = '';
-      return false;
     }
+    return false;
   },
 });

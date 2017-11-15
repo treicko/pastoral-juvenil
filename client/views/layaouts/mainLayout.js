@@ -1,3 +1,4 @@
-Template.MainLayout.onRendered(function() {
-  
-})
+/* global Template */
+
+Template.mainLayout.onRendered(function() {
+});

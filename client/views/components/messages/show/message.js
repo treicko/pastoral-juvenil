@@ -1,26 +1,27 @@
+/* global Template FlowRouter Meteor ReactiveVar */
 import MessageController from './../../../../../lib/controllers/message.controller';
 
-Template.Message.onRendered(function() {
+Template.message.onRendered(function() {
   this.autorun(() => {
-    var id = FlowRouter.getParam('id');
+    const id = FlowRouter.getParam('id');
     Meteor.call('updateUnReadMessage', id);
   });
 });
 
-Template.Message.onDestroyed(function() {
+Template.message.onDestroyed(function() {
 });
 
-Template.Message.onCreated(function() {
+Template.message.onCreated(function() {
   this.messageController = new ReactiveVar(new MessageController());
 
   this.autorun(() => {
-    var id = FlowRouter.getParam('id');
+    const id = FlowRouter.getParam('id');
     this.subscribe('singleMessage', id);
   });
 });
 
-Template.Message.helpers({
-  message: function() {
+Template.message.helpers({
+  message: () => {
     let currentMailer;
     let currentReceiver;
     const currentUser = Meteor.user();
@@ -30,24 +31,24 @@ Template.Message.helpers({
         currentMailer = {
           _id: message.mailerId,
           name: message.mailerName,
-          image: message.mailerImage
+          image: message.mailerImage,
         };
         currentReceiver = {
           _id: message.receiverId,
           name: message.receiverName,
-          image: message.receiverImage
-        }
+          image: message.receiverImage,
+        };
       } else {
         currentMailer = {
           _id: message.receiverId,
           name: message.receiverName,
-          image: message.receiverImage
+          image: message.receiverImage,
         };
         currentReceiver = {
           _id: message.mailerId,
           name: message.mailerName,
-          image: message.mailerImage
-        }
+          image: message.mailerImage,
+        };
       }
       return {
         _id: message._id,
@@ -55,41 +56,38 @@ Template.Message.helpers({
         currentReceiver,
         comments: message.comments,
         mailerId: message.mailerId,
-        receiverId: message.receiverId
-      }
+        receiverId: message.receiverId,
+      };
     }
     return {};
   },
 
-  user: function() {
+  user: () => {
     const currentUser = Meteor.user();
     return {
       _id: currentUser._id,
       email: currentUser.emails[0],
-      name: currentUser.profile.name
+      name: currentUser.profile.name,
     };
   },
 
-  isMessageMailer: function (userId, currentMailerId) {
-    return userId === currentMailerId;
-  }
+  isMessageMailer: (userId, currentMailerId) => userId === currentMailerId,
 });
 
-Template.Message.events({
-  'keypress .group-publication-comment': function (event, template) {
+Template.message.events({
+  'keypress .group-publication-comment': (event) => {
     if (event.which === 13) {
       const newComment = {
-        userId: document.getElementById("message_comment_user_id").value,
-        userImage: document.getElementById("message_comment_user_image").value,
+        userId: document.getElementById('message_comment_user_id').value,
+        userImage: document.getElementById('message_comment_user_image').value,
         comment: `${event.target.value}`,
-        messageId: document.getElementById("message_id").value,
-        mailerId: document.getElementById("message_mailer_id").value,
-        receiverId: document.getElementById("message_receiver_id").value
-      }
-      
+        messageId: document.getElementById('message_id').value,
+        mailerId: document.getElementById('message_mailer_id').value,
+        receiverId: document.getElementById('message_receiver_id').value,
+      };
+
       Template.instance().messageController.get().addCommentToMessage(newComment);
-      event.target.value  = '';
-      return false;
+      event.target.value = ''; // eslint-disable-line no-param-reassign
     }
-  }
+  },
 });

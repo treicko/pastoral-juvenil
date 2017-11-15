@@ -63,6 +63,5 @@ Template.groupPublications.events({
       event.target.value = '';
       $(':focus').blur();
     }
-    return false;
   },
 });

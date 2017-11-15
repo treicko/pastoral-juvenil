@@ -85,6 +85,5 @@ Template.newGroup.events({
     if (event.which === 13) {
       event.stopPropagation();
     }
-    return false;
   },
 });

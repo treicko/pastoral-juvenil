@@ -63,6 +63,5 @@ Template.groups.events({
       const searchContent = document.getElementsByClassName('autocomplete-content dropdown-content');
       searchContent[0].innerHTML = '';
     }
-    return false;
   },
 });

@@ -1,34 +1,32 @@
+/* global Template ReactiveVar Meteor Members $ */
 import MessageController from './../../../../../lib/controllers/message.controller';
 
-
-Template.NewMessage.onRendered(function() {
+Template.newMessage.onRendered(function() {
 });
 
-Template.NewMessage.onCreated(function() {
-  var self = this;
+Template.newMessage.onCreated(function() {
   const membersData = {};
   this.members = new ReactiveVar([]);
   this.messageController = new ReactiveVar(new MessageController());
-  const currentUser = Meteor.user();
-  console.log('New Message: user', currentUser)
-  self.autorun(function() {
-    self.subscribe('members');
+  this.autorun(() => {
+    this.subscribe('members');
 
     if (Template.instance().subscriptionsReady()) {
       const allMembers = Members.find({}).fetch();
       Template.instance().members.set(allMembers);
-      
-      if(allMembers.length > 0) {
-        allMembers.forEach(member => {
-          membersData[member.name] = 'http://lorempixel.com/250/250/people/'
+
+      if (allMembers.length > 0) {
+        allMembers.forEach((member) => {
+          membersData[member.name] = 'http://lorempixel.com/250/250/people/';
         });
       }
       $('input#search_member_for_message').autocomplete({
         data: membersData,
         limit: 20,
-        onAutocomplete: function(val) {
+        onAutocomplete: () => {
+          // onAutocomplete: (value) => {
           /* if(groupController) {
-            const groups = groupController.findByName(val);
+            const groups = groupController.findByName(value);
             groupsFound.set(groups);
           } */
         },
@@ -38,26 +36,23 @@ Template.NewMessage.onCreated(function() {
   });
 });
 
-Template.NewMessage.helpers({
-  /* groups: () => {
-    return Template.instance().groupsFound.get();
-  } */
+Template.newMessage.helpers({
 });
 
-Template.NewMessage.events({
-  'submit #new-message': function(event) {
+Template.newMessage.events({
+  'submit #new-message': (event) => {
     event.stopPropagation();
     event.preventDefault();
     const currentUser = Meteor.user();
     const receiverName = document.getElementById('search_member_for_message').value;
     const message = document.getElementById('message_description').value;
     const members = Template.instance().members.get();
-    console.log('Members: ', members);
+
     if (members) {
       const receiver = members.find(member => member.name === receiverName);
       if (receiver && receiver.messages) {
-        console.log('receier: ', receiver);
-        const messageWithUser = receiver.messages.find(userMessage => currentUser._id === userMessage.userId)
+        const messageWithUser =
+          receiver.messages.find(userMessage => currentUser._id === userMessage.userId)
         if (!messageWithUser) {
           const newMessage = {
             mailerId: currentUser._id,
@@ -72,10 +67,10 @@ Template.NewMessage.events({
               {
                 userId: currentUser._id,
                 userImage: 'image',
-                comment: message
-              }
+                comment: message,
+              },
             ],
-          }
+          };
           Template.instance().messageController.get().createMessage(newMessage);
         } else {
           const newComment = {
@@ -83,15 +78,14 @@ Template.NewMessage.events({
             userImage: 'image',
             comment: message,
             messageId: messageWithUser.messageId,
-            mailerId: messageWithUser.mailerMessageId
-          }
-          console.log('New Coment Clau: ', newComment);
-          
+            mailerId: messageWithUser.mailerMessageId,
+          };
+
           Template.instance().messageController.get().addCommentToMessage(newComment);
         }
-        $("form")[0].reset();
+        $('form')[0].reset();
         $('ul.tabs').tabs('select_tab', 'messages');
-      } 
+      }
     }
-  }
+  },
 });

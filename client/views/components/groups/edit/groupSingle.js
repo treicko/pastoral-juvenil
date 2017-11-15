@@ -109,6 +109,5 @@ Template.groupSingle.events({
     if (event.which === 13) {
       event.stopPropagation();
     }
-    return false;
   },
 });

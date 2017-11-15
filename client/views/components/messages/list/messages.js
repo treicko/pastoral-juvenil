@@ -1,16 +1,17 @@
+/* global Template $ ReactiveVar Meteor */
+
 import MessageController from './../../../../../lib/controllers/message.controller';
 
-Template.Messages.onRendered(function() {
+Template.messages.onRendered(function() {
+  console.log('On Rendered Messagess');
   $('ul.tabs').tabs();
 });
 
-Template.Messages.onCreated(function() {
-  var self = this;  
-  this.messagesFound = new ReactiveVar([]); 
+Template.messages.onCreated(function() {
+  this.messagesFound = new ReactiveVar([]);
   this.messageController = new ReactiveVar(new MessageController());
-  self.autorun(function() {
-    self.subscribe('messagesByMailer', Meteor.user()._id);
-    
+  this.autorun(() => {
+    this.subscribe('messagesByMailer', Meteor.user()._id);
     if (Template.instance().subscriptionsReady()) {
       /* const currentUser = Meteor.user();
       console.log('Current user'); */
@@ -33,37 +34,38 @@ Template.Messages.onCreated(function() {
   });
 
   const tabs = document.getElementsByClassName('tabs-content');
-  for (let i = 0; i < tabs.length; i++) {
-    $(".tabs-content").remove();
+  for (let i = 0; i < tabs.length; i += 1) {
+    $('.tabs-content').remove();
   }
 });
 
-Template.Messages.helpers({
+Template.messages.helpers({
   userMessages: () => {
     const currentUser = Meteor.user();
-    const messages = Template.instance().messageController.get().getMessagesByUserId(currentUser._id);
+    const messages =
+      Template.instance().messageController.get().getMessagesByUserId(currentUser._id);
     if (messages) {
-      userMessages = messages.map(message => {
+      const userMessages = messages.map((message) => { // eslint-disable-line arrow-body-style
         return {
           message,
-          unReadMessage: (currentUser._id === message.mailerId) ? message.mailerUnReadMessage : message.receiverUnReadMessage
+          unReadMessage: (currentUser._id === message.mailerId) ?
+            message.mailerUnReadMessage : message.receiverUnReadMessage,
         };
       });
       return userMessages;
     }
     return {};
   },
-  hasUnreadMessage: function (unReadMessageCount) {
-    return unReadMessageCount > 0;
-  }
+  hasUnreadMessage: unReadMessageCount => unReadMessageCount > 0,
 });
 
-Template.Messages.events({
+Template.messages.events({
   /* 'keypress #search_group': function (event, template) {
     if (event.which === 13) {
       const groups = Template.instance().groupController.get().findByName(event.target.value);
       template.groupsFound.set(groups);
-      const searchContent = document.getElementsByClassName('autocomplete-content dropdown-content');
+      const searchContent =
+        document.getElementsByClassName('autocomplete-content dropdown-content');
       searchContent[0].innerHTML = '';
       return false;
     }

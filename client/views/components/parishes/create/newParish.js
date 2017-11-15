@@ -50,7 +50,6 @@ Template.NewParish.events({
   'keypress #search-input': function (event, template) {
     if (event.which === 13) {
       event.stopPropagation();
-      return false;
     }
   },
 });

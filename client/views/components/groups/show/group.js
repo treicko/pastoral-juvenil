@@ -7,7 +7,6 @@ Template.group.onRendered(function() {
 });
 
 Template.group.onCreated(function() {
-  console.log('On Create group component');
   let groupId;
   const self = this;
   this.groupController = new ReactiveVar(new GroupController());

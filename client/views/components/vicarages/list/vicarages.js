@@ -1,10 +1,11 @@
+/* global Template $ ReactiveVar */
 import VicarageController from './../../../../../lib/controllers/vicarage.controller';
 
-Template.Vicarages.onRendered(function() {
+Template.vicarages.onRendered(function() {
   $('ul.tabs').tabs();
 });
 
-Template.Vicarages.onCreated(function() {
+Template.vicarages.onCreated(function() {
   this.vicarageController = new ReactiveVar(new VicarageController());
 
   this.autorun(() => {
@@ -12,13 +13,11 @@ Template.Vicarages.onCreated(function() {
   });
 
   const tabs = document.getElementsByClassName('tabs-content');
-  for (let i = 0; i < tabs.length; i++) {
-    $(".tabs-content").remove();
+  for (let i = 0; i < tabs.length; i += 1) {
+    $('.tabs-content').remove();
   }
 });
 
-Template.Vicarages.helpers({
-  vicarages: () => {
-    return Template.instance().vicarageController.get().getVicarages();;
-  }
+Template.vicarages.helpers({
+  vicarages: () => Template.instance().vicarageController.get().getVicarages(),
 });

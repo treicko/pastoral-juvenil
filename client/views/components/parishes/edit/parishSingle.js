@@ -1,15 +1,12 @@
+/* global Template ReactiveVar FlowRouter GoogleMaps */
 import ParishController from './../../../../../lib/controllers/parish.controller';
 
-Template.ParishSingle.onRendered(function() {
-});
-
-Template.ParishSingle.onCreated(function() {  
+Template.parishSingle.onCreated(function() {
   let parishId;
   this.parishController = new ReactiveVar(new ParishController());
-  const self = this;
-  self.autorun(function() {
+  this.autorun(() => {
     parishId = FlowRouter.getParam('id');
-    self.subscribe('singleParish', parishId);
+    this.subscribe('singleParish', parishId);
   });
 
   GoogleMaps.ready('showMap', (map) => {
@@ -21,7 +18,7 @@ Template.ParishSingle.onCreated(function() {
   });
 });
 
-Template.ParishSingle.helpers({
+Template.parishSingle.helpers({
   parish: () => {
     const parishId = FlowRouter.getParam('id');
     if (Template.instance().parishController) {
@@ -30,5 +27,6 @@ Template.ParishSingle.helpers({
         return parishFound;
       }
     }
-  }
+    return {};
+  },
 });

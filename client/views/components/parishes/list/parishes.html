@@ -1,4 +1,4 @@
-<template name="Parishes">
+<template name="parishes">
   <div class="row">
     <div class="col s12 m12 l12">
       <ul class="tabs tabs-fixed-width">
@@ -17,18 +17,10 @@
             <p>Loading...</p>
           {{/if}}
         </div>
-        <!-- {{#if Template.subscriptionsReady}}
-          {{#each parishes}}
-          
-            {{> Parish}}
-          {{/each}}
-        {{else}}
-          <p>Loading...</p>
-        {{/if}} -->
       </div>
     </div>
     <div id="create-parish" class="col s12 m12 l12">
-      {{> NewParish}}
+      {{> newParish}}
     </div>
   </div>
 </template>

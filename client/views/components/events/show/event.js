@@ -1,25 +1,26 @@
-Template.Event.onCreated(function() {
-  var kardex = this;
-  kardex.autorun(function() {
-    kardex.subscribe('singleKardexByUser', Meteor.userId());
+/* global Template Meteor Kardex */
+
+Template.event.onCreated(function() {
+  this.autorun(() => {
+    this.subscribe('singleKardexByUser', Meteor.userId());
   });
 });
 
 
-Template.Event.helpers({
-  isEnrolled: function() {
+Template.event.helpers({
+  isEnrolled: () => {
     let isMemberEnrolled = false;
     if (this.participants) {
       isMemberEnrolled = this.participants.find(member => member === Meteor.userId());
     }
     return isMemberEnrolled;
-  }
+  },
 });
 
-Template.Event.events({
-  'click .enroll-participant': function() {
-    let newCurrentParticipants = this.participants ? this.participants : [];
-    const userKardex = Kardex.findOne({userId: Meteor.userId()});
+Template.event.events({
+  'click .enroll-participant': () => {
+    const newCurrentParticipants = this.participants ? this.participants : [];
+    const userKardex = Kardex.findOne({ userId: Meteor.userId() });
     newCurrentParticipants.push(Meteor.userId());
     Meteor.call('updateParticipants', this._id, newCurrentParticipants);
     if (userKardex) {
@@ -30,8 +31,8 @@ Template.Event.events({
     }
   },
 
-  'click .unsubscribe-participant': function() {
+  'click .unsubscribe-participant': () => {
     const currentMembers = this.participants.filter(user => user !== Meteor.userId());
     Meteor.call('updateParticipants', this._id, currentMembers);
-  }
+  },
 });

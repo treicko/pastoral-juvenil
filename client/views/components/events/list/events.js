@@ -1,3 +1,5 @@
+/* global moment Template GoogleMaps $ google ReactiveVar Events */
+
 function getDayFromCurrentDate(dayNumbers) {
   return new Date(`${moment().add(dayNumbers, 'days').format('l')} 23:59:59`);
 }
@@ -8,28 +10,28 @@ function getWeek() {
   switch (currentDate[0]) {
     case 'Mon':
       endWeekDay = getDayFromCurrentDate(6);
-    break;
+      break;
     case 'Tue':
       endWeekDay = getDayFromCurrentDate(5);
-    break;
+      break;
     case 'Wed':
       endWeekDay = getDayFromCurrentDate(4);
-    break;
+      break;
     case 'Thu':
       endWeekDay = getDayFromCurrentDate(3);
-    break;
+      break;
     case 'Fri':
       endWeekDay = getDayFromCurrentDate(2);
-    break;
+      break;
     case 'Sat':
       endWeekDay = getDayFromCurrentDate(1);
-    break;
+      break;
     default:
       endWeekDay = new Date(`${moment().format('l')} 23:59:59`);
-    break;
+      break;
   }
   return endWeekDay;
-};
+}
 
 function getNextWeek() {
   let endWeekDay;
@@ -37,76 +39,70 @@ function getNextWeek() {
   switch (currentDate[0]) {
     case 'Mon':
       endWeekDay = getDayFromCurrentDate(13);
-    break;
+      break;
     case 'Tue':
       endWeekDay = getDayFromCurrentDate(12);
-    break;
+      break;
     case 'Wed':
       endWeekDay = getDayFromCurrentDate(11);
-    break;
+      break;
     case 'Thu':
       endWeekDay = getDayFromCurrentDate(10);
-    break;
+      break;
     case 'Fri':
       endWeekDay = getDayFromCurrentDate(9);
-    break;
+      break;
     case 'Sat':
       endWeekDay = getDayFromCurrentDate(8);
-    break;
+      break;
     default:
       endWeekDay = getDayFromCurrentDate(7);
-    break;
+      break;
   }
   return endWeekDay;
-};
+}
 
 function getCurrentYear() {
-  var s = new Date(`${moment().add(4, 'M').format('l')} 23:59`);
-  console.log('This year my friend: ', s)
+  const s = new Date(`${moment().add(4, 'M').format('l')} 23:59`);
+  /* console.log('This year my friend: ', s); */
   return s;
 }
 
-Template.Events.onRendered(function() {    
+Template.events.onRendered(function() {
   GoogleMaps.load({
     v: '3',
     libraries: 'places',
-    key: 'AIzaSyCVKw1zfv0JsOsrH9yeAwoIjwcF7_JDAHY'
+    key: 'AIzaSyCVKw1zfv0JsOsrH9yeAwoIjwcF7_JDAHY',
   });
 
-  $('.carousel-slider').carousel({full_width: true});
+  $('.carousel-slider').carousel({ full_width: true });
   $('ul.tabs').tabs();
-  $('ul.tabs').tabs({onShow: (tab) => {
-    if(GoogleMaps.loaded()) {
-      google.maps.event.trigger(GoogleMaps.maps.locationMap.instance, "resize");
-    }
-  }});
+  $('ul.tabs').tabs({
+    onShow: () => {
+      if (GoogleMaps.loaded()) {
+        google.maps.event.trigger(GoogleMaps.maps.locationMap.instance, 'resize');
+      }
+    },
+  });
 });
 
-Template.Events.onCreated(function() {
-
-  console.log('OnCreated Events');
-
-  var self = this;
-  self.autorun(function() {
-    self.subscribe('events');
+Template.events.onCreated(function() {
+  this.autorun(() => {
+    this.subscribe('events');
   });
   this.selectedEvent = new ReactiveVar(false);
   Session.set('selectedEventsDate', 'Todos');
 });
 
-Template.Events.helpers({
-  selectedEvent: function() {
-    return Template.instance().selectedEvent.get();
-  },
-  title: () => {
-    return 'Eventos del dia';
-  },
+Template.events.helpers({
+  selectedEvent: () => Template.instance().selectedEvent.get(),
+  title: () => 'Eventos del dia',
   events: () => {
     let untilDate;
     const sinceDate = new Date(`${moment().format('l')} 0:0:0`);
     const selectedEventOption = Session.get('selectedEventsDate');
-    
-    switch(selectedEventOption) {
+
+    switch (selectedEventOption) {
       case 'Mañana':
         untilDate = getDayFromCurrentDate(1);
         break;
@@ -123,11 +119,11 @@ Template.Events.helpers({
         untilDate = new Date(`${moment().format('l')} 23:59:59`);
         break;
     }
-    console.log('desde: ', sinceDate, 'hasta: ', untilDate);
+    /* console.log('desde: ', sinceDate, 'hasta: ', untilDate); */
     const events = Events.find({date: { $gte : sinceDate, $lt: untilDate }}).fetch();
     return { eventOption: selectedEventOption, events: events };
 
-    /*if (Session.get('selectedEventsDate') === 'today') {
+    /* if (Session.get('selectedEventsDate') === 'today') {
       return { eventOption: Session.get('selectedEventsDate'), events: Events.find({}) };
     } else {
       const currentDate = new Date(moment().format('l'));
@@ -141,27 +137,26 @@ Template.Events.helpers({
       Template.instance().selectedEvent.set(obj);
 
       return { eventOption: Session.get('selectedEventsDate'), events: events };
-    }*/
-  }
+    } */
+  },
 });
 
-Template.Events.events({
-  'click .collection-item': function(elem, template) {
+Template.events.events({
+  'click .collection-item': (event, templateInstance) => {
     $('.collection-item').removeClass('active');
-    $(elem.currentTarget).addClass('active');
+    $(event.currentTarget).addClass('active');
     const currentDate = new Date(moment().format('l'));
-    const weekDay = GetWeek();
-    const events = Events.find({createdAt: { $gte : currentDate, $lt: weekDay }}).fetch();
+    const weekDay = getWeek();
+    const events = Events.find({ createdAt: { $gte: currentDate, $lt: weekDay } }).fetch();
     let selectedEvent;
-    events.forEach(item => {
-      if(item._id === elem.currentTarget.id) {
+    events.forEach((item) => {
+      if (item._id === event.currentTarget.id) {
         selectedEvent = item;
-        return;
       }
     });
-    
-    var obj = (selectedEvent) && selectedEvent;
-    console.log('geanial este selected: ', obj);
-    template.selectedEvent.set(obj);
-  }
+
+    const obj = (selectedEvent) && selectedEvent;
+    /* console.log('geanial este selected: ', obj); */
+    templateInstance.selectedEvent.set(obj);
+  },
 });

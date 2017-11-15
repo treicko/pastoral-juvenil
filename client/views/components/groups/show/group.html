@@ -1,4 +1,4 @@
-<template name="Group">
+<template name="group">
   <div class="">
     <div>
       <nav class="breadcrumb-nav">
@@ -102,37 +102,3 @@
     </div>
   </div>  
 </template>
-
-<!-- <template name="Group">
-  <article>
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h3 class="panel-title">{{name}}</h3>
-      </div>
-      <div class="panel-body">
-        <p>Direccion: {{location}}</p>
-        <p>Descripcion: {{description}}</p>
-        <p>Responzables: {{inCharge}}</p>
-        
-        <p>Inscritos:</p>
-        {{#each members}}
-          <p>{{this}}</p>
-        {{/each}}
-        <a href="/groups/{{_id}}">Ver detalles</a>
-        {{#if isEnrolled}}
-          {{> unsubscribe}}
-        {{else}}
-          {{> enroll}}
-        {{/if}}
-      </div>
-    </div>
-  </article>
-</template>
-
-<template name="enroll">
-  <a class="btn btn-info enroll-member">Inscribirse a grupo</a>
-</template>
-
-<template name="unsubscribe">
-  <a class="btn btn-warning unsubscribe-member">Desinscribirse del grupo </a>
-</template> -->

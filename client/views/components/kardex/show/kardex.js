@@ -1,58 +1,48 @@
-Template.Kardex.onCreated(function() {
-  var self = this;
-  self.autorun(function() {
-    self.subscribe('singleKardexByUser', Meteor.userId());
+/* global Template Meteor Kardex Groups Events */
+
+Template.kardex.onCreated(function() {
+  this.autorun(() => {
+    this.subscribe('singleKardexByUser', Meteor.userId());
   });
 });
 
-Template.Kardex.helpers({
+Template.kardex.helpers({
   kardex: () => {
-    const kardexsito = Kardex.findOne({userId: Meteor.userId()});
+    const kardexsito = Kardex.findOne({ userId: Meteor.userId() });
     return kardexsito;
-  }
-});
-
-Template.CurrentUser.onCreated(function() {
-  var self = this;
-  self.autorun(function() {
-    self.subscribe('singleUser', Meteor.userId());
-  });
-});
-
-Template.CurrentUser.helpers({
-  currentUser: () => {
-    var id = Meteor.userId();
-    console.log('current user id leoooo: ', id);
-    return Meteor.users.findOne({_id: id});
-  }
-});
-
-Template.GroupOnKardex.onCreated(function() {
-  var self = this;
-  self.autorun(function() {
-    self.subscribe('groups');
-  });
-});
-
-Template.GroupOnKardex.helpers({
-  groupOnKardex: function() {
-    return Groups.findOne({ _id: this.groupId });
   },
-  eventOnKardex: function() {
-    return Events.findOne({ _id: this.eventId });
-  }
-
 });
 
-Template.EventOnKardex.onCreated(function() {
-  var self = this;
-  self.autorun(function() {
-    self.subscribe('events');
+Template.currentUser.onCreated(function() {
+  this.autorun(() => {
+    this.subscribe('singleUser', Meteor.userId());
   });
 });
 
-Template.EventOnKardex.helpers({
-  eventOnKardex: function() {
-    return Events.findOne({ _id: this.eventId });
-  }
+Template.currentUser.helpers({
+  currentUser: () => {
+    const id = Meteor.userId();
+    return Meteor.users.findOne({ _id: id });
+  },
+});
+
+Template.groupOnKardex.onCreated(function() {
+  this.autorun(() => {
+    this.subscribe('groups');
+  });
+});
+
+Template.groupOnKardex.helpers({
+  groupOnKardex: () => Groups.findOne({ _id: this.groupId }),
+  eventOnKardex: () => Events.findOne({ _id: this.eventId }),
+});
+
+Template.eventOnKardex.onCreated(function() {
+  this.autorun(() => {
+    this.subscribe('events');
+  });
+});
+
+Template.eventOnKardex.helpers({
+  eventOnKardex: () => Events.findOne({ _id: this.eventId }),
 });

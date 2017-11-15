@@ -1,4 +1,4 @@
-<template name="GroupPublications">
+<template name="groupPublications">
   <div>
     <nav class="breadcrumb-nav">
       <div class="nav-wrapper">
@@ -21,9 +21,6 @@
                 <img class="circle responsive-img" src="/images/2.jpg">
               </div>
               <div class="col s10 m10 l11">
-                <!-- <span class="black-text">
-                  This is a square image. Add the "circle" class to it to make it appear circular.
-                </span> -->
                 <span class="card-title">{{user.name}}</span>
               </div>
             </div>
@@ -36,8 +33,6 @@
             </div>      
           </div>
           <div class="card-action">
-            <!-- <input type="submit" class="btn btn-primary col s12 m6 l6" value="Publicar"> -->
-
             <a class="publications-action waves-effect waves-light btn" href="#" onclick="$(this).closest('form').submit(); return false;">Publicar</a>
             <a href="!#" class="publications-action"><i class="tiny material-icons">mode_comment</i> Commentar</a>
           </div>
@@ -60,9 +55,6 @@
                   <img class="circle responsive-img" src="/images/2.jpg">
                 </div>
                 <div class="col s10 m10 l11">
-                  <!-- <span class="black-text">
-                    This is a square image. Add the "circle" class to it to make it appear circular.
-                  </span> -->
                   <span class="card-title"> {{userName}}</span>
                 </div>
               </div>
@@ -77,19 +69,6 @@
           <div class="card publication-comment">
             <div class="card-content card-content-comment-list">
               {{#each this.comments}}
-                <!-- <div class="card publication-comment">
-                  <div class="card-content card-content-commnet">
-                    <div class="row row-comment valign-wrapper">
-                      <div class="col s1 m1 l1">
-                        <img class="circle responsive-img" src="/images/2.jpg">
-                      </div>
-                      <div class="col s11 m11 l11">
-                        <span class="card-title card-title-comment"> {{userName}}</span>
-                      </div>
-                    </div>
-                    <p>{{comment}}</p>
-                  </div>
-                </div> -->
                 <div class="comments-list">
                   <div class="row row-comment valign-wrapper">
                     <div class="col s1 m1 l1">
@@ -113,14 +92,10 @@
                       <div class="input-field">
                         <input id="group_publication_comment" type="text" class="validate group-publication-comment">
                         <label for="group_publication_comment" id="label_group_publication_comment">Ingresa un comentario</label>
-                        <!-- <textarea id="group_publication_comment" class="materialize-textarea group-publication-comment"></textarea>
-                        <label for="group_publication_comment" id="label_group_publication_comment">Ingresa un comentario</label> -->
                       </div>
                     </div>
                   </div>
                 </div>
-                <!-- <div class="card-action">  
-                </div> -->
               </div>
             </div>
           </div>

@@ -1,55 +1,38 @@
+/* global Template ReactiveVar FlowRouter Meteor $ */
+/* eslint-disable no-param-reassign */
 import GroupController from './../../../../../lib/controllers/group.controller';
 
-Template.GroupPublications.onRendered(function() {
+Template.groupPublications.onRendered(function() {
 });
 
-Template.GroupPublications.onCreated(function() {
-  const self = this;
+Template.groupPublications.onCreated(function() {
   this.groupController = new ReactiveVar(new GroupController());
-  self.autorun(function() {
-    groupId = FlowRouter.getParam('id');
-    console.log('OnCreated: groupId: ', groupId, ' userId: ', Meteor.userId());
-    self.subscribe('singleGroup', groupId);
-    /* self.subscribe('singleGroup', groupId);
-    self.subscribe('members'); */
+  this.autorun(() => {
+    const groupId = FlowRouter.getParam('id');
+    this.subscribe('singleGroup', groupId);
   });
-  /* var kardex = this;
-  kardex.autorun(function() {
-    kardex.subscribe('singleKardexByUser', Meteor.userId());
-  }); */
-  /* let groupId;
-  
-  
-
-  GoogleMaps.ready('showMap', (map) => {
-    this.groupController.get().setMapForShow(map, '');
-    const groupFound = this.groupController.get().getGroupById(groupId);
-    if (groupFound) {
-      this.groupController.get().setGroupForShowOnMap(groupFound);
-    }
-  }); */
 });
 
-Template.GroupPublications.helpers({
-  group: function() {
-    const groupFound = Template.instance().groupController.get().getGroupById(groupId);
-    console.log('Group found: ', groupFound);
+Template.groupPublications.helpers({
+  group: () => {
+    const groupFound = Template.instance().groupController.get().getGroupById(FlowRouter.getParam('id'));
     if (groupFound) {
       return groupFound;
     }
+    return {};
   },
-  user: function() {
+  user: () => {
     const currentUser = Meteor.user();
     return {
       _id: currentUser._id,
       email: currentUser.emails[0],
-      name: currentUser.profile.name
+      name: currentUser.profile.name,
     };
-  }
+  },
 });
 
-Template.GroupPublications.events({
-  'submit #new-publication-group': function(event, template) {
+Template.groupPublications.events({
+  'submit #new-publication-group': (event) => {
     event.preventDefault();
     const newPublication = {
       groupId: event.target.group_publication_groupId.value,
@@ -57,30 +40,29 @@ Template.GroupPublications.events({
       userName: event.target.group_publication_userName.value,
       userId: event.target.group_publication_userId.value,
       userImage: '',
-      comments: []
-    }
+      comments: [],
+    };
     Template.instance().groupController.get().savePublication(newPublication);
-    $("form")[0].reset();
+    $('form')[0].reset();
     $('#group_publication_description').trigger('autoresize');
-    return false;    
+    return false;
   },
-  
-  'keypress .group-publication-comment': function (event, template) {
+
+  'keypress .group-publication-comment': (event) => {
     if (event.which === 13) {
       const newComment = {
-        groupId: document.getElementById("group_publication_groupId").value,
-        publicationId: document.getElementById("group_comment_publicationId").value,
-        userName: document.getElementById("group_publication_userName").value,
-        userId: document.getElementById("group_publication_userId").value,
+        groupId: document.getElementById('group_publication_groupId').value,
+        publicationId: document.getElementById('group_comment_publicationId').value,
+        userName: document.getElementById('group_publication_userName').value,
+        userId: document.getElementById('group_publication_userId').value,
         userImage: '',
-        comment: `${event.target.value}`
-      }
-      
-      console.log('Coment: ', event);
+        comment: `${event.target.value}`,
+      };
+
       Template.instance().groupController.get().saveComment(newComment);
-      event.target.value  = '';
-      $(':focus').blur();    
-      return false;
+      event.target.value = '';
+      $(':focus').blur();
     }
+    return false;
   },
 });

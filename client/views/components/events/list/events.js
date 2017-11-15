@@ -1,4 +1,5 @@
-/* global moment Template GoogleMaps $ google ReactiveVar Events */
+/* global moment Template GoogleMaps $ google ReactiveVar Events Session */
+/* eslint-disable meteor/no-session */
 
 function getDayFromCurrentDate(dayNumbers) {
   return new Date(`${moment().add(dayNumbers, 'days').format('l')} 23:59:59`);
@@ -120,8 +121,8 @@ Template.events.helpers({
         break;
     }
     /* console.log('desde: ', sinceDate, 'hasta: ', untilDate); */
-    const events = Events.find({date: { $gte : sinceDate, $lt: untilDate }}).fetch();
-    return { eventOption: selectedEventOption, events: events };
+    const events = Events.find({ date: { $gte: sinceDate, $lt: untilDate } }).fetch();
+    return { eventOption: selectedEventOption, events };
 
     /* if (Session.get('selectedEventsDate') === 'today') {
       return { eventOption: Session.get('selectedEventsDate'), events: Events.find({}) };

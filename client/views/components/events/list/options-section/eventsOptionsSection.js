@@ -1,4 +1,5 @@
 /* global Template Session */
+/* eslint-disable meteor/no-session */
 
 Template.registerHelper('checkedDate', function(checkedName) {
   const selectedEventsDate = Session.get('selectedEventsDate');

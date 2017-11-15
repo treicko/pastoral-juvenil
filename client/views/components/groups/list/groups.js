@@ -1,4 +1,6 @@
 /* global Template GoogleMaps $ google ReactiveVar Meteor */
+/* eslint-disable prefer-destructuring */
+
 import GroupController from './../../../../../lib/controllers/group.controller';
 
 Template.groups.onRendered(function() {

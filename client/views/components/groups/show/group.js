@@ -1,15 +1,13 @@
+/* global Template $ ReactiveVar FlowRouter GoogleMaps Meteor Kardex */
 import GroupController from './../../../../../lib/controllers/group.controller';
 
-Template.Group.onRendered(function() {
-  $('.tooltipped').tooltip({delay: 50});
+Template.group.onRendered(function() {
+  $('.tooltipped').tooltip({ delay: 50 });
   $('.chips').material_chip();
 });
 
-Template.Group.onCreated(function() {
-  /* var kardex = this;
-  kardex.autorun(function() {
-    kardex.subscribe('singleKardexByUser', Meteor.userId());
-  }); */
+Template.group.onCreated(function() {
+  console.log('On Create group component');
   let groupId;
   const self = this;
   this.groupController = new ReactiveVar(new GroupController());
@@ -28,34 +26,37 @@ Template.Group.onCreated(function() {
   });
 });
 
-Template.Group.helpers({
+Template.group.helpers({
   group: () => {
     const groupId = FlowRouter.getParam('id');
     if (Template.instance().groupController) {
       const groupFound = Template.instance().groupController.get().getGroupById(groupId);
       if (groupFound) {
         Template.instance().groupController.get().setGroupForShowOnMap(groupFound);
-        const inChargeForShow = Template.instance().groupController.get().getInChargeForShow(groupFound);
-        const membersForShow = Template.instance().groupController.get().getMembersForShow(groupFound);
+        const inChargeForShow =
+          Template.instance().groupController.get().getInChargeForShow(groupFound);
+        const membersForShow =
+          Template.instance().groupController.get().getMembersForShow(groupFound);
         groupFound.inCharge = inChargeForShow;
         groupFound.membersForShow = membersForShow;
         return groupFound;
       }
     }
+    return {};
   },
-  isEnrolled: function() {
+  isEnrolled: () => {
     let isMemberEnrolled = false;
     if (this.members) {
       isMemberEnrolled = this.members.find(member => member === Meteor.userId());
     }
     return isMemberEnrolled;
-  }
+  },
 });
 
-Template.Group.events({
-  'click .enroll-member': function() {
-    let newCurrentMembers = this.members ? this.members : [];
-    const userKardex = Kardex.findOne({userId: Meteor.userId()});
+Template.group.events({
+  'click .enroll-member': () => {
+    const newCurrentMembers = this.members ? this.members : [];
+    const userKardex = Kardex.findOne({ userId: Meteor.userId() });
     newCurrentMembers.push(Meteor.userId());
     Meteor.call('updateMembers', this._id, newCurrentMembers);
     if (userKardex) {
@@ -66,8 +67,8 @@ Template.Group.events({
     }
   },
 
-  'click .unsubscribe-member': function() {
+  'click .unsubscribe-member': () => {
     const currentMembers = this.members.filter(user => user !== Meteor.userId());
     Meteor.call('updateMembers', this._id, currentMembers);
-  }
+  },
 });

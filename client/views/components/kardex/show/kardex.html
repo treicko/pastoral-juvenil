@@ -1,36 +1,36 @@
-<template name="Kardex">
+<template name="kardex">
   <article>
     <div class="panel panel-primary">
       <div class="panel-heading">
-        <h3 class="panel-title">Kardex: {{> CurrentUser}}</h3>
+        <h3 class="panel-title">Kardex: {{> currentUser}}</h3>
       </div>
       <div class="panel-body">
         <p>_id kardex: {{ kardex._id }}</p>
         <p>Grupos: </p>
         {{#each kardex.groups}}
-          {{> GroupOnKardex}}
+          {{> groupOnKardex}}
         {{/each}}
         <p>Eventos: </p>
         {{#each kardex.events}}
-          {{> EventOnKardex}}
+          {{> eventOnKardex}}
         {{/each}}
       </div>
     </div>
   </article>
 </template>
 
-<template name="CurrentUser">
+<template name="currentUser">
   {{#each currentUser.emails}}
     {{this.address}}
   {{/each}}
 </template>
 
-<template name="GroupOnKardex">
+<template name="groupOnKardex">
   <p>Grupo: {{ groupOnKardex.name }}</p>
   <p>Creado en: {{createdGroupAt}}</p>
 </template>
 
-<template name="EventOnKardex">
+<template name="eventOnKardex">
   <p>Grupo: {{ eventOnKardex.name }}</p>
   <p>Creado en: {{createdEventAt}}</p>
 </template>

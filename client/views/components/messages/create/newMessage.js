@@ -52,7 +52,7 @@ Template.newMessage.events({
       const receiver = members.find(member => member.name === receiverName);
       if (receiver && receiver.messages) {
         const messageWithUser =
-          receiver.messages.find(userMessage => currentUser._id === userMessage.userId)
+          receiver.messages.find(userMessage => currentUser._id === userMessage.userId);
         if (!messageWithUser) {
           const newMessage = {
             mailerId: currentUser._id,

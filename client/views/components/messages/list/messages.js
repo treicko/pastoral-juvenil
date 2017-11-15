@@ -3,7 +3,6 @@
 import MessageController from './../../../../../lib/controllers/message.controller';
 
 Template.messages.onRendered(function() {
-  console.log('On Rendered Messagess');
   $('ul.tabs').tabs();
 });
 

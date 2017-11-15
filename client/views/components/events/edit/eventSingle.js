@@ -1,15 +1,15 @@
-Template.EventSingle.onCreated(function() {
-  var self = this;
-  self.autorun(function() {
-    var id = FlowRouter.getParam('id');
-    self.subscribe('singleEvent', id);
+/* global Template FlowRouter Events */
+
+Template.eventSingle.onCreated(function() {
+  this.autorun(() => {
+    const id = FlowRouter.getParam('id');
+    this.subscribe('singleEvent', id);
   });
 });
 
-Template.EventSingle.helpers({
+Template.eventSingle.helpers({
   event: () => {
-    var id = FlowRouter.getParam('id');
-    console.log('My id loko: ', id);
-    return Events.findOne({_id: id});
-  }
+    const id = FlowRouter.getParam('id');
+    return Events.findOne({ _id: id });
+  },
 });

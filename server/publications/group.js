@@ -1,8 +1,10 @@
-Meteor.publish('groups', function(){
+/* global Meteor Groups check */
+
+Meteor.publish('groups', function() {
   return Groups.find({});
 });
 
-Meteor.publish('singleGroup', function(id){
+Meteor.publish('singleGroup', function(id) {
   check(id, String);
-  return Groups.find({_id: id});
+  return Groups.find({ _id: id });
 });

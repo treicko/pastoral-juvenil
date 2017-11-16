@@ -1,8 +1,10 @@
-Meteor.publish('events', function(){
+/* global Meteor Events check */
+
+Meteor.publish('events', function() {
   return Events.find({});
 });
 
-Meteor.publish('singleEvent', function(id){
+Meteor.publish('singleEvent', function(id) {
   check(id, String);
-  return Events.find({_id: id});
+  return Events.find({ _id: id });
 });

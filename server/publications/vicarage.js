@@ -1,8 +1,10 @@
-Meteor.publish('vicarages', function(){
+/* global Meteor Vicarages check */
+
+Meteor.publish('vicarages', function() {
   return Vicarages.find({});
 });
 
-Meteor.publish('singleVicarage', function(id){
+Meteor.publish('singleVicarage', function(id) {
   check(id, String);
-  return Vicarages.find({_id: id});
+  return Vicarages.find({ _id: id });
 });

@@ -1,8 +1,10 @@
-Meteor.publish('parishes', function(){
+/* global Meteor Parishes check */
+
+Meteor.publish('parishes', function() {
   return Parishes.find({});
 });
 
-Meteor.publish('singleParish', function(id){
+Meteor.publish('singleParish', function(id) {
   check(id, String);
-  return Parishes.find({_id: id});
+  return Parishes.find({ _id: id });
 });

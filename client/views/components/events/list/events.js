@@ -102,7 +102,6 @@ Template.events.helpers({
     let untilDate;
     const sinceDate = new Date(`${moment().format('l')} 0:0:0`);
     const selectedEventOption = Session.get('selectedEventsDate');
-
     switch (selectedEventOption) {
       case 'Mañana':
         untilDate = getDayFromCurrentDate(1);
@@ -120,7 +119,7 @@ Template.events.helpers({
         untilDate = new Date(`${moment().format('l')} 23:59:59`);
         break;
     }
-    /* console.log('desde: ', sinceDate, 'hasta: ', untilDate); */
+    // console.log('desde: ', sinceDate, 'hasta: ', untilDate);
     const events = Events.find({ date: { $gte: sinceDate, $lt: untilDate } }).fetch();
     return { eventOption: selectedEventOption, events };
 

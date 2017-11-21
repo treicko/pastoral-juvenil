@@ -1,0 +1,33 @@
+<template name="eventInscription">
+  <div class="">
+    <div>
+      <nav class="breadcrumb-nav">
+        <div class="nav-wrapper">
+          <div class="col s12 m12 l12">
+            <a href="/events" class="breadcrumb">Eventos</a>
+            <a href="/events/{{event._id}}" class="breadcrumb">{{event.name}}</a>
+            <a class="breadcrumb">Inscripcion</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <h4>Confirma tu inscripcion</h4>
+
+    {{> showMap }}
+
+    {{#if isEnableInscription }}
+      <div class="row">
+        <div class="col s6 m3 l3 offset-m3 offset-l3">
+          <a class="waves-effect waves-light btn grey darken-1">Cancelar</a>
+        </div>
+        <div class="col s5 m3 l3 offset-s1 offset-m1 offset-l1">
+          <a href="/events" class="waves-effect waves-light btn"><i class="material-icons left">done_all</i>Inscribirme</a>
+        </div>    
+      </div>
+    {{else}}
+    <div class="card-panel teal lighten-2"><i class="small material-icons">sentiment_very_dissatisfied</i> No puedes inscribirte a menos que estes dentro del area de inscripcion...</div>
+    {{/if}}
+    
+  </div>
+</template>

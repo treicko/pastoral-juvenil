@@ -31,6 +31,14 @@
   margin-right: 5px;
 }
 
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating) {
+  color: #ff9100 !important;
+}
+
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating):hover {
+  color: #ff6d00 !important;
+}
+
 .card .card-content-publication {
   padding-bottom: 0px;
 }
@@ -45,6 +53,18 @@
   background-color: #f7f7f7;
   padding-bottom: 1px;
   padding-top: 20px;
+}
+
+.card .card-map-action {
+  padding: 0px 0px;
+}
+
+.card .card-map-content {
+  padding: 0px 0px;
+}
+
+.card .card-map-content .map-show-container {
+  margin-bottom: 1px;
 }
 
 .chip-input-field {
@@ -121,6 +141,11 @@
 
 .label-chip {
   top: 0px !important;
+}
+
+.map-action {
+  /* border-right: 1px solid black; */
+  border-right: 1px solid rgba(160, 160, 160, 0.2);
 }
 
 .map-container {

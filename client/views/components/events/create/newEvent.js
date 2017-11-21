@@ -62,6 +62,7 @@ Template.newEvent.events({
       date: eventDate,
       participants: [],
       comments: [],
+      interested: [],
     };
     Meteor.call('insertEvent', newEvent);
     Materialize.updateTextFields();

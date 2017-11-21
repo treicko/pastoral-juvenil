@@ -1,8 +1,18 @@
-/* global Template Meteor Kardex */
+/* global Template FlowRouter Meteor ReactiveVar GoogleMaps Kardex */
+
+import EventController from './../../../../../lib/controllers/event.controller';
 
 Template.event.onCreated(function() {
+  this.eventController = new ReactiveVar(new EventController());
+  const eventId = FlowRouter.getParam('id');
   this.autorun(() => {
     this.subscribe('singleKardexByUser', Meteor.userId());
+    this.subscribe('singleEvent', eventId);
+  });
+
+  GoogleMaps.ready('showMap', (map) => {
+    this.eventController.get().setMapForShow(map, '');
+    this.eventController.get().setEventForShowOnMap(eventId);
   });
 });
 
@@ -14,6 +24,10 @@ Template.event.helpers({
       isMemberEnrolled = this.participants.find(member => member === Meteor.userId());
     }
     return isMemberEnrolled;
+  },
+  event: () => {
+    const eventId = FlowRouter.getParam('id');
+    return Template.instance().eventController.get().getEventByIdForShow(eventId);
   },
 });
 

@@ -1,4 +1,102 @@
 <template name="event">
+  <div class="">
+    <div>
+      <nav class="breadcrumb-nav">
+        <div class="nav-wrapper">
+          <div class="col s12 m12 l12">
+            <a href="/events" class="breadcrumb">Eventos</a>
+            <a class="breadcrumb">{{event.name}}</a>
+          </div>
+        </div>
+      </nav>
+      
+    </div>
+    <div class="parish-show-container">
+      <div class="center-align">
+        <h3>Evento</h3>
+      </div>
+      <div class="input-field">
+        <input id="event_name_show" class="input-disabled" type="text" value="{{event.name}}" disabled>
+        <label class="active label-disabled" for="event_name_show">Nombre del evento</label>
+      </div>
+      <div class="input-field">
+        <input id="event_ubication_show" class="input-disabled" type="text" value="{{event.ubication}}" disabled>
+        <label class="active label-disabled" for="event_ubication_show">Ubicacion del evento</label>
+      </div>
+      
+      <div class="row">
+        <div class="col s12 m12 l12">
+          <div class="card white">
+            <div class="card-content card-map-content">
+              {{> showMap }}   
+            </div>
+            <div class="card-action card-map-action">
+              <div class="row">
+                <div class="col s6 m6 l6 map-action">
+                  <p class="center-align ">
+                    <a href="/events/{{event._id}}/inscription"><i class="tiny material-icons">star</i> Me interesa</a>
+                  </p>
+                </div>
+                <div class="col s6 m6 l6">
+                  <p class="center-align">
+                    <a href="/events/{{event._id}}/inscription"><i class="tiny material-icons">check</i> Inscribirme</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="input-field">
+        <div class="row">
+          <div class="col s12 m6 l6">
+            <p>Fecha</p>
+            <i class="material-icons prefix">perm_contact_calendar</i>
+            <input id="event_date_show" type="text" class="datepicker" value="{{event.date}}">
+          </div>
+          <div class="col s12 m6 l6">
+            <p>Hora</p>
+            <i class="material-icons prefix">schedule</i>
+            <input id="event_hour_show" type="time" class="timepicker" value="{{event.hour}}">
+          </div>
+        </div>
+      </div>
+
+      <div class="input-field">
+        <label class="active label-disabled">Intereses/Actividades:</label><br>
+        <div class="row">
+          {{#each group.inCharge}}
+            <div class="col s12 m6 l6">
+              <ul class="collection">
+                <li class="collection-item avatar collection-charge-members">
+                  <i class="material-icons circle gray">person</i>
+                  <span class="title">{{name}}</span>
+                  <p>Telefono: {{phone}}<br></p>
+                  <a href="#!"><i class="tiny material-icons">mail</i> Mensaje</a>
+                </li>
+              </ul>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col s12 m12 l12">
+          <label class="active label-disabled" for="event_description_show">Descripcion del evento:</label>
+          <div class="card teal">
+            <div class="card-content white-text">
+              <p>{{event.description}}</p>
+            </div>
+            <div class="card-action">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="/events/{{event._id}}/edit">{{ event.name }}</a>
   <article>
     <div class="panel panel-primary">
       <div class="panel-heading">
@@ -11,7 +109,7 @@
         {{#each participants}}
           {{this}}
         {{/each}}
-        <a href="/events/{{_id}}">Ver detalles</a>
+        <a href="">Ver detalles</a>
         {{#if isEnrolled}}
           {{> unsubscribeParticipant}}
         {{else}}
@@ -20,6 +118,7 @@
       </div>
     </div>
   </article>
+  <a href="/events">Volver a la lista</a>
 </template>
 
 <template name="enrollParticipant">

@@ -139,6 +139,11 @@
   font-size: 14px;
 }
 
+.dropdown-button {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 .label-chip {
   top: 0px !important;
 }

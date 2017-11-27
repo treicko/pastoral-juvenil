@@ -1,11 +1,11 @@
 /* global GoogleMaps google Geolocation Template $ ReactiveVar */
 
 Template.eventsDashboardSection.onRendered(function() {
-  GoogleMaps.load({
+  /* GoogleMaps.load({
     v: '3',
     libraries: 'places',
     key: 'AIzaSyCVKw1zfv0JsOsrH9yeAwoIjwcF7_JDAHY',
-  });
+  }); */
 
   $('.chip').click(function() {
     $('.chip').removeClass('chip-selected');

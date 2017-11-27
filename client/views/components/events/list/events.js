@@ -1,6 +1,8 @@
 /* global moment Template GoogleMaps $ google ReactiveVar Events Session */
 /* eslint-disable meteor/no-session */
 
+import EventController from './../../../../../lib/controllers/event.controller';
+
 function getDayFromCurrentDate(dayNumbers) {
   return new Date(`${moment().add(dayNumbers, 'days').format('l')} 23:59:59`);
 }
@@ -70,18 +72,14 @@ function getCurrentYear() {
 }
 
 Template.events.onRendered(function() {
-  GoogleMaps.load({
-    v: '3',
-    libraries: 'places',
-    key: 'AIzaSyCVKw1zfv0JsOsrH9yeAwoIjwcF7_JDAHY',
-  });
-
   $('.carousel-slider').carousel({ full_width: true });
-  $('ul.tabs').tabs();
   $('ul.tabs').tabs({
     onShow: () => {
       if (GoogleMaps.loaded()) {
-        google.maps.event.trigger(GoogleMaps.maps.locationMap.instance, 'resize');
+        const center = GoogleMaps.maps.showMap.instance.getCenter();
+        google.maps.event.trigger(GoogleMaps.maps.showMap.instance, 'resize');
+        GoogleMaps.maps.showMap.instance.setCenter(center);
+        GoogleMaps.maps.showMap.instance.setZoom(15);
       }
     },
   });
@@ -93,6 +91,8 @@ Template.events.onCreated(function() {
   });
   this.selectedEvent = new ReactiveVar(false);
   Session.set('selectedEventsDate', 'Todos');
+
+  this.eventController = new ReactiveVar(new EventController());
 });
 
 Template.events.helpers({

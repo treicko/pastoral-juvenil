@@ -3,14 +3,14 @@
     <div class="col s12 m12 l12">      
       <form class="new-event" id="new-event">
         <div class="input-field">
-          <input id="event_name" type="text" class="validate" autocomplete="off" data-length="64" maxlength="64" required>
-          <label for="event_name" data-error="Agrega un nombre para tu evento">Nombre del evento</label>
+          <input id="event_name_create" type="text" class="validate" autocomplete="off" data-length="64" maxlength="64" required>
+          <label for="event_name_create" data-error="Agrega un nombre para tu evento">Nombre del evento</label>
         </div>
         <div class="input-field">
-          <input id="event_ubication" type="text" class="validate" disabled>
-          <label for="event_ubication" class="active">Ubicacion del evento</label>
+          <input id="event_ubication_create" name="event_ubication_create" type="text" class="validate" required>
+          <label for="event_ubication_create" class="active">Ubicacion del evento</label>
         </div>
-        <div class="input-field">
+        <!-- <div class="input-field">
           <div class="map-container">
             <div id="search-content" >
               <input id="search-input" class="search-input" type="text" placeholder="Buscar en google maps">
@@ -18,24 +18,27 @@
             </div>
             {{> googleMap name="locationMap" options=mapOptions}}
           </div>
-        </div>
+        </div> -->
+
+        {{> showMap }}
+        
         <div class="input-field">
           <div class="row">
             <div class="col s12 m6 l6">
               <p>Fecha</p>
               <i class="material-icons prefix">perm_contact_calendar</i>
-              <input id="event_date" type="text" class="datepicker">
+              <input id="event_date_create" type="text" class="datepicker" required>
             </div>
             <div class="col s12 m6 l6">
               <p>Hora</p>
               <i class="material-icons prefix">schedule</i>
-              <input id="event_hour" type="time" class="timepicker">
+              <input id="event_hour_create" type="time" class="timepicker" required>
             </div>
           </div>
         </div>
         <div class="input-field">
-          <input id="event_description" type="text" class="validate">
-          <label for="event_description">Description</label>
+          <input id="event_description_create" type="text" class="validate" required>
+          <label for="event_description_create">Description</label>
         </div>
         
         <div class="input-field">

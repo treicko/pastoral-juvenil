@@ -2,6 +2,7 @@
 import EventController from './../../../../../lib/controllers/event.controller';
 
 Template.newEvent.onRendered(function() {
+  console.log('On Rendered positivoo!');
   const $dateInput = $('.datepicker').pickadate({
     selectMonths: true, // Creates a dropdown to control month
     selectYears: 15, // Creates a dropdown of 15 years to control year,
@@ -27,21 +28,37 @@ Template.newEvent.onRendered(function() {
     // aftershow: function(){} // Function for after opening timepicker
   });
 
-  $('input#event_name').characterCounter();
+  $('input#event_name_create').characterCounter();
 
-  document.getElementById('event_hour').value = moment().add(1, 'hours').format('HH:mm');
+  document.getElementById('event_hour_create').value = moment().add(1, 'hours').format('HH:mm');
 });
 
 Template.newEvent.onCreated(function() {
+  console.log('On created new event hijitasssss');
   this.eventController = new ReactiveVar(new EventController());
 
-  GoogleMaps.ready('locationMap', (map) => {
+  /* GoogleMaps.ready('locationMap', (map) => {
     this.eventController.get().setMap(map, 'event_ubication');
 
     this.autorun(() => {
       this.eventController.get().setMapAttributes();
     });
+  }); */
+
+  GoogleMaps.ready('showMap', (map) => {
+    console.log('Google maps ready');
+    // this.eventController.get().setMap(map, 'event_ubication');
+    this.eventController.get().setMapForCreate(map);
+    this.autorun(() => {
+      this.eventController.get().setMapAttributesFroCreate('event_ubication_create');
+    });
+    /* this.eventController.get().setMap(map, 'event_ubication'); */
   });
+});
+
+Template.newEvent.onDestroyed(function() {
+  console.log('On Destroy Khaboom!');
+  Template.instance().eventController.get().onDestroyMapForCreate();
 });
 
 Template.newEvent.helpers({
@@ -50,24 +67,30 @@ Template.newEvent.helpers({
 
 Template.newEvent.events({
   'submit .new-event': (event) => {
-    event.preventDefault();
-    const eventPosition = Template.instance().eventController.get().getEventPosition();
-    const eventDate = new Date(`${event.target.event_date.value} ${event.target.event_hour.value}`);
-    const newEvent = {
-      name: event.target.event_name.value,
-      description: event.target.event_description.value,
-      ubication: event.target.event_ubication.value,
-      latitude: eventPosition.lat(),
-      longitude: eventPosition.lng(),
-      date: eventDate,
-      participants: [],
-      comments: [],
-      interested: [],
-    };
-    Meteor.call('insertEvent', newEvent);
-    Materialize.updateTextFields();
-    $('form')[0].reset();
-    $('ul.tabs').tabs('select_tab', 'test1');
+    console.log('Event keyword: ', event.which);
+    if (!event.which) {
+      event.stopPropagation();
+      event.preventDefault();
+    } else {
+      event.preventDefault();
+      const eventPosition = Template.instance().eventController.get().getEventPosition();
+      const eventDate = new Date(`${event.target.event_date.value} ${event.target.event_hour.value}`);
+      const newEvent = {
+        name: event.target.event_name.value,
+        description: event.target.event_description.value,
+        ubication: event.target.event_ubication.value,
+        latitude: eventPosition.lat(),
+        longitude: eventPosition.lng(),
+        date: eventDate,
+        participants: [],
+        comments: [],
+        interested: [],
+      };
+      Meteor.call('insertEvent', newEvent);
+      Materialize.updateTextFields();
+      $('form')[0].reset();
+      $('ul.tabs').tabs('select_tab', 'test1');
+    }
   },
 
   'keypress #search-input': (event) => {

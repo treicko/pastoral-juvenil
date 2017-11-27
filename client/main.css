@@ -6,6 +6,42 @@
 
 */
 
+body {
+  background-image: url('images/login.jpg');
+  /* background-image: url('images/bg02.png'); */
+  background-repeat: repeat;
+  height:100%;
+  /*overflow:hidden;*/
+}
+
+.background-container {
+  background: white;
+}
+
+.sing-in-container {
+  margin-top: 12.5%;
+}
+
+/* header, main, footer {
+  padding-left: 300px;
+}
+
+@media only screen and (max-width : 992px) {
+  header, main, footer {
+    padding-left: 0;
+  }
+} */
+
+/* body {
+  background-image: url('images/login.jpg');
+  background-repeat: no-repeat;
+  height:100%;
+}
+
+.background-container {
+  background: white;
+}*/
+
 .breadcrumb-nav {
   background-color: #fff;
   box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.12), 0 3px 0 -2px rgba(0, 0, 0, 0.2) !important;

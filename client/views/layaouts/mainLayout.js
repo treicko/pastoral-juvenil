@@ -1,4 +1,5 @@
-/* global Template */
+/* global */
 
-Template.mainLayout.onRendered(function() {
+/* Template.mainLayout.onRendered(function() {
 });
+ */

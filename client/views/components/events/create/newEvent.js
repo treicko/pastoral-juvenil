@@ -67,18 +67,23 @@ Template.newEvent.helpers({
 
 Template.newEvent.events({
   'submit .new-event': (event) => {
-    console.log('Event keyword: ', event.which);
-    if (!event.which) {
-      event.stopPropagation();
-      event.preventDefault();
-    } else {
+    // event.target.event_date_create.className += ' otherclass';
+    event.target.event_date_create.classList.add('invalid');
+    const isValidform = event.target.event_date_create.value !== '' &&
+    event.target.event_hour_create.value !== '' &&
+    event.target.event_name_create.value !== '' &&
+    event.target.event_description_create.value !== '' &&
+    event.target.event_ubication_create.value !== '';
+
+    console.log('Event target: ', isValidform);
+    if (isValidform) {
       event.preventDefault();
       const eventPosition = Template.instance().eventController.get().getEventPosition();
-      const eventDate = new Date(`${event.target.event_date.value} ${event.target.event_hour.value}`);
+      const eventDate = new Date(`${event.target.event_date_create.value} ${event.target.event_hour_create.value}`);
       const newEvent = {
-        name: event.target.event_name.value,
-        description: event.target.event_description.value,
-        ubication: event.target.event_ubication.value,
+        name: event.target.event_name_create.value,
+        description: event.target.event_description_create.value,
+        ubication: event.target.event_ubication_create.value,
         latitude: eventPosition.lat(),
         longitude: eventPosition.lng(),
         date: eventDate,
@@ -86,16 +91,21 @@ Template.newEvent.events({
         comments: [],
         interested: [],
       };
-      Meteor.call('insertEvent', newEvent);
+      console.log('Event: ', newEvent);
+
+      /* Meteor.call('insertEvent', newEvent);
       Materialize.updateTextFields();
       $('form')[0].reset();
-      $('ul.tabs').tabs('select_tab', 'test1');
+      $('ul.tabs').tabs('select_tab', 'test1'); */
+    } else {
+
     }
   },
 
-  'keypress #search-input': (event) => {
+  'keypress #event_ubication_create': (event) => {
     if (event.which === 13) {
       event.stopPropagation();
+      event.preventDefault();
     }
   },
 });

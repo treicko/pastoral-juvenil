@@ -7,7 +7,7 @@
           <label for="event_name_create" data-error="Agrega un nombre para tu evento">Nombre del evento</label>
         </div>
         <div class="input-field">
-          <input id="event_ubication_create" name="event_ubication_create" type="text" class="validate" required>
+          <input id="event_ubication_create" name="event_ubication_create" type="text">
           <label for="event_ubication_create" class="active">Ubicacion del evento</label>
         </div>
         <!-- <div class="input-field">
@@ -22,20 +22,22 @@
 
         {{> showMap }}
         
-        <div class="input-field">
+        <!-- <div class="input-field"> -->
           <div class="row">
-            <div class="col s12 m6 l6">
-              <p>Fecha</p>
+            <div class="input-field col s12 m6 l6">
+              <!-- <p>Fecha</p> -->
               <i class="material-icons prefix">perm_contact_calendar</i>
-              <input id="event_date_create" type="text" class="datepicker" required>
+              <input id="event_date_create" type="text" class="datepicker">
+              <label for="event_date_create" class="active" data-error="Error la chuuuuuutaaaas">Fecha</label>
             </div>
-            <div class="col s12 m6 l6">
-              <p>Hora</p>
+            <div class="input-field col s12 m6 l6">
+              <!-- <p>Hora</p> -->
               <i class="material-icons prefix">schedule</i>
-              <input id="event_hour_create" type="time" class="timepicker" required>
+              <input id="event_hour_create" type="text" class="timepicker">
+              <label for="event_hour_create" class="active" data-error="wrong">Hora</label>
             </div>
           </div>
-        </div>
+        <!-- </div> -->
         <div class="input-field">
           <input id="event_description_create" type="text" class="validate" required>
           <label for="event_description_create">Description</label>

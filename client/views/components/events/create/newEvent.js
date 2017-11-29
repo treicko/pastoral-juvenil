@@ -2,13 +2,13 @@
 import EventController from './../../../../../lib/controllers/event.controller';
 
 Template.newEvent.onRendered(function() {
-  console.log('On Rendered positivoo!');
   const $dateInput = $('.datepicker').pickadate({
     selectMonths: true, // Creates a dropdown to control month
     selectYears: 15, // Creates a dropdown of 15 years to control year,
-    today: 'Today',
-    clear: 'Clear',
-    close: 'Ok',
+    today: 'Fecha actual',
+    // clear: 'Clear',
+    clear: false,
+    close: 'Seleccionar',
     closeOnSelect: false, // Close upon selecting a date,
     min: new Date(),
   });
@@ -20,9 +20,9 @@ Template.newEvent.onRendered(function() {
     default: 'now', // Set default time: 'now', '1:30AM', '16:30'
     fromnow: 0, // set default time to * milliseconds from now (using with default = 'now')
     twelvehour: false, // Use AM/PM or 24-hour format
-    donetext: 'OK', // text for done-button
-    cleartext: 'Clear', // text for clear-button
-    canceltext: 'Cancel', // Text for cancel-button
+    donetext: 'Seleccionar', // text for done-button
+    cleartext: 'Limpiar',
+    canceltext: 'Cancelar',
     autoclose: false, // automatic close timepicker
     ampmclickable: true, // make AM PM clickable
     // aftershow: function(){} // Function for after opening timepicker
@@ -34,30 +34,17 @@ Template.newEvent.onRendered(function() {
 });
 
 Template.newEvent.onCreated(function() {
-  console.log('On created new event hijitasssss');
   this.eventController = new ReactiveVar(new EventController());
 
-  /* GoogleMaps.ready('locationMap', (map) => {
-    this.eventController.get().setMap(map, 'event_ubication');
-
-    this.autorun(() => {
-      this.eventController.get().setMapAttributes();
-    });
-  }); */
-
   GoogleMaps.ready('showMap', (map) => {
-    console.log('Google maps ready');
-    // this.eventController.get().setMap(map, 'event_ubication');
     this.eventController.get().setMapForCreate(map);
     this.autorun(() => {
       this.eventController.get().setMapAttributesFroCreate('event_ubication_create');
     });
-    /* this.eventController.get().setMap(map, 'event_ubication'); */
   });
 });
 
 Template.newEvent.onDestroyed(function() {
-  console.log('On Destroy Khaboom!');
   Template.instance().eventController.get().onDestroyMapForCreate();
 });
 
@@ -66,20 +53,50 @@ Template.newEvent.helpers({
 });
 
 Template.newEvent.events({
-  'submit .new-event': (event) => {
-    // event.target.event_date_create.className += ' otherclass';
-    event.target.event_date_create.classList.add('invalid');
-    const isValidform = event.target.event_date_create.value !== '' &&
-    event.target.event_hour_create.value !== '' &&
-    event.target.event_name_create.value !== '' &&
-    event.target.event_description_create.value !== '' &&
-    event.target.event_ubication_create.value !== '';
+  'click #cancel_new_event': () => {
+    Materialize.updateTextFields();
+    $('form')[0].reset();
+    $('ul.tabs').tabs('select_tab', 'test1');
+  },
 
-    console.log('Event target: ', isValidform);
+  'submit .new-event': (event) => {
+    const eventName = event.target.event_name_create.value !== '' ? event.target.event_name_create.value : '';
+    const eventUbication = event.target.event_ubication_create.value !== '' ? event.target.event_ubication_create.value : '';
+    let eventDate = event.target.event_date_create.value !== '' ? event.target.event_date_create.value : '';
+    const eventHour = event.target.event_hour_create.value !== '' ? event.target.event_hour_create.value : '';
+    const eventDescription = event.target.event_description_create.value !== '' ? event.target.event_description_create.value : '';
+
+    if (eventName === '') {
+      event.target.event_name_create.classList.add('invalid');
+      document.getElementById('label_event_name_create').classList.add('active');
+    }
+    if (eventUbication === '') {
+      event.target.event_ubication_create.classList.add('invalid');
+      document.getElementById('label_event_ubication_create').classList.add('active');
+    }
+    if (eventDate === '') {
+      event.target.event_date_create.classList.add('invalid');
+      document.getElementById('label_event_date_create').classList.add('active');
+    }
+    if (eventHour === '') {
+      event.target.event_hour_create.classList.add('invalid');
+      document.getElementById('label_event_hour_create').classList.add('active');
+    }
+    if (eventDescription === '') {
+      event.target.event_description_create.classList.add('invalid');
+      document.getElementById('label_event_description_create').classList.add('active');
+    }
+
+    const isValidform = eventName !== '' &&
+      eventUbication !== '' &&
+      eventDate !== '' &&
+      eventHour !== '' &&
+      eventDescription !== '';
+
     if (isValidform) {
       event.preventDefault();
       const eventPosition = Template.instance().eventController.get().getEventPosition();
-      const eventDate = new Date(`${event.target.event_date_create.value} ${event.target.event_hour_create.value}`);
+      eventDate = new Date(`${eventDate} ${eventHour}`);
       const newEvent = {
         name: event.target.event_name_create.value,
         description: event.target.event_description_create.value,
@@ -91,14 +108,13 @@ Template.newEvent.events({
         comments: [],
         interested: [],
       };
-      console.log('Event: ', newEvent);
 
-      /* Meteor.call('insertEvent', newEvent);
+      Meteor.call('insertEvent', newEvent);
       Materialize.updateTextFields();
       $('form')[0].reset();
-      $('ul.tabs').tabs('select_tab', 'test1'); */
+      $('ul.tabs').tabs('select_tab', 'test1');
     } else {
-
+      event.preventDefault();
     }
   },
 

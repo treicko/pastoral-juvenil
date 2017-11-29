@@ -67,6 +67,10 @@ body {
   margin-right: 5px;
 }
 
+.btn-submit {
+  height: 3rem !important;
+}
+
 .card .card-action a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating) {
   color: #ff9100 !important;
 }
@@ -178,6 +182,10 @@ body {
 .dropdown-button {
   padding-left: 10px;
   padding-right: 10px;
+}
+
+.error-message {
+  padding-left: 0px !important;
 }
 
 .label-chip {

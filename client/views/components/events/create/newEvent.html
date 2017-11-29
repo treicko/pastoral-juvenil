@@ -2,49 +2,48 @@
   <div class="row" id="newEventView">
     <div class="col s12 m12 l12">      
       <form class="new-event" id="new-event">
-        <div class="input-field">
-          <input id="event_name_create" type="text" class="validate" autocomplete="off" data-length="64" maxlength="64" required>
-          <label for="event_name_create" data-error="Agrega un nombre para tu evento">Nombre del evento</label>
-        </div>
-        <div class="input-field">
-          <input id="event_ubication_create" name="event_ubication_create" type="text">
-          <label for="event_ubication_create" class="active">Ubicacion del evento</label>
-        </div>
-        <!-- <div class="input-field">
-          <div class="map-container">
-            <div id="search-content" >
-              <input id="search-input" class="search-input" type="text" placeholder="Buscar en google maps">
-              <a id="search-btn" class="waves-effect waves-light btn"><i class="material-icons left">search</i></a>
-            </div>
-            {{> googleMap name="locationMap" options=mapOptions}}
+        <div class="row">
+          <div class="input-field col s12 m12 l12">
+            <input id="event_name_create" type="text" autocomplete="off" data-length="64" maxlength="64" class="validate">
+            <label class="col s12 m12 l12 error-message" id="label_event_name_create" for="event_name_create" data-error="Agrega un nombre para tu evento">Nombre del evento</label>
           </div>
-        </div> -->
+        </div>
+
+        <div class="row">
+          <div class="input-field col s12 m12 l12">
+            <input id="event_ubication_create" name="event_ubication_create" type="text" class="validate">
+            <label class="col s12 m12 l12 error-message active" id="label_event_ubication_create" for="event_ubication_create" data-error="Agrega una ubicaci&oacute;n para tu evento">Ubicaci&oacute;n del evento</label>
+          </div>
+        </div>
 
         {{> showMap }}
         
-        <!-- <div class="input-field"> -->
-          <div class="row">
-            <div class="input-field col s12 m6 l6">
-              <!-- <p>Fecha</p> -->
-              <i class="material-icons prefix">perm_contact_calendar</i>
-              <input id="event_date_create" type="text" class="datepicker">
-              <label for="event_date_create" class="active" data-error="Error la chuuuuuutaaaas">Fecha</label>
-            </div>
-            <div class="input-field col s12 m6 l6">
-              <!-- <p>Hora</p> -->
-              <i class="material-icons prefix">schedule</i>
-              <input id="event_hour_create" type="text" class="timepicker">
-              <label for="event_hour_create" class="active" data-error="wrong">Hora</label>
-            </div>
+        <div class="row">
+          <div class="input-field col s12 m6 l6">
+            <i class="material-icons prefix">perm_contact_calendar</i>
+            <input id="event_date_create" type="text" class="datepicker">
+            <label class="error-message active" id="label_event_date_create" for="event_date_create">Fecha</label>
           </div>
-        <!-- </div> -->
-        <div class="input-field">
-          <input id="event_description_create" type="text" class="validate" required>
-          <label for="event_description_create">Description</label>
+          <div class="input-field col s12 m6 l6">
+            <i class="material-icons prefix">schedule</i>
+            <input id="event_hour_create" type="text" class="timepicker">
+            <label class="error-message active" id="label_event_hour_create" for="event_hour_create" data-error="Agrega una fecha para el evento" data-success="right">Fecha</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col s12 m12 l12">
+            <i class="material-icons prefix">description</i>
+            <textarea id="event_description_create" type="text" class="materialize-textarea validate"></textarea>
+            <label class="col s12 m12 l12 error-message" id="label_event_description_create" for="event_description_create" data-error="Agrega una descripcion para el evento">Descripci&oacute;n del evento</label>
+          </div>
         </div>
         
         <div class="input-field">
-          <input type="submit">
+          <div class="row">
+            <a id='cancel_new_event' class="btn col s6 m3 l3 offset-m3 offset-l3 red">Cancelar</a>
+            <input type="submit" class="btn col s5 m3 l3 offset-s1 offset-m1 offset-l1" value="Guardar cambios">
+          </div>
         </div>
       </form>
     </div>

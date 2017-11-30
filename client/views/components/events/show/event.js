@@ -11,8 +11,10 @@ Template.event.onCreated(function() {
   });
 
   GoogleMaps.ready('showMap', (map) => {
-    this.eventController.get().setMapForShow(map, '');
-    this.eventController.get().setEventForShowOnMap(eventId);
+    this.eventController.get().setMapForShow(map);
+    this.autorun(() => {
+      this.eventController.get().setEventForShowOnMap(eventId);
+    });
   });
 });
 

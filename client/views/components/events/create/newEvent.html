@@ -11,8 +11,18 @@
 
         <div class="row">
           <div class="input-field col s12 m12 l12">
-            <input id="event_ubication_create" name="event_ubication_create" type="text" class="validate">
+            <input id="event_ubication_create" type="text" class="validate">
             <label class="col s12 m12 l12 error-message active" id="label_event_ubication_create" for="event_ubication_create" data-error="Agrega una ubicaci&oacute;n para tu evento">Ubicaci&oacute;n del evento</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col s3 m3 l3">
+            <input id="event_inscription_create" type="text" value="{{eventRadio}} metros" readonly>
+            <label class="error-message active" id="label_event_inscription_create" for="event_inscription_create" data-error="Agrega una rango">Rango de inscripci&oacute;n</label>
+          </div>
+          <div class="input-field col s9 m9 l9">
+            <input id="event_inscription_range_create" type="range" min="10" max="100" step="10" value="100">
           </div>
         </div>
 
@@ -22,12 +32,12 @@
           <div class="input-field col s12 m6 l6">
             <i class="material-icons prefix">perm_contact_calendar</i>
             <input id="event_date_create" type="text" class="datepicker">
-            <label class="error-message active" id="label_event_date_create" for="event_date_create">Fecha</label>
+            <label class="error-message active" id="label_event_date_create" for="event_date_create" data-error="Agrega una fecha para el evento">Fecha</label>
           </div>
           <div class="input-field col s12 m6 l6">
             <i class="material-icons prefix">schedule</i>
             <input id="event_hour_create" type="text" class="timepicker">
-            <label class="error-message active" id="label_event_hour_create" for="event_hour_create" data-error="Agrega una fecha para el evento" data-success="right">Fecha</label>
+            <label class="error-message active" id="label_event_hour_create" for="event_hour_create" data-error="Agrega una Hora para el evento">Hora</label>
           </div>
         </div>
 

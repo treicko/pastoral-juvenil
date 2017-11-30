@@ -49,10 +49,15 @@ Template.newEvent.onDestroyed(function() {
 });
 
 Template.newEvent.helpers({
-  mapOptions: () => Template.instance().eventController.get().getMapOptions(),
+  eventRadio: () => 100,
 });
 
 Template.newEvent.events({
+  'change #event_inscription_range_create': (event) => {
+    document.getElementById('event_inscription_create').value = `${event.target.value} metros`;
+    Template.instance().eventController.get().updateRadioOnMap(event.target.value);
+  },
+
   'click #cancel_new_event': () => {
     Materialize.updateTextFields();
     $('form')[0].reset();
@@ -62,6 +67,7 @@ Template.newEvent.events({
   'submit .new-event': (event) => {
     const eventName = event.target.event_name_create.value !== '' ? event.target.event_name_create.value : '';
     const eventUbication = event.target.event_ubication_create.value !== '' ? event.target.event_ubication_create.value : '';
+    const eventRadio = event.target.event_inscription_create.value !== '' ? event.target.event_inscription_create.value : '';
     let eventDate = event.target.event_date_create.value !== '' ? event.target.event_date_create.value : '';
     const eventHour = event.target.event_hour_create.value !== '' ? event.target.event_hour_create.value : '';
     const eventDescription = event.target.event_description_create.value !== '' ? event.target.event_description_create.value : '';
@@ -73,6 +79,10 @@ Template.newEvent.events({
     if (eventUbication === '') {
       event.target.event_ubication_create.classList.add('invalid');
       document.getElementById('label_event_ubication_create').classList.add('active');
+    }
+    if (eventRadio === '') {
+      event.target.event_inscription_create.classList.add('invalid');
+      document.getElementById('label_event_inscription_create').classList.add('active');
     }
     if (eventDate === '') {
       event.target.event_date_create.classList.add('invalid');
@@ -91,16 +101,18 @@ Template.newEvent.events({
       eventUbication !== '' &&
       eventDate !== '' &&
       eventHour !== '' &&
-      eventDescription !== '';
+      eventDescription !== '' &&
+      eventRadio !== '';
 
     if (isValidform) {
       event.preventDefault();
       const eventPosition = Template.instance().eventController.get().getEventPosition();
       eventDate = new Date(`${eventDate} ${eventHour}`);
       const newEvent = {
-        name: event.target.event_name_create.value,
-        description: event.target.event_description_create.value,
-        ubication: event.target.event_ubication_create.value,
+        name: eventName,
+        description: eventDescription,
+        ubication: eventUbication,
+        radius: parseInt(eventRadio, 10),
         latitude: eventPosition.lat(),
         longitude: eventPosition.lng(),
         date: eventDate,
@@ -110,8 +122,16 @@ Template.newEvent.events({
       };
 
       Meteor.call('insertEvent', newEvent);
-      Materialize.updateTextFields();
       $('form')[0].reset();
+
+      const datePicker = $('.datepicker').pickadate('picker');
+      datePicker.set('select', new Date());
+      document.getElementById('event_hour_create').value = moment().add(1, 'hours').format('HH:mm');
+      document.getElementById('event_inscription_create').value = '100 metros';
+      document.getElementById('event_inscription_range_create').value = 100;
+      Template.instance().eventController.get().updateRadioOnMap(100);
+      Materialize.updateTextFields();
+
       $('ul.tabs').tabs('select_tab', 'test1');
     } else {
       event.preventDefault();

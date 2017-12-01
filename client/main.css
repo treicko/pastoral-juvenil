@@ -96,15 +96,24 @@ body {
 }
 
 .card .card-map-action {
-  padding: 0px 0px;
+  padding: 0px 0px !important;
 }
 
 .card .card-map-content {
-  padding: 0px 0px;
+  padding: 0px 0px !important;
+}
+
+.car .card-action .card-map-action .row {
+  margin-bottom: 0px;
+}
+
+.card .card-map-content .row {
+  margin-bottom: 0px;
 }
 
 .card .card-map-content .map-show-container {
   margin-bottom: 1px;
+  margin-top: 0px;
 }
 
 .chip-input-field {

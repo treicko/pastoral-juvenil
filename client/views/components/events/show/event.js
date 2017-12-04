@@ -1,6 +1,10 @@
-/* global Template FlowRouter Meteor ReactiveVar GoogleMaps Kardex */
+/* global Template FlowRouter Meteor ReactiveVar GoogleMaps Kardex Meteor */
 
 import EventController from './../../../../../lib/controllers/event.controller';
+
+Template.event.onRendered(function() {
+  $('.modal').modal();
+});
 
 Template.event.onCreated(function() {
   this.eventController = new ReactiveVar(new EventController());
@@ -50,5 +54,11 @@ Template.event.events({
   'click .unsubscribe-participant': () => {
     const currentMembers = this.participants.filter(user => user !== Meteor.userId());
     Meteor.call('updateParticipants', this._id, currentMembers);
+  },
+
+  'click #delete_event': () => {
+    Meteor.call('deleteEvent', FlowRouter.getParam('id'));
+    $('#modalDelete').modal('close');
+    FlowRouter.go(`/events`);
   },
 });

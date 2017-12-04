@@ -4,16 +4,13 @@
 import GroupController from './../../../../../lib/controllers/group.controller';
 
 Template.groups.onRendered(function() {
-  GoogleMaps.load({
-    v: '3',
-    libraries: 'places',
-    key: 'AIzaSyCVKw1zfv0JsOsrH9yeAwoIjwcF7_JDAHY',
-  });
-
   $('ul.tabs').tabs({
     onShow: () => {
       if (GoogleMaps.loaded()) {
-        google.maps.event.trigger(GoogleMaps.maps.groupMap.instance, 'resize');
+        const center = GoogleMaps.maps.showMap.instance.getCenter();
+        google.maps.event.trigger(GoogleMaps.maps.showMap.instance, 'resize');
+        GoogleMaps.maps.showMap.instance.setCenter(center);
+        GoogleMaps.maps.showMap.instance.setZoom(15);
       }
     },
   });

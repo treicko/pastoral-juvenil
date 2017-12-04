@@ -72,7 +72,6 @@ function getCurrentYear() {
 }
 
 Template.events.onRendered(function() {
-  $('.carousel-slider').carousel({ full_width: true });
   $('ul.tabs').tabs({
     onShow: () => {
       if (GoogleMaps.loaded()) {

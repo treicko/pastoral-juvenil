@@ -7,21 +7,19 @@ Template.group.onRendered(function() {
 });
 
 Template.group.onCreated(function() {
-  let groupId;
+  const groupId = FlowRouter.getParam('id');
   const self = this;
   this.groupController = new ReactiveVar(new GroupController());
   self.autorun(function() {
-    groupId = FlowRouter.getParam('id');
     self.subscribe('singleGroup', groupId);
     self.subscribe('members');
   });
 
   GoogleMaps.ready('showMap', (map) => {
-    this.groupController.get().setMapForShow(map, '');
-    const groupFound = this.groupController.get().getGroupById(groupId);
-    if (groupFound) {
-      this.groupController.get().setGroupForShowOnMap(groupFound);
-    }
+    this.groupController.get().setMapForShow(map);
+    this.autorun(() => {
+      this.groupController.get().setGroupForShowOnMap(groupId);
+    });
   });
 });
 
@@ -31,7 +29,7 @@ Template.group.helpers({
     if (Template.instance().groupController) {
       const groupFound = Template.instance().groupController.get().getGroupById(groupId);
       if (groupFound) {
-        Template.instance().groupController.get().setGroupForShowOnMap(groupFound);
+        // Template.instance().groupController.get().setGroupForShowOnMap(groupFound);
         const inChargeForShow =
           Template.instance().groupController.get().getInChargeForShow(groupFound);
         const membersForShow =

@@ -21,7 +21,6 @@ Template.newGroup.onRendered(function() {
 
     $('.chips').material_chip();
     $('.chips-placeholder').material_chip({
-      placeholder: 'Enter a tag',
     });
     $('.chips-autocomplete').material_chip({
       autocompleteOptions: {
@@ -29,7 +28,6 @@ Template.newGroup.onRendered(function() {
         limit: 10,
         minLength: 1,
       },
-      placeholder: 'Nombre',
     });
   });
 });
@@ -43,37 +41,46 @@ Template.newGroup.onCreated(function() {
     self.subscribe('groups');
   });
 
-  GoogleMaps.ready('groupMap', (map) => {
-    this.eventController.get().setMap(map, 'group_ubication');
+  GoogleMaps.ready('showMap', (map) => {
+    this.groupController.get().setMap(map);
     self.autorun(() => {
-      this.eventController.get().setMapAttributes();
+      this.groupController.get().setGroupForCreate('group_ubication_create');
     });
   });
+
+  /* this.eventController = new ReactiveVar(new EventController());
+
+  GoogleMaps.ready('showMap', (map) => {
+    this.eventController.get().setMap(map);
+    this.autorun(() => {
+      this.eventController.get().setEventForCreate('event_ubication_create');
+    });
+  }); */
 });
 
 Template.newGroup.helpers({
-  mapOptions: () => Template.instance().eventController.get().getMapOptions(),
 });
 
 Template.newGroup.events({
   'submit #new-group': (event) => {
     event.preventDefault();
-    const groupPosition = Template.instance().eventController.get().getEventPosition();
-    const inChargesData = $('#inCharges').material_chip('data');
-    const membersData = $('#members').material_chip('data');
+    const groupPosition = Template.instance().groupController.get().getGroupPosition();
+    const inChargesData = $('#in_charges_create').material_chip('data');
+    const membersData = $('#members_create').material_chip('data');
     const inCharges =
       Template.instance().groupController.get().getMembersOrInChargesFromData(inChargesData);
     const members =
       Template.instance().groupController.get().getMembersOrInChargesFromData(membersData);
 
     const newGroup = {
-      name: event.target.group_name.value,
-      location: event.target.group_ubication.value,
+      name: event.target.group_name_create.value,
+      location: event.target.group_ubication_create.value,
       inCharge: inCharges,
-      description: event.target.group_description.value,
+      description: event.target.group_description_create.value,
       latitude: groupPosition.lat(),
       longitude: groupPosition.lng(),
       members,
+      publications: [],
     };
 
     Template.instance().groupController.get().saveGroup(newGroup);
@@ -81,9 +88,9 @@ Template.newGroup.events({
     $('ul.tabs').tabs('select_tab', 'groups');
   },
 
-  'keypress #search-input': (event) => {
+  /* 'keypress #search-input': (event) => {
     if (event.which === 13) {
       event.stopPropagation();
     }
-  },
+  }, */
 });

@@ -16,18 +16,9 @@ Template.groupSingle.onCreated(function() {
   });
 
   GoogleMaps.ready('showMap', (map) => {
+    this.groupController.get().setMap(map);
     this.autorun(() => {
-      const latLng = Geolocation.latLng();
-      if (!latLng) {
-        return;
-      }
-
-      this.groupController.get().setMapForCreateOrEdit(map, 'group_ubication_edit');
-      const groupFound = this.groupController.get().getGroupById(groupId);
-      if (groupFound) {
-        this.groupController.get().setGroupForShowOnMap(groupFound);
-      }
-      this.groupController.get().setControlsToMap();
+      this.eventController.get().setGroupForShowOnMap(groupId);
     });
   });
 });

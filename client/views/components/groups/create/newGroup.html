@@ -3,14 +3,15 @@
     <div class="col s12 m12 l12">      
       <form id="new-group" class="new-group-container">
         <div class="input-field">
-          <input id="group_name" type="text" class="validate" autocomplete="off" data-length="64" maxlength="64" required>
-          <label for="group_name" data-error="Agrega un nombre para el grupo">Nombre del grupo</label>
+          <input id="group_name_create" type="text" class="validate" autocomplete="off" data-length="64" maxlength="64" required>
+          <label for="group_name_create" data-error="Agrega un nombre para el grupo">Nombre del grupo</label>
         </div>
+
         <div class="input-field">
-          <input id="group_ubication" type="text" class="validate">
-          <label for="group_ubication" class="active">Ubicacion del grupo</label>
+          <input id="group_ubication_create" type="text" class="validate">
+          <label for="group_ubication_create" class="active">Ubicacion del grupo</label>
         </div>
-        <div class="input-field">
+        <!-- <div class="input-field">
           <div class="map-container">
             <div id="search-content" >
               <input id="search-input" class="search-input" type="text" placeholder="Buscar en google maps">
@@ -18,24 +19,25 @@
             </div>
             {{> googleMap name="groupMap" options=mapOptions}}
           </div>
-        </div>
+        </div> -->
+        {{> showMap }}
 
         <div class="input-field">
           <label>Encargadas/os del grupo</label>
-          <div id="inCharges" class="chips chips-placeholder chips-autocomplete"></div>
+          <div id="in_charges_create" class="chips chips-placeholder chips-autocomplete"></div>
         </div>
 
         <div class="input-field">
             <label>Miembros del grupo</label>
-          <div id="members" class="chips chips-placeholder chips-autocomplete"></div>
+          <div id="members_create" class="chips chips-placeholder chips-autocomplete"></div>
         </div>
 
         <div class="row">
           <div class="col s12">
             <div class="input-field">
               <i class="material-icons prefix">description</i>
-              <textarea id="group_description" class="materialize-textarea"></textarea>
-              <label for="group_description">Descripcion del grupo</label>
+              <textarea id="group_description_create" class="materialize-textarea"></textarea>
+              <label for="group_description_create">Descripcion del grupo</label>
             </div>
           </div>
         </div>

@@ -22,8 +22,8 @@
               <i class="material-icons">edit</i>
             </a>
             <a
-              href="/events/{{event._id}}/edit"
-              class="btn-floating btn-large waves-effect waves-light red darken-1 right-align">
+              href="#modalDelete"
+              class="btn-floating btn-large waves-effect waves-light red darken-1 right-align modal-trigger">
               <i class="material-icons">delete</i>
             </a>
           </h3>
@@ -117,6 +117,21 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Modal Trigger -->
+  <!-- <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a> -->
+  
+  <!-- Modal Structure -->
+  <div id="modalDelete" class="modal">
+    <div class="modal-content">
+      <h4>Cuidado!</h4>
+      <p>Est&aacute;s segur@ de que quieres eliminar este evento?</p>
+    </div>
+    <div class="modal-footer">
+      <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+      <a id='delete_event' class="modal-action waves-effect waves-green btn-flat">Aceptar</a>
     </div>
   </div>
 </template>

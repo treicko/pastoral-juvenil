@@ -11,7 +11,7 @@ Template.eventInscription.onCreated(function() {
   });
 
   GoogleMaps.ready('showMap', (map) => {
-    this.eventController.get().setMapForShow(map, '');
+    this.eventController.get().setMap(map);
     this.autorun(() => {
       this.eventController.get().setEventForInscriptionOnMap(eventId);
       const isEnableInscription = this.eventController.get().isEnableInscription(eventId);

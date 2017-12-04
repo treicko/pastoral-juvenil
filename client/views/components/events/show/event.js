@@ -11,7 +11,7 @@ Template.event.onCreated(function() {
   });
 
   GoogleMaps.ready('showMap', (map) => {
-    this.eventController.get().setMapForShow(map);
+    this.eventController.get().setMap(map);
     this.autorun(() => {
       this.eventController.get().setEventForShowOnMap(eventId);
     });

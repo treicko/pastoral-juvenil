@@ -1,6 +1,76 @@
 <template name="eventSingle">
-  <h1>Modificar evento</h1>
-  {{event.name}}
-  <br>
-  <a href="/events/{{event._id}}">Volver</a>
+  <div class="row">
+    <nav class="breadcrumb-nav">
+      <div class="nav-wrapper">
+        <div class="col s12 m12 l12">
+          <a href="/events" class="breadcrumb">Eventos</a>
+          <a href="/events/{{event._id}}" class="breadcrumb">{{event.name}}</a>
+          <a class="breadcrumb">Modificando</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="row">
+    <div class="col s12 m12 l12">
+      <form class="new-event" id="edit-event">
+        <div class="row">
+          <div class="input-field col s12 m12 l12">
+            <input id="event_name_edit" type="text" autocomplete="off" data-length="64" maxlength="64" class="validate" value="{{event.name}}">
+            <label class="col s12 m12 l12 error-message active" id="label_event_name_edit" for="event_name_edit" data-error="Agrega un nombre para tu evento">Nombre del evento</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col s12 m12 l12">
+            <input id="event_ubication_edit" type="text" class="validate" value="{{event.ubication}}">
+            <label class="col s12 m12 l12 error-message active" id="label_event_ubication_edit" for="event_ubication_edit" data-error="Agrega una ubicaci&oacute;n para tu evento">Ubicaci&oacute;n del evento</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col s12 m3 l3">
+            <input id="event_inscription_edit" type="text" value="{{event.radius}} metros" readonly>
+            <label class="error-message active" id="label_event_inscription_edit" for="event_inscription_edit" data-error="Agrega una rango">Rango de inscripci&oacute;n</label>
+          </div>
+          <div class="input-field col s12 m9 l9">
+            <input id="event_inscription_range_edit" type="range" min="10" max="100" step="10" value="{{event.radius}}">
+          </div>
+        </div>
+
+        {{> showMap }}
+        
+        <div class="row">
+          <div class="input-field col s12 m6 l6">
+            <i class="material-icons prefix">perm_contact_calendar</i>
+            <input id="event_date_edit" type="text" class="datepicker" value="{{event.date}}">
+            <label class="error-message active" id="label_event_date_edit" for="event_date_edit" data-error="Agrega una fecha para el evento">Fecha</label>
+          </div>
+          <div class="input-field col s12 m6 l6">
+            <i class="material-icons prefix">schedule</i>
+            <input id="event_hour_edit" type="text" class="timepicker" value="{{event.hour}}">
+            <label class="error-message active" id="label_event_hour_edit" for="event_hour_edit" data-error="Agrega una Hora para el evento">Hora</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col s12 m12 l12">
+            <label class="active label-disabled">Descripci&oacute;n del evento:</label>
+            <div class="card teal">
+              <div class="card-content card-content-description white-text">
+                <textarea id="event_description_edit" type="text" class="materialize-textarea validate">{{event.description}}</textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="input-field">
+          <div class="row">
+            <a href="/events/{{event._id}}" class="btn col s6 m3 l3 offset-m3 offset-l3 red">Cancelar</a>
+            <input type="submit" class="btn col s5 m3 l3 offset-s1 offset-m1 offset-l1" value="Guardar cambios">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>

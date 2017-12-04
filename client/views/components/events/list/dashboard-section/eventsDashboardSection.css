@@ -195,10 +195,10 @@
   font-size: 12px;
   margin-right: 10px;
   overflow: hidden;
-  padding: 0px 2px;
-  padding-top: 2px;
   cursor: pointer;
   transition: background-color 0.16s ease-out;
+  height: 29px;
+  width: 28px;
 }
 
 .map-single-button:hover {

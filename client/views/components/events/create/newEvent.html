@@ -17,11 +17,11 @@
         </div>
 
         <div class="row">
-          <div class="input-field col s3 m3 l3">
+          <div class="input-field col s12 m3 l3">
             <input id="event_inscription_create" type="text" value="{{eventRadio}} metros" readonly>
             <label class="error-message active" id="label_event_inscription_create" for="event_inscription_create" data-error="Agrega una rango">Rango de inscripci&oacute;n</label>
           </div>
-          <div class="input-field col s9 m9 l9">
+          <div class="input-field col s12 m9 l9">
             <input id="event_inscription_range_create" type="range" min="10" max="100" step="10" value="100">
           </div>
         </div>
@@ -45,10 +45,8 @@
           <div class="input-field col s12 m12 l12">
             <label class="active label-disabled" for="event_description_show">Descripci&oacute;n del evento:</label>
             <div class="card teal">
-              <div class="card-content white-text">
+              <div class="card-content card-content-description white-text">
                 <textarea id="event_description_create" type="text" class="materialize-textarea validate"></textarea>
-              </div>
-              <div class="card-action">
               </div>
             </div>
           </div>
@@ -57,7 +55,7 @@
         <div class="input-field">
           <div class="row">
             <a id='cancel_new_event' class="btn col s6 m3 l3 offset-m3 offset-l3 red">Cancelar</a>
-            <input type="submit" class="btn col s5 m3 l3 offset-s1 offset-m1 offset-l1" value="Guardar cambios">
+            <input type="submit" class="btn col s5 m3 l3 offset-s1 offset-m1 offset-l1" value="Guardar">
           </div>
         </div>
       </form>

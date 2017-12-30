@@ -3,7 +3,7 @@
 import EventController from './../../../../../lib/controllers/event.controller';
 
 Template.eventSingle.onRendered(function() {
-  const $dateInput = $('.datepicker').pickadate({
+  $('.datepicker').pickadate({
     selectMonths: true, // Creates a dropdown to control month
     selectYears: 15, // Creates a dropdown of 15 years to control year,
     today: 'Fecha actual',
@@ -12,9 +12,6 @@ Template.eventSingle.onRendered(function() {
     closeOnSelect: false, // Close upon selecting a date,
     min: new Date(),
   });
-
-  const datePicker = $dateInput.pickadate('picker');
-  datePicker.set('select', new Date());
 
   $('.timepicker').pickatime({
     fromnow: 0, // set default time to * milliseconds from now (using with default = 'now')

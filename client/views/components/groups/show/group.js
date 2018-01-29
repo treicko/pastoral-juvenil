@@ -2,7 +2,6 @@
 import GroupController from './../../../../../lib/controllers/group.controller';
 
 Template.group.onRendered(function() {
-  $('.tooltipped').tooltip({ delay: 50 });
   $('.chips').material_chip();
 });
 

@@ -1,4 +1,4 @@
-/* global Template ReactiveVar FlowRouter GoogleMaps Geolocation Members $ */
+/* global Template ReactiveVar FlowRouter GoogleMaps Members $ */
 
 import GroupController from './../../../../../lib/controllers/group.controller';
 
@@ -18,7 +18,7 @@ Template.groupSingle.onCreated(function() {
   GoogleMaps.ready('showMap', (map) => {
     this.groupController.get().setMap(map);
     this.autorun(() => {
-      this.eventController.get().setGroupForShowOnMap(groupId);
+      this.groupController.get().setGroupForEditOnMap(groupId, 'group_ubication_edit');
     });
   });
 });

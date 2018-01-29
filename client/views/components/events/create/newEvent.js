@@ -39,6 +39,7 @@ Template.newEvent.onCreated(function() {
   GoogleMaps.ready('showMap', (map) => {
     this.eventController.get().setMap(map);
     this.autorun(() => {
+      console.log('On created show map event');
       this.eventController.get().setEventForCreate('event_ubication_create');
     });
   });

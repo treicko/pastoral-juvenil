@@ -3,7 +3,7 @@
     <div class="col s12 m12 l12">      
       <form id="new-group" class="new-group-container">
         <div class="input-field">
-          <input id="group_name_create" type="text" class="validate" autocomplete="off" data-length="64" maxlength="64" required>
+          <input id="group_name_create" type="text" class="validate" autocomplete="off" data-length="64" maxlength="64">
           <label for="group_name_create" data-error="Agrega un nombre para el grupo">Nombre del grupo</label>
         </div>
 
@@ -11,17 +11,7 @@
           <input id="group_ubication_create" type="text" class="validate">
           <label for="group_ubication_create" class="active">Ubicacion del grupo</label>
         </div>
-        <!-- <div class="input-field">
-          <div class="map-container">
-            <div id="search-content" >
-              <input id="search-input" class="search-input" type="text" placeholder="Buscar en google maps">
-              <a id="search-btn" class="waves-effect waves-light btn"><i class="material-icons left">search</i></a>
-            </div>
-            {{> googleMap name="groupMap" options=mapOptions}}
-          </div>
-        </div> -->
         {{> showMap }}
-
         <div class="input-field">
           <label>Encargadas/os del grupo</label>
           <div id="in_charges_create" class="chips chips-placeholder chips-autocomplete"></div>

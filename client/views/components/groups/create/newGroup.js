@@ -88,9 +88,10 @@ Template.newGroup.events({
     $('ul.tabs').tabs('select_tab', 'groups');
   },
 
-  /* 'keypress #search-input': (event) => {
+  /* 'keypress #group_ubication_create': (event) => {
     if (event.which === 13) {
       event.stopPropagation();
+      event.preventDefault();
     }
   }, */
 });

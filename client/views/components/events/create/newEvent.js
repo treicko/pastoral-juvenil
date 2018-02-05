@@ -39,7 +39,6 @@ Template.newEvent.onCreated(function() {
   GoogleMaps.ready('showMap', (map) => {
     this.eventController.get().setMap(map);
     this.autorun(() => {
-      console.log('On created show map event');
       this.eventController.get().setEventForCreate('event_ubication_create');
     });
   });
@@ -65,7 +64,8 @@ Template.newEvent.events({
     $('ul.tabs').tabs('select_tab', 'test1');
   },
 
-  'submit .new-event': (event) => {
+  'submit #new-event': (event) => {
+    event.preventDefault();
     const eventName = event.target.event_name_create.value !== '' ? event.target.event_name_create.value : '';
     const eventUbication = event.target.event_ubication_create.value !== '' ? event.target.event_ubication_create.value : '';
     const eventRadio = event.target.event_inscription_create.value !== '' ? event.target.event_inscription_create.value : '';
@@ -95,7 +95,6 @@ Template.newEvent.events({
     }
     if (eventDescription === '') {
       event.target.event_description_create.classList.add('invalid');
-      document.getElementById('label_event_description_create').classList.add('active');
     }
 
     const isValidform = eventName !== '' &&
@@ -134,8 +133,6 @@ Template.newEvent.events({
       Materialize.updateTextFields();
 
       $('ul.tabs').tabs('select_tab', 'test1');
-    } else {
-      event.preventDefault();
     }
   },
 

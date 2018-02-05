@@ -1,6 +1,4 @@
 /* global Template Members $ ReactiveVar GoogleMaps */
-
-import EventController from './../../../../../lib/controllers/event.controller';
 import GroupController from './../../../../../lib/controllers/group.controller';
 
 Template.newGroup.onRendered(function() {
@@ -33,32 +31,18 @@ Template.newGroup.onRendered(function() {
 });
 
 Template.newGroup.onCreated(function() {
-  const self = this;
-  this.eventController = new ReactiveVar(new EventController());
   this.groupController = new ReactiveVar(new GroupController());
 
-  self.autorun(function() {
-    self.subscribe('groups');
+  this.autorun(() => {
+    this.subscribe('groups');
   });
 
   GoogleMaps.ready('showMap', (map) => {
     this.groupController.get().setMap(map);
-    self.autorun(() => {
+    this.autorun(() => {
       this.groupController.get().setGroupForCreate('group_ubication_create');
     });
   });
-
-  /* this.eventController = new ReactiveVar(new EventController());
-
-  GoogleMaps.ready('showMap', (map) => {
-    this.eventController.get().setMap(map);
-    this.autorun(() => {
-      this.eventController.get().setEventForCreate('event_ubication_create');
-    });
-  }); */
-});
-
-Template.newGroup.helpers({
 });
 
 Template.newGroup.events({
@@ -83,15 +67,37 @@ Template.newGroup.events({
       publications: [],
     };
 
-    Template.instance().groupController.get().saveGroup(newGroup);
-    $('form')[0].reset();
-    $('ul.tabs').tabs('select_tab', 'groups');
+    if (!newGroup.name) {
+      event.target.group_name_create.classList.add('invalid');
+      document.getElementById('label_group_name_create').classList.add('active');
+    }
+    if (!newGroup.location) {
+      event.target.group_ubication_create.classList.add('invalid');
+      document.getElementById('label_group_ubication_create').classList.add('active');
+    }
+    if (!newGroup.inCharge.length) {
+      document.getElementById('label_group_in_charges_create').classList.add('active');
+    }
+    if (!newGroup.description) {
+      event.target.group_description_create.classList.add('invalid');
+    }
+
+    const isValidform = !!newGroup.name &&
+      !!newGroup.location &&
+      !!newGroup.inCharge.length &&
+      !!newGroup.description;
+
+    if (isValidform) {
+      Template.instance().groupController.get().saveGroup(newGroup);
+      $('form')[0].reset();
+      $('ul.tabs').tabs('select_tab', 'groups');
+    }
   },
 
-  /* 'keypress #group_ubication_create': (event) => {
+  'keypress #group_ubication_create': (event) => {
     if (event.which === 13) {
       event.stopPropagation();
       event.preventDefault();
     }
-  }, */
+  },
 });

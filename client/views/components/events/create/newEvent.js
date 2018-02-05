@@ -105,7 +105,6 @@ Template.newEvent.events({
       eventRadio !== '';
 
     if (isValidform) {
-      event.preventDefault();
       const eventPosition = Template.instance().eventController.get().getEventPosition();
       eventDate = new Date(`${eventDate} ${eventHour}`);
       const newEvent = {

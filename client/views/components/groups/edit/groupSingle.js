@@ -3,14 +3,20 @@
 import GroupController from './../../../../../lib/controllers/group.controller';
 
 Template.groupSingle.onRendered(function() {
+  $('.chips').on('chip.add', function(e) {
+    if (e.currentTarget.id === 'in_charges_create') {
+      document.getElementById('label_inCharges_edit').classList.remove('chip-invalid');
+    }
+  });
+  document.getElementById('label_group_description_edit').classList.remove('description-invalid');
 });
 
 Template.groupSingle.onCreated(function() {
-  let groupId;
   this.groupController = new ReactiveVar(new GroupController());
+  const groupId = FlowRouter.getParam('id');
+
 
   this.autorun(() => {
-    groupId = FlowRouter.getParam('id');
     this.subscribe('singleGroup', groupId);
     this.subscribe('members');
   });
@@ -82,7 +88,7 @@ Template.groupSingle.events({
     const members =
       Template.instance().groupController.get().getMembersOrInChargesFromData(membersData);
 
-    const newGroup = {
+    const editedGroup = {
       name: event.target.group_name_edit.value,
       location: event.target.group_ubication_edit.value,
       inCharge: inCharges,
@@ -91,14 +97,42 @@ Template.groupSingle.events({
       longitude: groupPosition.lng(),
       members,
     };
-    const groupId = FlowRouter.getParam('id');
-    Template.instance().groupController.get().editGroup(groupId, newGroup);
-    FlowRouter.go(`/groups/${groupId}`);
+
+    if (!editedGroup.name) {
+      event.target.group_name_edit.classList.add('invalid');
+      document.getElementById('label_group_name_edit').classList.add('active');
+    }
+    if (!editedGroup.location) {
+      event.target.group_ubication_edit.classList.add('invalid');
+      document.getElementById('label_group_ubication_edit').classList.add('active');
+    }
+    if (!editedGroup.inCharge.length) {
+      document.getElementById('label_inCharges_edit').classList.add('active');
+      document.getElementById('label_inCharges_edit').classList.add('chip-invalid');
+    }
+    if (!editedGroup.description) {
+      event.target.group_description_edit.classList.add('invalid');
+      document.getElementById('label_group_description_edit').classList.add('active');
+      document.getElementById('label_group_description_edit').classList.add('description-invalid');
+    }
+
+    const isValidform = !!editedGroup.name &&
+      !!editedGroup.location &&
+      !!editedGroup.inCharge.length &&
+      !!editedGroup.description;
+
+    if (isValidform) {
+      const groupId = FlowRouter.getParam('id');
+      Template.instance().groupController.get().editGroup(groupId, editedGroup);
+      document.getElementById('label_group_description_edit').classList.remove('description-invalid');
+      FlowRouter.go(`/groups/${groupId}`);
+    }
   },
 
-  'keypress #search-input': (event) => {
+  'keypress #group_ubication_edit': (event) => {
     if (event.which === 13) {
       event.stopPropagation();
+      event.preventDefault();
     }
   },
 });

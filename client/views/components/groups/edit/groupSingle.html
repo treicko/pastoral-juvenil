@@ -15,19 +15,19 @@
     <div class="col s12 m12 l12">      
       <form id="new-group" class="new-group-container">
         <div class="input-field">
-          <input id="group_name_edit" type="text" class="validate" autocomplete="off" data-length="64" maxlength="64" value="{{group.name}}" required>
-          <label class="active" for="group_name_edit" data-error="Agrega un nombre para el grupo">Nombre del grupo</label>
+          <input id="group_name_edit" type="text" class="validate" autocomplete="off" data-length="64" maxlength="64" value="{{group.name}}">
+          <label id="label_group_name_edit" class="active" for="group_name_edit" data-error="Agrega un nombre para el grupo">Nombre del grupo</label>
         </div>
         <div class="input-field">
           <input id="group_ubication_edit" type="text" class="validate" value="{{group.location}}" >
-          <label for="group_ubication_edit" class="active">Ubicacion del grupo</label>
+          <label id="label_group_ubication_edit" class="active" for="group_ubication_edit" data-error="Agrega una ubicación para el grupo">Ubicacion del grupo</label>
         </div>
 
         {{> showMap }}
 
         <div class="input-field chip-input-field">
           <div id="inCharges_edit" class="chips chips-autocomplete"></div>
-          <label class="active label-chip" for="inCharges_edit">Encargadas/os del grupo</label>
+          <label id="label_inCharges_edit" class="active label-chip" for="inCharges_edit">Encargados del grupo</label>
         </div>
 
         <div class="input-field chip-input-field">
@@ -37,7 +37,7 @@
 
         <div class="row">
           <div class="input-field col s12 m12 l12">
-            <label class="active label-disabled">Descripci&oacute;n del grupo:</label>
+            <label id="label_group_description_edit" class="active label-disabled">Descripci&oacute;n del grupo:</label>
             <div class="card teal">
               <div class="card-content card-content-description white-text">
                 <textarea id="group_description_edit" class="materialize-textarea" value="{{group.description}}"></textarea>

@@ -27,6 +27,12 @@ Template.newGroup.onRendered(function() {
         minLength: 1,
       },
     });
+    $('.chips').on('chip.add', function(e) {
+      if (e.currentTarget.id === 'in_charges_create') {
+        document.getElementById('label_group_in_charges_create').classList.remove('chip-invalid');
+      }
+    });
+    document.getElementById('label_group_description_create').classList.remove('description-invalid');
   });
 });
 
@@ -77,9 +83,12 @@ Template.newGroup.events({
     }
     if (!newGroup.inCharge.length) {
       document.getElementById('label_group_in_charges_create').classList.add('active');
+      document.getElementById('label_group_in_charges_create').classList.add('chip-invalid');
     }
     if (!newGroup.description) {
       event.target.group_description_create.classList.add('invalid');
+      document.getElementById('label_group_description_create').classList.add('active');
+      document.getElementById('label_group_description_create').classList.add('description-invalid');
     }
 
     const isValidform = !!newGroup.name &&
@@ -89,6 +98,7 @@ Template.newGroup.events({
 
     if (isValidform) {
       Template.instance().groupController.get().saveGroup(newGroup);
+      document.getElementById('label_group_description_create').classList.remove('description-invalid');
       $('form')[0].reset();
       $('ul.tabs').tabs('select_tab', 'groups');
     }

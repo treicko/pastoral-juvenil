@@ -24,6 +24,7 @@ Template.eventSingle.onRendered(function() {
   });
 
   $('input#event_name_edit').characterCounter();
+  document.getElementById('label_event_description_edit').classList.remove('description-invalid');
 });
 
 Template.eventSingle.onCreated(function() {
@@ -56,53 +57,53 @@ Template.eventSingle.events({
   },
 
   'submit #edit-event': (event) => {
-    const eventName = event.target.event_name_edit.value !== '' ? event.target.event_name_edit.value : '';
-    const eventUbication = event.target.event_ubication_edit.value !== '' ? event.target.event_ubication_edit.value : '';
-    const eventRadio = event.target.event_inscription_edit.value !== '' ? event.target.event_inscription_edit.value : '';
-    let eventDate = event.target.event_date_edit.value !== '' ? event.target.event_date_edit.value : '';
-    const eventHour = event.target.event_hour_edit.value !== '' ? event.target.event_hour_edit.value : '';
-    const eventDescription = event.target.event_description_edit.value !== '' ? event.target.event_description_edit.value : '';
+    event.preventDefault();
+    const eventEdited = {
+      name: event.target.event_name_edit.value,
+      ubication: event.target.event_ubication_edit.value,
+      radio: event.target.event_inscription_edit.value,
+      date: event.target.event_date_edit.value,
+      hour: event.target.event_hour_edit.value,
+      description: event.target.event_description_edit.value,
+    };
 
-    if (eventName === '') {
+    if (!eventEdited.name) {
       event.target.event_name_edit.classList.add('invalid');
       document.getElementById('label_event_name_edit').classList.add('active');
     }
-    if (eventUbication === '') {
+    if (!eventEdited.ubication) {
       event.target.event_ubication_edit.classList.add('invalid');
       document.getElementById('label_event_ubication_edit').classList.add('active');
     }
-    if (eventRadio === '') {
-      event.target.event_inscription_edit.classList.add('invalid');
-      document.getElementById('label_event_inscription_edit').classList.add('active');
-    }
-    if (eventDate === '') {
+    if (!eventEdited.date) {
       event.target.event_date_edit.classList.add('invalid');
       document.getElementById('label_event_date_edit').classList.add('active');
     }
-    if (eventHour === '') {
+    if (!eventEdited.hour) {
       event.target.event_hour_edit.classList.add('invalid');
       document.getElementById('label_event_hour_edit').classList.add('active');
     }
-    /* if (eventDescription === '') {
+    if (!eventEdited.description) {
       event.target.event_description_edit.classList.add('invalid');
       document.getElementById('label_event_description_edit').classList.add('active');
-    } */
+      document.getElementById('label_event_description_edit').classList.add('description-invalid');
+    }
 
-    const isValidform = eventName !== '' &&
-      eventUbication !== '' &&
-      eventDate !== '' &&
-      eventHour !== '' &&
-      eventRadio !== '';
+    const isValidform = !!eventEdited.name &&
+      !!eventEdited.ubication &&
+      !!eventEdited.radio &&
+      !!eventEdited.date &&
+      !!eventEdited.hour &&
+      !!eventEdited.description;
 
     if (isValidform) {
-      event.preventDefault();
       const eventPosition = Template.instance().eventController.get().getEventPosition();
-      eventDate = new Date(`${eventDate} ${eventHour}`);
+      const eventDate = new Date(`${eventEdited.date} ${eventEdited.hour}`);
       const updateEvent = {
-        name: eventName,
-        description: eventDescription,
-        ubication: eventUbication,
-        radius: parseInt(eventRadio, 10),
+        name: eventEdited.name,
+        description: eventEdited.description,
+        ubication: eventEdited.ubication,
+        radius: parseInt(eventEdited.radio, 10),
         latitude: eventPosition.lat(),
         longitude: eventPosition.lng(),
         date: eventDate,
@@ -113,9 +114,8 @@ Template.eventSingle.events({
 
       const eventId = FlowRouter.getParam('id');
       Meteor.call('updateEvent', eventId, updateEvent);
+      document.getElementById('label_event_description_edit').classList.remove('description-invalid');
       FlowRouter.go(`/events/${eventId}`);
-    } else {
-      event.preventDefault();
     }
   },
 

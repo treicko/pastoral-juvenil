@@ -31,6 +31,7 @@ Template.newEvent.onRendered(function() {
   $('input#event_name_create').characterCounter();
 
   document.getElementById('event_hour_create').value = moment().add(1, 'hours').format('HH:mm');
+  document.getElementById('label_event_description_create').classList.remove('description-invalid');
 });
 
 Template.newEvent.onCreated(function() {
@@ -66,52 +67,56 @@ Template.newEvent.events({
 
   'submit #new-event': (event) => {
     event.preventDefault();
-    const eventName = event.target.event_name_create.value !== '' ? event.target.event_name_create.value : '';
-    const eventUbication = event.target.event_ubication_create.value !== '' ? event.target.event_ubication_create.value : '';
-    const eventRadio = event.target.event_inscription_create.value !== '' ? event.target.event_inscription_create.value : '';
-    let eventDate = event.target.event_date_create.value !== '' ? event.target.event_date_create.value : '';
-    const eventHour = event.target.event_hour_create.value !== '' ? event.target.event_hour_create.value : '';
-    const eventDescription = event.target.event_description_create.value !== '' ? event.target.event_description_create.value : '';
+    const eventToCreate = {
+      name: event.target.event_name_create.value,
+      ubication: event.target.event_ubication_create.value,
+      radio: event.target.event_inscription_create.value,
+      date: event.target.event_date_create.value,
+      hour: event.target.event_hour_create.value,
+      description: event.target.event_description_create.value,
+    };
 
-    if (eventName === '') {
+    if (!eventToCreate.name) {
       event.target.event_name_create.classList.add('invalid');
       document.getElementById('label_event_name_create').classList.add('active');
     }
-    if (eventUbication === '') {
+    if (!eventToCreate.ubication) {
       event.target.event_ubication_create.classList.add('invalid');
       document.getElementById('label_event_ubication_create').classList.add('active');
     }
-    if (eventRadio === '') {
+    if (!eventToCreate.radio) {
       event.target.event_inscription_create.classList.add('invalid');
       document.getElementById('label_event_inscription_create').classList.add('active');
     }
-    if (eventDate === '') {
+    if (!eventToCreate.date) {
       event.target.event_date_create.classList.add('invalid');
       document.getElementById('label_event_date_create').classList.add('active');
     }
-    if (eventHour === '') {
+    if (!eventToCreate.hour) {
       event.target.event_hour_create.classList.add('invalid');
       document.getElementById('label_event_hour_create').classList.add('active');
     }
-    if (eventDescription === '') {
+    if (!eventToCreate.description) {
       event.target.event_description_create.classList.add('invalid');
+      document.getElementById('label_event_description_create').classList.add('active');
+      document.getElementById('label_event_description_create').classList.add('description-invalid');
     }
 
-    const isValidform = eventName !== '' &&
-      eventUbication !== '' &&
-      eventDate !== '' &&
-      eventHour !== '' &&
-      eventDescription !== '' &&
-      eventRadio !== '';
+    const isValidform = !!eventToCreate.name &&
+      !!eventToCreate.ubication &&
+      !!eventToCreate.date &&
+      !!eventToCreate.hour &&
+      !!eventToCreate.description &&
+      !!eventToCreate.radio;
 
     if (isValidform) {
       const eventPosition = Template.instance().eventController.get().getEventPosition();
-      eventDate = new Date(`${eventDate} ${eventHour}`);
+      const eventDate = new Date(`${eventToCreate.date} ${eventToCreate.hour}`);
       const newEvent = {
-        name: eventName,
-        description: eventDescription,
-        ubication: eventUbication,
-        radius: parseInt(eventRadio, 10),
+        name: eventToCreate.name,
+        description: eventToCreate.description,
+        ubication: eventToCreate.ubication,
+        radius: parseInt(eventToCreate.radio, 10),
         latitude: eventPosition.lat(),
         longitude: eventPosition.lng(),
         date: eventDate,
@@ -121,6 +126,7 @@ Template.newEvent.events({
       };
 
       Meteor.call('insertEvent', newEvent);
+      document.getElementById('label_event_description_create').classList.remove('description-invalid');
       $('form')[0].reset();
 
       const datePicker = $('.datepicker').pickadate('picker');

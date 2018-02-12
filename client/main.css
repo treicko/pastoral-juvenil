@@ -125,6 +125,22 @@ body {
   margin-bottom: 30px;
 }
 
+.chip-invalid {
+  color: #F44336 !important;
+}
+
+.chip-invalid::before {
+  content: 'Agrege por lo menos uno o más ';
+}
+
+.description-invalid {
+  color: #F44336 !important;
+}
+
+.description-invalid::before {
+  content: 'Agrege una ';
+}
+
 .collection {
   margin: 0rem !important;
   border: 0px !important;

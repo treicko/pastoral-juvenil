@@ -1,4 +1,4 @@
-/* global Template FlowRouter Meteor ReactiveVar GoogleMaps Kardex Meteor */
+/* global Template FlowRouter Meteor ReactiveVar GoogleMaps Kardex Meteor $ */
 
 import EventController from './../../../../../lib/controllers/event.controller';
 
@@ -59,6 +59,6 @@ Template.event.events({
   'click #delete_event': () => {
     Meteor.call('deleteEvent', FlowRouter.getParam('id'));
     $('#modalDelete').modal('close');
-    FlowRouter.go(`/events`);
+    FlowRouter.go('/events');
   },
 });

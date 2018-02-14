@@ -1,5 +1,5 @@
-/* global Template $ ReactiveVar GoogleMaps Meteor */
-import EventController from './../../../../../lib/controllers/event.controller';
+/* global Template $ ReactiveVar GoogleMaps Meteor Materialize */
+import ParishController from './../../../../../lib/controllers/parish.controller';
 
 Template.newParish.onRendered(function() {
   $('input.autocomplete').autocomplete({
@@ -15,12 +15,11 @@ Template.newParish.onRendered(function() {
 });
 
 Template.newParish.onCreated(function() {
-  this.eventController = new ReactiveVar(new EventController());
-
-  GoogleMaps.ready('parishMap', (map) => {
-    this.eventController.get().setMap(map, 'parish_ubication');
+  this.parishController = new ReactiveVar(new ParishController());
+  GoogleMaps.ready('showMap', (map) => {
+    this.parishController.get().setMap(map);
     this.autorun(() => {
-      this.eventController.get().setMapAttributes();
+      this.parishController.get().setParishForCreate('parish_ubication_create');
     });
   });
 });
@@ -30,24 +29,47 @@ Template.newParish.helpers({
 });
 
 Template.newParish.events({
-  'submit #new-parish': (event) => {
-    event.preventDefault();
-    const parishPosition = Template.instance().eventController.get().getEventPosition();
-    const newParish = {
-      name: event.target.parish_name.value,
-      location: event.target.parish_ubication.value,
-      inCharge: event.target.parish_in_charge.value,
-      latitude: parishPosition.lat(),
-      longitude: parishPosition.lng(),
-    };
-    Meteor.call('insertParish', newParish);
+  'click #cancel_new_parish': () => {
+    Materialize.updateTextFields();
     $('form')[0].reset();
     $('ul.tabs').tabs('select_tab', 'parishes');
   },
 
-  'keypress #search-input': (event) => {
+  'submit #new-parish': (event) => {
+    event.preventDefault();
+
+    const newParish = {
+      name: event.target.parish_name_create.value,
+      location: event.target.parish_ubication_create.value,
+      inCharge: event.target.parish_in_charge_create.value,
+    };
+
+    if (!newParish.name) {
+      event.target.parish_name_create.classList.add('invalid');
+      document.getElementById('label_parish_name_create').classList.add('active');
+    }
+    if (!newParish.location) {
+      event.target.parish_ubication_create.classList.add('invalid');
+      document.getElementById('label_parish_ubication_create').classList.add('active');
+    }
+
+    const isValidform = !!newParish.name &&
+      !!newParish.location;
+
+    if (isValidform) {
+      const parishPosition = Template.instance().parishController.get().getParishPosition();
+      newParish.latitude = parishPosition.lat();
+      newParish.longitude = parishPosition.lng();
+      Meteor.call('insertParish', newParish);
+      $('form')[0].reset();
+      $('ul.tabs').tabs('select_tab', 'parishes');
+    }
+  },
+
+  'keypress #parish_ubication_create': (event) => {
     if (event.which === 13) {
       event.stopPropagation();
+      event.preventDefault();
     }
   },
 });

@@ -2,19 +2,17 @@
 import ParishController from './../../../../../lib/controllers/parish.controller';
 
 Template.parishSingle.onCreated(function() {
-  let parishId;
   this.parishController = new ReactiveVar(new ParishController());
+  const parishId = FlowRouter.getParam('id');
   this.autorun(() => {
-    parishId = FlowRouter.getParam('id');
     this.subscribe('singleParish', parishId);
   });
 
   GoogleMaps.ready('showMap', (map) => {
-    this.parishController.get().setMapForShow(map, '');
-    const parishFound = this.parishController.get().getParishById(parishId);
-    if (parishFound) {
-      this.parishController.get().setParishForShowOnMap(parishFound);
-    }
+    this.parishController.get().setMap(map);
+    this.autorun(() => {
+      this.parishController.get().setParishForShowOnMap(parishId);
+    });
   });
 });
 

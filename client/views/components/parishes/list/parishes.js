@@ -6,12 +6,13 @@ Template.parishes.onRendered(function() {
     libraries: 'places',
     key: 'AIzaSyCVKw1zfv0JsOsrH9yeAwoIjwcF7_JDAHY',
   });
-
-  $('ul.tabs').tabs();
   $('ul.tabs').tabs({
     onShow: () => {
       if (GoogleMaps.loaded()) {
-        google.maps.event.trigger(GoogleMaps.maps.parishMap.instance, 'resize');
+        const center = GoogleMaps.maps.showMap.instance.getCenter();
+        google.maps.event.trigger(GoogleMaps.maps.showMap.instance, 'resize');
+        GoogleMaps.maps.showMap.instance.setCenter(center);
+        GoogleMaps.maps.showMap.instance.setZoom(15);
       }
     },
   });

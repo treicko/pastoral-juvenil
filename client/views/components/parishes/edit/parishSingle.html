@@ -26,9 +26,27 @@
       
       {{> showMap }}
     
-      <div class="input-field">
+      <!-- <div class="input-field">
         <input id="parish_in_charge_show" class="input-disabled" type="text" value="{{parish.inCharge}}" disabled>
         <label class="active label-disabled" for="parish_ubication_show">Encargado de la parroquia/capilla</label>
+      </div> -->
+
+      <div class="input-field">
+        <label class="active label-disabled">Encargadas/os del grupo:</label><br>
+        <div class="row">
+          {{#each parish.inCharge}}
+            <div class="col s12 m6 l6">
+              <ul class="collection">
+                <li class="collection-item avatar collection-charge-members">
+                  <i class="material-icons circle gray">person</i>
+                  <span class="title">{{name}}</span>
+                  <p>Telefono: {{phone}}<br></p>
+                  <a href="#!"><i class="tiny material-icons">mail</i> Mensaje</a>
+                </li>
+              </ul>
+            </div>
+          {{/each}}
+        </div>
       </div>
     </div>
   </div>  

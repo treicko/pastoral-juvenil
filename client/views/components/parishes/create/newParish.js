@@ -1,16 +1,31 @@
-/* global Template $ ReactiveVar GoogleMaps Meteor Materialize */
+/* global Template $ ReactiveVar GoogleMaps Meteor Materialize Members */
 import ParishController from './../../../../../lib/controllers/parish.controller';
 
 Template.newParish.onRendered(function() {
-  $('input.autocomplete').autocomplete({
-    data: {
-      'Pedro Perez Silgado': 'https://placehold.it/250x250',
-      'Juan Antonio Merida Aranibal': 'https://placehold.it/250x250',
-      'Julio Rojas Flores': 'https://placehold.it/250x250',
-      'Camilo Fuentes Mendieta': 'https://placehold.it/250x250',
-      'Alberto Blackut Rodriguez': 'https://placehold.it/250x250',
-    },
-    limit: 20, // The max amount of results that can be shown at once. Default: Infinity.
+  let members = [];
+  const membersData = {};
+
+  this.autorun(() => {
+    this.subscribe('members');
+
+    if (Template.instance().subscriptionsReady()) {
+      members = Members.find({}).fetch();
+      if (members.length > 0) {
+        members.forEach((member) => {
+          membersData[member.name] = 'http://lorempixel.com/250/250/people/';
+        });
+      }
+    }
+
+    $('.chips').material_chip();
+    $('.chips-placeholder').material_chip({});
+    $('.chips-autocomplete').material_chip({
+      autocompleteOptions: {
+        data: membersData,
+        limit: 10,
+        minLength: 1,
+      },
+    });
   });
 });
 
@@ -37,11 +52,14 @@ Template.newParish.events({
 
   'submit #new-parish': (event) => {
     event.preventDefault();
+    const inChargesData = $('#parish_members_create').material_chip('data');
+    const inCharges =
+      Template.instance().parishController.get().getInChargesFromData(inChargesData);
 
     const newParish = {
       name: event.target.parish_name_create.value,
       location: event.target.parish_ubication_create.value,
-      inCharge: event.target.parish_in_charge_create.value,
+      inCharge: inCharges,
     };
 
     if (!newParish.name) {

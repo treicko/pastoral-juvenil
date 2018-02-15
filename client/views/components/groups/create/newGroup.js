@@ -18,8 +18,7 @@ Template.newGroup.onRendered(function() {
     }
 
     $('.chips').material_chip();
-    $('.chips-placeholder').material_chip({
-    });
+    $('.chips-placeholder').material_chip({});
     $('.chips-autocomplete').material_chip({
       autocompleteOptions: {
         data: membersData,

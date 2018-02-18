@@ -1,53 +1,47 @@
 <template name="parishSingle">
-  <div class="">
-    <div>
-      <nav class="breadcrumb-nav">
-        <div class="nav-wrapper">
-          <div class="col s12 m12 l12">
-            <a href="/parishes" class="breadcrumb">Parroquias</a>
-            <a class="breadcrumb">{{parish.name}}</a>
+  <div class="row">
+    <nav class="breadcrumb-nav">
+      <div class="nav-wrapper">
+        <div class="col s12 m12 l12">
+          <a href="/parishes" class="breadcrumb">Parroquias</a>
+          <a href="/parishes/{{parish._id}}" class="breadcrumb">{{parish.name}}</a>
+          <a class="breadcrumb">Modificando</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="row">
+    <div class="col s12 m12 l12">
+      <form id="edit-parish" class="new-group-container">
+        <div class="row">
+          <div class="input-field col s12 m12 l12">
+            <input id="parish_name_edit" type="text" class="validate" autocomplete="off" data-length="64" maxlength="64" value="{{parish.name}}">
+            <label class="col s12 m12 l12 error-message active" id="label_parish_name_edit" for="parish_name_edit" data-error="Agrega un nombre para la parroquia/capilla">Nombre de la parroquia/capilla</label>
           </div>
         </div>
-      </nav>
-      
-    </div>
-    <div class="parish-show-container">
-      <div class="center-align">
-        <h3>Parroquia/Capilla</h3>
-      </div>
-      <div class="input-field">
-        <input id="parish_name_show" class="input-disabled" type="text" value="{{parish.name}}" disabled>
-        <label class="active label-disabled" for="parish_name_show">Nombre de la parroquia/capilla</label>
-      </div>
-      <div class="input-field">
-        <input id="parish_ubication_show" class="input-disabled" type="text" value="{{parish.location}}" disabled>
-        <label class="active label-disabled" for="parish_ubication_show">Ubicacion de la parroquia/capilla</label>
-      </div>
-      
-      {{> showMap }}
-    
-      <!-- <div class="input-field">
-        <input id="parish_in_charge_show" class="input-disabled" type="text" value="{{parish.inCharge}}" disabled>
-        <label class="active label-disabled" for="parish_ubication_show">Encargado de la parroquia/capilla</label>
-      </div> -->
-
-      <div class="input-field">
-        <label class="active label-disabled">Encargadas/os del grupo:</label><br>
+        
         <div class="row">
-          {{#each parish.inCharge}}
-            <div class="col s12 m6 l6">
-              <ul class="collection">
-                <li class="collection-item avatar collection-charge-members">
-                  <i class="material-icons circle gray">person</i>
-                  <span class="title">{{name}}</span>
-                  <p>Telefono: {{phone}}<br></p>
-                  <a href="#!"><i class="tiny material-icons">mail</i> Mensaje</a>
-                </li>
-              </ul>
-            </div>
-          {{/each}}
+          <div class="input-field col s12 m12 l12">
+            <input id="parish_ubication_edit" type="text" class="validate" value="{{parish.location}}">
+            <label class="col s12 m12 l12 error-message active" id="label_parish_ubication_edit" for="parish_ubication_edit" data-error="Agrega un ubicación para la parroquia/capilla">Ubicaci&oacute;n de la parroquia/capilla</label>
+          </div>
         </div>
-      </div>
+
+        {{> showMap }}
+
+        <div class="input-field chip-input-field">
+          <div id="parish_inCharges_edit" class="chips chips-autocomplete"></div>
+          <label class="active label-chip" for="parish_inCharges_edit">Encargados</label>
+        </div>
+
+        <div class="input-field">
+          <div class="row">
+            <a href="/parishes/{{parish._id}}" class="btn col s6 m3 l3 offset-m3 offset-l3 red">Cancelar</a>
+            <input type="submit" class="btn col s5 m3 l3 offset-s1 offset-m1 offset-l1" value="Guardar">
+          </div>
+        </div>
+      </form>
     </div>
-  </div>  
+  </div>
 </template>

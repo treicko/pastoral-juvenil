@@ -15,7 +15,6 @@ Template.groupSingle.onCreated(function() {
   this.groupController = new ReactiveVar(new GroupController());
   const groupId = FlowRouter.getParam('id');
 
-
   this.autorun(() => {
     this.subscribe('singleGroup', groupId);
     this.subscribe('members');
@@ -35,7 +34,6 @@ Template.groupSingle.helpers({
     if (Template.instance().groupController) {
       const groupFound = Template.instance().groupController.get().getGroupById(groupId);
       if (groupFound) {
-        Template.instance().groupController.get().setGroupForShowOnMap(groupFound);
         const inChargeForShow =
           Template.instance().groupController.get().setInChargesForData(groupFound.inCharge);
         const membersForShow =
@@ -78,7 +76,7 @@ Template.groupSingle.helpers({
 });
 
 Template.groupSingle.events({
-  'submit #new-group': (event) => {
+  'submit #edit-group': (event) => {
     event.preventDefault();
     const groupPosition = Template.instance().groupController.get().getGroupPosition();
     const inChargesData = $('#inCharges_edit').material_chip('data');

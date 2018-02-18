@@ -3,6 +3,7 @@ import GroupController from './../../../../../lib/controllers/group.controller';
 
 Template.group.onRendered(function() {
   $('.chips').material_chip();
+  $('.modal').modal();
 });
 
 Template.group.onCreated(function() {
@@ -66,5 +67,11 @@ Template.group.events({
   'click .unsubscribe-member': () => {
     const currentMembers = this.members.filter(user => user !== Meteor.userId());
     Meteor.call('updateMembers', this._id, currentMembers);
+  },
+
+  'click #delete_group': () => {
+    Meteor.call('deleteGroup', FlowRouter.getParam('id'));
+    $('#modalDeleteGroup').modal('close');
+    FlowRouter.go('/groups');
   },
 });

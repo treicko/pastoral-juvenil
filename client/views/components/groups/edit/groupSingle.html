@@ -13,7 +13,7 @@
 
   <div class="row">
     <div class="col s12 m12 l12">      
-      <form id="new-group" class="new-group-container">
+      <form id="edit-group" class="new-group-container">
         <div class="input-field">
           <input id="group_name_edit" type="text" class="validate" autocomplete="off" data-length="64" maxlength="64" value="{{group.name}}">
           <label id="label_group_name_edit" class="active" for="group_name_edit" data-error="Agrega un nombre para el grupo">Nombre del grupo</label>
@@ -48,8 +48,8 @@
         
         <div class="input-field">
           <div class="row">
-            <input type="submit" class="btn btn-primary col s6 m3 l3 offset-m3 offset-l3" value="Guardar cambios">
-            <input type="submit" class="btn btn-secondary col s5 m3 l3 offset-s1 offset-m1 offset-l1" value="Cancelar">
+            <a href="/groups/{{group._id}}" class="btn col s6 m3 l3 offset-m3 offset-l3 red">Cancelar</a>
+            <input type="submit" class="btn col s5 m3 l3 offset-s1 offset-m1 offset-l1" value="Guardar cambios">            
           </div>
         </div>
       </form>

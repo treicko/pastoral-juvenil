@@ -19,6 +19,11 @@
             class="btn-floating btn-large waves-effect waves-light orange accent-4 right-align">
             <i class="material-icons">edit</i>
           </a>
+          <a
+            href="#modalDeleteGroup"
+            class="btn-floating btn-large waves-effect waves-light red darken-1 right-align modal-trigger">
+            <i class="material-icons">delete</i>
+          </a>
         </h3>
       </div>
       
@@ -97,5 +102,17 @@
         </div>
       </div>
     </div>
-  </div>  
+  </div>
+  
+  <!-- Modal Structure -->
+  <div id="modalDeleteGroup" class="modal">
+    <div class="modal-content">
+      <h4>Cuidado!</h4>
+      <p>Est&aacute;s segur@ de que quieres eliminar este grupo?</p>
+    </div>
+    <div class="modal-footer">
+      <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+      <a id='delete_group' class="modal-action waves-effect waves-green btn-flat">Aceptar</a>
+    </div>
+  </div>
 </template>

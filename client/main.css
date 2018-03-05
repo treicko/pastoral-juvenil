@@ -240,6 +240,18 @@ body {
   margin-bottom: 2rem;
 }
 
+.message-description-invalid {
+  color: #F44336 !important;
+}
+
+.message-description-invalid::before {
+  content: 'Agrege un ';
+}
+
+.member-message-invalid {
+  color: #F44336 !important;
+}
+
 .members-info {
   font-weight: bold;
 }

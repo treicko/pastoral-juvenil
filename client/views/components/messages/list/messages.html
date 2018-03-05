@@ -18,8 +18,8 @@
         <label class="active label-disabled">Mensajes:</label>
           {{#if Template.subscriptionsReady}}
             <div class="collection">
-            {{#each userMessages}}
-            
+            {{#each message in userMessages}}
+              
               <a href="/messages/{{message._id}}" class="collection-item">
                 <div class="comments-list">
                   <div class="row row-comment valign-wrapper">
@@ -27,10 +27,10 @@
                       <img class="circle responsive-img" src="/images/2.jpg">
                     </div>
                     <div class="col s10 m11 l11">
-                      {{# if hasUnreadMessage unReadMessage}}
-                        <span class="title-message">{{unReadMessage}} <i class="tiny material-icons">mail</i></span>
+                      {{# if hasUnreadMessage message.unReadComments}}
+                        <span class="title-message">{{message.unReadComments}} <i class="tiny material-icons">mail</i></span>
                       {{/if}}
-                      <span class="content-message">{{message.receiverName}}</span>
+                      <span class="content-message">{{message.receiver.name}}</span>
                       
                     </div>
                   </div>

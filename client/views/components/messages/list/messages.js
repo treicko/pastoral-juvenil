@@ -1,4 +1,4 @@
-/* global Template $ ReactiveVar Meteor */
+/* global Template $ ReactiveVar Meteor Members Messages */
 
 import MessageController from './../../../../../lib/controllers/message.controller';
 
@@ -7,11 +7,32 @@ Template.messages.onRendered(function() {
 });
 
 Template.messages.onCreated(function() {
-  this.messagesFound = new ReactiveVar([]);
   this.messageController = new ReactiveVar(new MessageController());
+  this.memberMessages = new ReactiveVar([]);
+  this.members = new ReactiveVar([]);
+  this.currentMember = new ReactiveVar({});
+  const currentUserId = Meteor.user()._id;
+
   this.autorun(() => {
-    this.subscribe('messagesByMailer', Meteor.user()._id);
+    this.subscribe('members');
+    this.subscribe('singleMember', currentUserId);
+    this.subscribe('memberMessages', currentUserId);
+    // Meteor user:  6ufX7ngaJK7fexaAz
+    // this.subscribe('getMemberMessagesByUserId', Meteor.user()._id);
+
+    console.log('Holaaaaa');
+
     if (Template.instance().subscriptionsReady()) {
+      const allMembers = Members.find({}).fetch();
+      Template.instance().members.set(allMembers);
+      const memberMessages = Messages.find({ mailerId: currentUserId }).fetch();
+      Template.instance().memberMessages.set(memberMessages);
+
+      const member = Members.find({ userId: Meteor.user()._id }).fetch();
+      if (member && member.length) {
+        Template.instance().currentMember.set(member[0]);
+      }
+
       /* const currentUser = Meteor.user();
       console.log('Current user'); */
       /* const messageController = Template.instance().messageController.get();
@@ -41,19 +62,35 @@ Template.messages.onCreated(function() {
 Template.messages.helpers({
   userMessages: () => {
     const currentUser = Meteor.user();
-    const messages =
-      Template.instance().messageController.get().getMessagesByUserId(currentUser._id);
-    if (messages) {
-      const userMessages = messages.map((message) => { // eslint-disable-line arrow-body-style
-        return {
-          message,
-          unReadMessage: (currentUser._id === message.mailerId) ?
-            message.mailerUnReadMessage : message.receiverUnReadMessage,
-        };
+    console.log('Current User: ', currentUser);
+
+    const members = Template.instance().members.get();
+    const messages = Template.instance().memberMessages.get();
+    const currentMember = Template.instance().currentMember.get();
+
+    if (members && messages && currentMember) {
+      // const messagesFound =
+      return Template.instance().messageController.get().populateUserByMessage({
+        currentMember,
+        members,
+        messages,
       });
-      return userMessages;
+
+      // return messagesFound;
+
+      /* if (messages) {
+        const userMessages = messages.map((message) => { // eslint-disable-line arrow-body-style
+          return {
+            message,
+            unReadMessage: (currentUser._id === message.mailerId) ?
+              message.mailerUnReadMessage : message.receiverUnReadMessage,
+          };
+        });
+        return userMessages;
+      } */
     }
-    return {};
+
+    return [];
   },
   hasUnreadMessage: unReadMessageCount => unReadMessageCount > 0,
 });

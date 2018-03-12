@@ -1,10 +1,10 @@
-/* global Template FlowRouter Meteor ReactiveVar */
+/* global Template FlowRouter Meteor ReactiveVar Messages Members */
 import MessageController from './../../../../../lib/controllers/message.controller';
 
 Template.message.onRendered(function() {
   this.autorun(() => {
-    const id = FlowRouter.getParam('id');
-    Meteor.call('updateUnReadMessage', id);
+    const messageId = FlowRouter.getParam('id');
+    Meteor.call('updateMessage', messageId, { unReadComments: 0 });
   });
 });
 
@@ -12,78 +12,53 @@ Template.message.onDestroyed(function() {
 });
 
 Template.message.onCreated(function() {
+  const messageId = FlowRouter.getParam('id');
+  const receiverId = FlowRouter.getQueryParam('receiver');
   this.messageController = new ReactiveVar(new MessageController());
+  this.message = new ReactiveVar({});
+  this.receiver = new ReactiveVar({});
 
   this.autorun(() => {
-    const id = FlowRouter.getParam('id');
-    this.subscribe('singleMessage', id);
+    this.subscribe('singleMessage', messageId);
+    this.subscribe('singleMemberByUserId', receiverId);
+
+    if (Template.instance().subscriptionsReady()) {
+      const messages = Messages.find({ _id: messageId }).fetch();
+      const member = Members.find({ userId: receiverId }).fetch();
+
+      if (messages && messages.length > 0) {
+        if (messages[0].unReadComments > 0) {
+          Meteor.call('updateMessage', messageId, { unReadComments: 0 });
+        }
+        Template.instance().message.set(messages[0]);
+      }
+
+      if (member && member.length > 0) {
+        Template.instance().receiver.set(member[0]);
+      }
+    }
   });
 });
 
 Template.message.helpers({
-  message: () => {
-    let currentMailer;
-    let currentReceiver;
-    const currentUser = Meteor.user();
-    const message = Template.instance().messageController.get().getMessageById(FlowRouter.getParam('id'));
-    if (message) {
-      if (currentUser._id === message.mailerId) {
-        currentMailer = {
-          _id: message.mailerId,
-          name: message.mailerName,
-          image: message.mailerImage,
-        };
-        currentReceiver = {
-          _id: message.receiverId,
-          name: message.receiverName,
-          image: message.receiverImage,
-        };
-      } else {
-        currentMailer = {
-          _id: message.receiverId,
-          name: message.receiverName,
-          image: message.receiverImage,
-        };
-        currentReceiver = {
-          _id: message.mailerId,
-          name: message.mailerName,
-          image: message.mailerImage,
-        };
-      }
-      return {
-        _id: message._id,
-        currentMailer,
-        currentReceiver,
-        comments: message.comments,
-        mailerId: message.mailerId,
-        receiverId: message.receiverId,
-      };
-    }
-    return {};
-  },
-
-  user: () => {
-    const currentUser = Meteor.user();
-    return {
-      _id: currentUser._id,
-      email: currentUser.emails[0],
-      name: currentUser.profile.name,
-    };
-  },
-
+  receiver: () => Template.instance().receiver.get(),
+  comments: () => Template.instance().message.get().comments,
+  currentUserName: () => Meteor.user().profile.name,
+  currentUserId: () => Meteor.user()._id,
   isMessageMailer: (userId, currentMailerId) => userId === currentMailerId,
 });
 
 Template.message.events({
   'keypress .group-publication-comment': (event) => {
     if (event.which === 13) {
+      const message = Template.instance().message.get();
       const newComment = {
-        userId: document.getElementById('message_comment_user_id').value,
-        userImage: document.getElementById('message_comment_user_image').value,
-        comment: `${event.target.value}`,
-        messageId: document.getElementById('message_id').value,
-        mailerId: document.getElementById('message_mailer_id').value,
-        receiverId: document.getElementById('message_receiver_id').value,
+        userComment: {
+          userId: Meteor.user()._id,
+          comment: `${event.target.value}`,
+        },
+        messageId: message._id,
+        duplicateMessageId: message.duplicateMessageId,
       };
 
       Template.instance().messageController.get().addCommentToMessage(newComment);

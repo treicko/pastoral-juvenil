@@ -20,7 +20,7 @@
             <div class="collection">
             {{#each message in userMessages}}
               
-              <a href="/messages/{{message._id}}" class="collection-item">
+              <a href="/messages/{{message._id}}?receiver={{message.receiver.userId}}" class="collection-item">
                 <div class="comments-list">
                   <div class="row row-comment valign-wrapper">
                     <div class="col s2 m1 l1">

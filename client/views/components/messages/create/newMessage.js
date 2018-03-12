@@ -1,4 +1,4 @@
-/* global Template ReactiveVar Meteor Members $ */
+/* global Template ReactiveVar Meteor Members Messages FlowRouter $ */
 import MessageController from './../../../../../lib/controllers/message.controller';
 
 Template.newMessage.onRendered(function() {
@@ -9,8 +9,6 @@ Template.newMessage.onCreated(function() {
   this.members = new ReactiveVar([]);
   this.messageController = new ReactiveVar(new MessageController());
   this.autorun(() => {
-    this.subscribe('members');
-
     if (Template.instance().subscriptionsReady()) {
       const allMembers = Members.find({}).fetch();
       Template.instance().members.set(allMembers);
@@ -20,6 +18,7 @@ Template.newMessage.onCreated(function() {
           membersData[member.name] = 'http://lorempixel.com/250/250/people/';
         });
       }
+
       $('input#search_member_for_message').autocomplete({
         data: membersData,
         limit: 20,
@@ -42,6 +41,7 @@ Template.newMessage.events({
     const receiverName = event.target.search_member_for_message.value;
     const message = event.target.message_description.value;
     const members = Template.instance().members.get();
+    const currentUserId = Meteor.user()._id;
 
     document.getElementById('label_message_description').classList.remove('message-description-invalid');
 
@@ -61,50 +61,40 @@ Template.newMessage.events({
 
       if (isValidform) {
         const newMessage = {
-          mailerId: Meteor.user()._id,
+          mailerId: currentUserId,
           receiverId: receiver.userId,
           comments: [
-            { comment: message },
+            {
+              comment: message,
+              userId: currentUserId,
+            },
           ],
         };
+        const messagesFound = Messages.find({
+          mailerId: currentUserId,
+          receiverId: receiver.userId,
+        }).fetch();
 
-        Template.instance().messageController.get().createMessage(newMessage);
-
-
-        /* const messageWithUser =
-          receiver.messages.find(userMessage => currentUser._id === userMessage.userId);
-        if (!messageWithUser) {
-          const newMessage = {
-            mailerId: currentUser._id,
-            mailerName: currentUser.profile.name,
-            mailerImage: 'image',
-            mailerUnReadMessage: 0,
-            receiverId: receiver.userId,
-            receiverName: receiver.name,
-            receiverImage: 'image',
-            receiverUnReadMessage: 1,
-            comments: [
-              {
-                userId: currentUser._id,
-                userImage: 'image',
-                comment: message,
-              },
-            ],
-          };
-          Template.instance().messageController.get().createMessage(newMessage);
-        } else {
+        if (messagesFound && messagesFound.length > 0) {
+          const messageFound = messagesFound[0];
           const newComment = {
-            userId: currentUser._id,
-            userImage: 'image',
-            comment: message,
-            messageId: messageWithUser.messageId,
-            mailerId: messageWithUser.mailerMessageId,
+            userComment: {
+              userId: currentUserId,
+              comment: message,
+            },
+            messageId: messageFound._id,
+            duplicateMessageId: messageFound.duplicateMessageId,
           };
 
           Template.instance().messageController.get().addCommentToMessage(newComment);
-        } */
-        $('form')[0].reset();
-        $('ul.tabs').tabs('select_tab', 'messages');
+          $('form')[0].reset();
+          FlowRouter.go(`/messages/${messageFound._id}?receiver=${messageFound.receiverId}`);
+        } else {
+          Template.instance().messageController.get().createMessage(newMessage);
+
+          $('form')[0].reset();
+          $('ul.tabs').tabs('select_tab', 'messages');
+        }
       }
     }
   },

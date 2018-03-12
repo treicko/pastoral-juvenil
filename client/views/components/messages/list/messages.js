@@ -17,10 +17,6 @@ Template.messages.onCreated(function() {
     this.subscribe('members');
     this.subscribe('singleMember', currentUserId);
     this.subscribe('memberMessages', currentUserId);
-    // Meteor user:  6ufX7ngaJK7fexaAz
-    // this.subscribe('getMemberMessagesByUserId', Meteor.user()._id);
-
-    console.log('Holaaaaa');
 
     if (Template.instance().subscriptionsReady()) {
       const allMembers = Members.find({}).fetch();
@@ -61,33 +57,16 @@ Template.messages.onCreated(function() {
 
 Template.messages.helpers({
   userMessages: () => {
-    const currentUser = Meteor.user();
-    console.log('Current User: ', currentUser);
-
     const members = Template.instance().members.get();
     const messages = Template.instance().memberMessages.get();
     const currentMember = Template.instance().currentMember.get();
 
     if (members && messages && currentMember) {
-      // const messagesFound =
       return Template.instance().messageController.get().populateUserByMessage({
         currentMember,
         members,
         messages,
       });
-
-      // return messagesFound;
-
-      /* if (messages) {
-        const userMessages = messages.map((message) => { // eslint-disable-line arrow-body-style
-          return {
-            message,
-            unReadMessage: (currentUser._id === message.mailerId) ?
-              message.mailerUnReadMessage : message.receiverUnReadMessage,
-          };
-        });
-        return userMessages;
-      } */
     }
 
     return [];

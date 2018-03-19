@@ -4,6 +4,12 @@ import MessageController from './../../../../../lib/controllers/message.controll
 
 Template.messages.onRendered(function() {
   $('ul.tabs').tabs();
+
+  this.autorun(() => {
+    if (Template.instance().currentMember.get().unReadMessage > 0) {
+      Meteor.call('updateMemberByUserId', Meteor.user()._id, { unReadMessage: 0 });
+    }
+  });
 });
 
 Template.messages.onCreated(function() {

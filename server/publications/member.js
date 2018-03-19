@@ -9,6 +9,11 @@ Meteor.publish('singleMember', function(id) {
   return Members.find({ _id: id });
 });
 
+Meteor.publish('singleUnreadMessageMember', function(id) {
+  check(id, String);
+  return Members.find({ userId: id }, { fields: { unReadMessage: 1 } });
+});
+
 Meteor.publish('singleMemberByUserId', function(id) {
   check(id, String);
   return Members.find({ userId: id });

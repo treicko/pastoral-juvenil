@@ -11,5 +11,5 @@ Meteor.publish('singleKardex', function(id) {
 
 Meteor.publish('singleKardexByUser', function(id) {
   check(id, String);
-  return Kardex.find({ userId: id });
+  return Kardex.find({ userId: id }, { fields: { userId: 1 } });
 });

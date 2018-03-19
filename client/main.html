@@ -18,30 +18,30 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 
-<body>
+<!-- <body> -->
   <!-- <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script> -->
   <!-- <script type="text/javascript" src="/components/js/materialize.min.js"></script> -->
-</body>
+<!-- </body> -->
 
 <template name="main">
-    {{#if currentUser}}
-      {{> layout}}
-      <div class="row">
-        <div class="container background-container">
-          <main class="main-layout">
-            {{> Template.dynamic template=main}}
-          </main>
-        </div>
+  {{#if currentUser}}
+    {{> layout}}
+    <!-- <div class="row">
+      <div class="container background-container">
+        <main class="main-layout">
+          {{> Template.dynamic template=main}}
+        </main>
       </div>
-    {{else}}
-      <div class="sing-in-container">
-        {{> index}}
-      </div>
-    {{/if}}
-    
-    <!--{{> SideNav}}-->
-    <!--<script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVKw1zfv0JsOsrH9yeAwoIjwcF7_JDAHY&callback=initMap">
-    </script>-->
-  </template>
+    </div> -->
+  {{else}}
+    <div class="sing-in-container">
+      {{> index}}
+    </div>
+  {{/if}}
+  
+  <!--{{> SideNav}}-->
+  <!--<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVKw1zfv0JsOsrH9yeAwoIjwcF7_JDAHY&callback=initMap">
+  </script>-->
+</template>
 

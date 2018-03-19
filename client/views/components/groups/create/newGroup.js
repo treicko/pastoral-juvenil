@@ -1,4 +1,4 @@
-/* global Template Members $ ReactiveVar GoogleMaps */
+/* global Template Members $ ReactiveVar GoogleMaps Meteor Kardex */
 import GroupController from './../../../../../lib/controllers/group.controller';
 
 Template.newGroup.onRendered(function() {
@@ -37,9 +37,19 @@ Template.newGroup.onRendered(function() {
 
 Template.newGroup.onCreated(function() {
   this.groupController = new ReactiveVar(new GroupController());
+  this.userKardex = new ReactiveVar(null);
+  const userId = Meteor.user()._id;
 
   this.autorun(() => {
     this.subscribe('groups');
+    this.subscribe('singleKardexByUser', userId);
+
+    if (Template.instance().subscriptionsReady()) {
+      const userKardexFound = Kardex.find({ userId }).fetch();
+      if (userKardexFound && userKardexFound.length) {
+        this.userKardex.set(userKardexFound[0]);
+      }
+    }
   });
 
   GoogleMaps.ready('showMap', (map) => {
@@ -96,7 +106,10 @@ Template.newGroup.events({
       !!newGroup.description;
 
     if (isValidform) {
-      Template.instance().groupController.get().saveGroup(newGroup);
+      Template.instance().groupController.get().saveGroup({
+        newGroup,
+        userKardex: Template.instance().userKardex.get(),
+      });
       document.getElementById('label_group_description_create').classList.remove('description-invalid');
       $('form')[0].reset();
       $('ul.tabs').tabs('select_tab', 'groups');

@@ -1,4 +1,4 @@
-/* global Template $ moment ReactiveVar GoogleMaps Meteor Materialize */
+/* global Template $ moment ReactiveVar GoogleMaps Meteor Materialize Kardex */
 import EventController from './../../../../../lib/controllers/event.controller';
 
 Template.newEvent.onRendered(function() {
@@ -36,6 +36,18 @@ Template.newEvent.onRendered(function() {
 
 Template.newEvent.onCreated(function() {
   this.eventController = new ReactiveVar(new EventController());
+  this.userKardex = new ReactiveVar(null);
+  const userId = Meteor.user()._id;
+
+  this.autorun(() => {
+    this.subscribe('singleKardexByUser', userId);
+    if (Template.instance().subscriptionsReady()) {
+      const userKardexFound = Kardex.find({ userId }).fetch();
+      if (userKardexFound && userKardexFound.length) {
+        this.userKardex.set(userKardexFound[0]);
+      }
+    }
+  });
 
   GoogleMaps.ready('showMap', (map) => {
     this.eventController.get().setMap(map);
@@ -125,7 +137,10 @@ Template.newEvent.events({
         interested: [],
       };
 
-      Meteor.call('insertEvent', newEvent);
+      Template.instance().eventController.get().createEvent({
+        newEvent,
+        userKardex: Template.instance().userKardex.get(),
+      });
       document.getElementById('label_event_description_create').classList.remove('description-invalid');
       $('form')[0].reset();
 

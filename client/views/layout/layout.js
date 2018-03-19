@@ -1,49 +1,52 @@
-/* global Template $ FlowRouter */
+/* global Template $ FlowRouter Meteor Members ReactiveVar */
 
 Template.layout.onRendered(function() {
+  this.autorun(() => {
+    document.body.style.backgroundImage = "url('images/bg02.png')";
+    const elems = document.getElementsByClassName('waves-effect waves-light btn');
+    for (let i = 0; i < elems.length; i += 1) {
+      elems[i].removeAttribute('class');
+    }
+    if (elems.length === 1) {
+      elems[0].removeAttribute('class');
+    }
+  });
+
   $('.button-collapse').sideNav({
     menuWidth: 300, // Default is 300
     edge: 'left', // Choose the horizontal origin
-    closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
-    draggable: true, // Choose whether you can drag to open on touch screens,
-    onOpen: function(el) { /* Do Stuff */ }, // A function to be called when sideNav is opened
-    onClose: function(el) { /* Do Stuff */ }, // A function to be called when sideNav is closed
+    closeOnClick: false, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+    draggable: true, // Choose whether you can drag to open on touch screens
   });
-
-  $('.dropdown-button').dropdown({
-    inDuration: 300,
-    outDuration: 225,
-    constrainWidth: false, // Does not change width of dropdown to that of the activator
-    hover: false, // Activate on hover
-    gutter: 0, // Spacing from edge
-    belowOrigin: false, // Displays dropdown below the button
-    alignment: 'left', // Displays dropdown with edge aligned to the left of button
-    stopPropagation: false, // Stops event propagation
-  });
-  document.body.style.backgroundImage = "url('images/bg02.png')";
-  const elems = document.getElementsByClassName('waves-effect waves-light btn');
-  for (let i = 0; i < elems.length; i += 1) {
-    elems[i].removeAttribute('class');
-  }
-  if (elems.length === 1) {
-    elems[0].removeAttribute('class');
-  }
 });
 
 Template.layout.onCreated(function() {
+  const userId = Meteor.user()._id;
+  this.currentMember = new ReactiveVar({});
+
+  this.autorun(() => {
+    this.subscribe('singleUnreadMessageMember', userId);
+  });
 });
 
 Template.layout.onDestroyed(function () {
   document.body.style.backgroundImage = "url('images/login.jpg')";
 });
 
-Template.registerHelper('active', function(routeName) {
-  const routeN = FlowRouter.getRouteName();
-  return routeN === routeName ? 'layout-active' : '';
-  // return curRoute.getName() === routeName ? 'active' : '';
+Template.layout.helpers({
+  userName: () => Meteor.user().profile.name,
+  userEmail: () => Meteor.user().emails[0].address,
+  unReadMessageUser: () => {
+    const member = Members.find({}).fetch();
+    if (member && member.length > 0) {
+      return member[0].unReadMessage;
+    }
+    return 0;
+  },
+  hasUnreadMessage: unReadMessageCount => unReadMessageCount > 0,
 });
 
-/* Template.regi ("", function() {
-    var routeName = FlowRouter.getRouteName();
-  console.log("Current route name is: ", routeName);
-}); */
+Template.registerHelper('active', (routeName) => {
+  const routeN = FlowRouter.getRouteName();
+  return routeN === routeName ? 'layout-active' : '';
+});

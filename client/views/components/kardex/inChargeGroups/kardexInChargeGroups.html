@@ -1,0 +1,15 @@
+<template name="kardexInChargeGroups">
+  <div class="collection">
+    {{#if Template.subscriptionsReady}}
+      {{#each group in inChargeGroups}}
+        <a href="/groups/{{group._id}}" class="collection-item">
+          <span class="title">{{group.name}}</span>
+          <p><i class="tiny material-icons">location_on</i> {{group.location}}</p>
+          <i class="material-icons secondary-content">format_list_bulleted</i>
+        </a>
+      {{/each}}
+    {{else}}
+      <p>Loading...</p>
+    {{/if}}
+  </div>
+</template>

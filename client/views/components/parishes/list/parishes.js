@@ -1,11 +1,11 @@
 /* global Template GoogleMaps $ google Parishes */
 
 Template.parishes.onRendered(function() {
-  GoogleMaps.load({
+  /* GoogleMaps.load({
     v: '3',
     libraries: 'places',
     key: 'AIzaSyCVKw1zfv0JsOsrH9yeAwoIjwcF7_JDAHY',
-  });
+  }); */
   $('ul.tabs').tabs({
     onShow: () => {
       if (GoogleMaps.loaded()) {

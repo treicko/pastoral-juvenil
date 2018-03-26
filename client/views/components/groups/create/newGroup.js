@@ -1,17 +1,18 @@
-/* global Template Members $ ReactiveVar GoogleMaps Meteor Kardex */
+/* global Template Members $ ReactiveVar GoogleMaps */
 import GroupController from './../../../../../lib/controllers/group.controller';
 
 Template.newGroup.onRendered(function() {
-  let members = [];
+  this.members = new ReactiveVar([]);
   const membersData = {};
 
   this.autorun(() => {
-    this.subscribe('members');
+    this.subscribe('membersNameAndUserId');
 
     if (Template.instance().subscriptionsReady()) {
-      members = Members.find({}).fetch();
-      if (members.length > 0) {
-        members.forEach((member) => {
+      const membersFound = Members.find({}).fetch();
+      if (membersFound && membersFound.length > 0) {
+        this.members.set(membersFound);
+        membersFound.forEach((member) => {
           membersData[member.name] = 'http://lorempixel.com/250/250/people/';
         });
       }
@@ -37,20 +38,6 @@ Template.newGroup.onRendered(function() {
 
 Template.newGroup.onCreated(function() {
   this.groupController = new ReactiveVar(new GroupController());
-  this.userKardex = new ReactiveVar(null);
-  const userId = Meteor.user()._id;
-
-  this.autorun(() => {
-    this.subscribe('groups');
-    this.subscribe('singleKardexByUser', userId);
-
-    if (Template.instance().subscriptionsReady()) {
-      const userKardexFound = Kardex.find({ userId }).fetch();
-      if (userKardexFound && userKardexFound.length) {
-        this.userKardex.set(userKardexFound[0]);
-      }
-    }
-  });
 
   GoogleMaps.ready('showMap', (map) => {
     this.groupController.get().setMap(map);
@@ -108,7 +95,7 @@ Template.newGroup.events({
     if (isValidform) {
       Template.instance().groupController.get().saveGroup({
         newGroup,
-        userKardex: Template.instance().userKardex.get(),
+        memberList: Template.instance().members.get(),
       });
       document.getElementById('label_group_description_create').classList.remove('description-invalid');
       $('form')[0].reset();

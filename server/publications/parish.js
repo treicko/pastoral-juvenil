@@ -8,3 +8,7 @@ Meteor.publish('singleParish', function(id) {
   check(id, String);
   return Parishes.find({ _id: id });
 });
+
+Meteor.publish('parishesNumber', function() {
+  return Parishes.find({}, { fields: { name: 1 } });
+});

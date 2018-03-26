@@ -1,4 +1,4 @@
-/* global GoogleMaps google Geolocation Template $ ReactiveVar */
+/* global GoogleMaps google Template $ ReactiveVar */
 
 Template.eventsDashboardSection.onRendered(function() {
   /* GoogleMaps.load({
@@ -21,8 +21,6 @@ Template.eventsDashboardSection.onCreated(function() {
 });
 
 Template.eventsDashboardSection.onDestroyed(function () {
-  /* eventMarkers.forEach(marker => marker.setMap(null));
-  eventMarkers = []; */
 });
 
 Template.eventsDashboardSection.helpers({

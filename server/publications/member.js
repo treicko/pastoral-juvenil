@@ -4,6 +4,10 @@ Meteor.publish('members', function() {
   return Members.find({});
 });
 
+Meteor.publish('membersNameAndUserId', function() {
+  return Members.find({}, { fields: { name: 1, userId: 1 } });
+});
+
 Meteor.publish('singleMember', function(id) {
   check(id, String);
   return Members.find({ _id: id });

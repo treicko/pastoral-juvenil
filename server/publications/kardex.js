@@ -9,6 +9,11 @@ Meteor.publish('singleKardex', function(id) {
   return Kardex.find({ _id: id });
 });
 
+Meteor.publish('userKardex', function(id) {
+  check(id, String);
+  return Kardex.find({ userId: id });
+});
+
 Meteor.publish('singleKardexByUser', function(id) {
   check(id, String);
   return Kardex.find({ userId: id }, { fields: { userId: 1 } });

@@ -21,8 +21,8 @@
             {{#each groups}}
               <a href="/groups/{{_id}}" class="collection-item">
                 <span class="title">{{name}}</span>
-                <p>{{location}}</p>
-                <i class="material-icons secondary-content">input</i>
+                <p><i class="tiny material-icons">location_on</i> {{location}}</p>
+                <i class="material-icons secondary-content">format_list_bulleted</i>
               </a>
             {{/each}}
           {{else}}

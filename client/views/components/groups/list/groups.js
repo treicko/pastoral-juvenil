@@ -1,4 +1,4 @@
-/* global Template GoogleMaps $ google ReactiveVar Meteor */
+/* global Template GoogleMaps $ google ReactiveVar Groups */
 /* eslint-disable prefer-destructuring */
 
 import GroupController from './../../../../../lib/controllers/group.controller';
@@ -20,21 +20,21 @@ Template.groups.onCreated(function() {
   this.groupsFound = new ReactiveVar([]);
   this.groupController = new ReactiveVar(new GroupController());
   this.autorun(() => {
-    this.subscribe('groups');
+    this.subscribe('groupsNameAndLocation');
 
     if (Template.instance().subscriptionsReady()) {
-      const groupController = Template.instance().groupController.get();
-      const groups = groupController.getGroups();
-      const groupsFound = Template.instance().groupsFound;
-      groupsFound.set(groups);
+      const groups = Groups.find({}).fetch();
+
+      if (groups && groups.length) {
+        this.groupsFound.set(groups);
+      }
+
       $('input#search_group').autocomplete({
-        data: groupController.getGroupsForSearch(groups),
+        data: this.groupController.get().getGroupsForSearch(groups),
         limit: 20,
         onAutocomplete: (val) => {
-          if (groupController) {
-            const groupsFoundByName = groupController.findByName(val);
-            groupsFound.set(groupsFoundByName);
-          }
+          const groupsFoundByName = this.groupController.get().findByName(val);
+          this.groupsFound.set(groupsFoundByName);
         },
         minLength: 1,
       });
@@ -49,7 +49,6 @@ Template.groups.onCreated(function() {
 
 Template.groups.helpers({
   groups: () => Template.instance().groupsFound.get(),
-  users: () => Meteor.users.find({}),
 });
 
 Template.groups.events({

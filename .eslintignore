@@ -1,0 +1,2 @@
+# Start by ignoring everything content on public folder by default
+public/components/js/*.js

@@ -1,4 +1,4 @@
-/* global Template ReactiveVar FlowRouter GoogleMaps Members $ */
+/* global Template ReactiveVar FlowRouter GoogleMaps Members Groups $ */
 
 import GroupController from './../../../../../lib/controllers/group.controller';
 
@@ -12,67 +12,65 @@ Template.groupSingle.onRendered(function() {
 });
 
 Template.groupSingle.onCreated(function() {
-  this.groupController = new ReactiveVar(new GroupController());
   const groupId = FlowRouter.getParam('id');
+  this.groupController = new ReactiveVar(new GroupController());
+  this.group = new ReactiveVar(null);
 
   this.autorun(() => {
-    this.subscribe('singleGroup', groupId);
-    this.subscribe('members');
-  });
+    this.subscribe('singleGroupByEdit', groupId);
+    this.subscribe('membersByEdit');
 
-  GoogleMaps.ready('showMap', (map) => {
-    this.groupController.get().setMap(map);
-    this.autorun(() => {
-      this.groupController.get().setGroupForEditOnMap(groupId, 'group_ubication_edit');
-    });
+    if (Template.instance().subscriptionsReady()) {
+      GoogleMaps.ready('showMap', (map) => {
+        this.groupController.get().setMap(map);
+        this.autorun(() => {
+          const groupFound = Groups.find({ _id: groupId }).fetch();
+          if (!this.group.get() && groupFound && groupFound.length) {
+            this.group.set(groupFound[0]);
+            this.groupController.get().setGroupForEditOnMap(groupFound[0], 'group_ubication_edit');
+
+            const membersData = {};
+            const members = Members.find({}).fetch();
+            if (members && members.length) {
+              members.forEach((member) => {
+                membersData[member.name] = 'http://lorempixel.com/250/250/people/';
+              });
+
+              const inChargeForShow =
+                this.groupController.get().setInChargesForData(groupFound[0].inCharges, members);
+
+              const membersForShow =
+                this.groupController.get().setInChargesForData(groupFound[0].members, members);
+
+              $('#inCharges_edit.chips-autocomplete').material_chip({
+                data: inChargeForShow,
+                autocompleteOptions: {
+                  data: membersData,
+                  limit: 10,
+                  minLength: 1,
+                },
+                placeholder: 'Nombre',
+              });
+
+              $('#members_edit.chips-autocomplete').material_chip({
+                data: membersForShow,
+                autocompleteOptions: {
+                  data: membersData,
+                  limit: 10,
+                  minLength: 1,
+                },
+                placeholder: 'Nombre',
+              });
+            }
+          }
+        });
+      });
+    }
   });
 });
 
 Template.groupSingle.helpers({
-  group: () => {
-    const groupId = FlowRouter.getParam('id');
-    if (Template.instance().groupController) {
-      const groupFound = Template.instance().groupController.get().getGroupById(groupId);
-      if (groupFound) {
-        const inChargeForShow =
-          Template.instance().groupController.get().setInChargesForData(groupFound.inCharge);
-        const membersForShow =
-          Template.instance().groupController.get().setInChargesForData(groupFound.members);
-        groupFound.inCharge = inChargeForShow;
-        groupFound.membersForShow = membersForShow;
-
-        const membersData = {};
-        const members = Members.find({}).fetch();
-        if (members.length > 0) {
-          members.forEach((member) => {
-            membersData[member.name] = 'http://lorempixel.com/250/250/people/';
-          });
-        }
-
-        $('#inCharges_edit.chips-autocomplete').material_chip({
-          data: inChargeForShow,
-          autocompleteOptions: {
-            data: membersData,
-            limit: 10,
-            minLength: 1,
-          },
-          placeholder: 'Nombre',
-        });
-
-        $('#members_edit.chips-autocomplete').material_chip({
-          data: membersForShow,
-          autocompleteOptions: {
-            data: membersData,
-            limit: 10,
-            minLength: 1,
-          },
-          placeholder: 'Nombre',
-        });
-        return groupFound;
-      }
-    }
-    return {};
-  },
+  group: () => Template.instance().group.get(),
 });
 
 Template.groupSingle.events({
@@ -89,10 +87,10 @@ Template.groupSingle.events({
     const editedGroup = {
       name: event.target.group_name_edit.value,
       location: event.target.group_ubication_edit.value,
-      inCharge: inCharges,
       description: event.target.group_description_edit.value,
       latitude: groupPosition.lat(),
       longitude: groupPosition.lng(),
+      inCharges,
       members,
     };
 
@@ -104,7 +102,7 @@ Template.groupSingle.events({
       event.target.group_ubication_edit.classList.add('invalid');
       document.getElementById('label_group_ubication_edit').classList.add('active');
     }
-    if (!editedGroup.inCharge.length) {
+    if (!editedGroup.inCharges.length) {
       document.getElementById('label_inCharges_edit').classList.add('active');
       document.getElementById('label_inCharges_edit').classList.add('chip-invalid');
     }
@@ -116,7 +114,7 @@ Template.groupSingle.events({
 
     const isValidform = !!editedGroup.name &&
       !!editedGroup.location &&
-      !!editedGroup.inCharge.length &&
+      !!editedGroup.inCharges.length &&
       !!editedGroup.description;
 
     if (isValidform) {

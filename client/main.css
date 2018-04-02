@@ -252,6 +252,10 @@ body {
   margin-right: 10px;
 }
 
+.indicator-tab {
+  right: 0px !important;
+}
+
 .label-chip {
   top: 0px !important;
 }

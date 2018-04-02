@@ -1,4 +1,4 @@
-/* global Template $ ReactiveVar FlowRouter GoogleMaps Meteor Kardex */
+/* global Template $ ReactiveVar FlowRouter GoogleMaps Meteor Groups */
 import GroupController from './../../../../../lib/controllers/group.controller';
 
 Template.group.onRendered(function() {
@@ -8,67 +8,54 @@ Template.group.onRendered(function() {
 
 Template.group.onCreated(function() {
   const groupId = FlowRouter.getParam('id');
-  const self = this;
   this.groupController = new ReactiveVar(new GroupController());
-  self.autorun(function() {
-    self.subscribe('singleGroup', groupId);
-    self.subscribe('members');
-  });
+  this.group = new ReactiveVar(null);
+  this.autorun(() => {
+    this.subscribe('singleGroupByShow', groupId);
+    this.subscribe('membersByShow');
 
-  GoogleMaps.ready('showMap', (map) => {
-    this.groupController.get().setMapForShow(map);
-    this.autorun(() => {
-      this.groupController.get().setGroupForShowOnMap(groupId);
-    });
+    if (Template.instance().subscriptionsReady()) {
+      GoogleMaps.ready('showMap', (map) => {
+        this.groupController.get().setMapForShow(map);
+        this.autorun(() => {
+          const groupFound = Groups.find({ _id: groupId }).fetch();
+          if (groupFound && groupFound.length) {
+            this.group.set(groupFound[0]);
+            this.groupController.get().setGroupForShowOnMap(groupFound[0]);
+          }
+        });
+      });
+    }
   });
 });
 
 Template.group.helpers({
-  group: () => {
-    const groupId = FlowRouter.getParam('id');
-    if (Template.instance().groupController) {
-      const groupFound = Template.instance().groupController.get().getGroupById(groupId);
-      if (groupFound) {
-        // Template.instance().groupController.get().setGroupForShowOnMap(groupFound);
-        const inChargeForShow =
-          Template.instance().groupController.get().getInChargeForShow(groupFound);
-        const membersForShow =
-          Template.instance().groupController.get().getMembersForShow(groupFound);
-        groupFound.inCharge = inChargeForShow;
-        groupFound.membersForShow = membersForShow;
-        return groupFound;
-      }
+  group: () => Template.instance().group.get(),
+  inCharges: () => {
+    const groupFound = Template.instance().group.get();
+    if (groupFound) {
+      return Template.instance().groupController.get().getInChargeForShow(groupFound);
     }
-    return {};
+    return [];
   },
-  isEnrolled: () => {
-    let isMemberEnrolled = false;
-    if (this.members) {
-      isMemberEnrolled = this.members.find(member => member === Meteor.userId());
+  members: () => {
+    const groupFound = Template.instance().group.get();
+    if (groupFound) {
+      return Template.instance().groupController.get().getMembersForShow(groupFound);
     }
-    return isMemberEnrolled;
+    return [];
   },
+  publicationsCount: () => {
+    const group = Template.instance().group.get();
+    if (group) {
+      return group.publications.length;
+    }
+    return 0;
+  },
+  hasPublications: publicationsCount => publicationsCount > 0,
 });
 
 Template.group.events({
-  'click .enroll-member': () => {
-    const newCurrentMembers = this.members ? this.members : [];
-    const userKardex = Kardex.findOne({ userId: Meteor.userId() });
-    newCurrentMembers.push(Meteor.userId());
-    Meteor.call('updateMembers', this._id, newCurrentMembers);
-    if (userKardex) {
-      userKardex.groups.push({ groupId: this._id });
-      Meteor.call('updateKardexGroups', userKardex._id, userKardex.groups);
-    } else {
-      Meteor.call('insertKardexOnGroup', Meteor.userId(), this._id);
-    }
-  },
-
-  'click .unsubscribe-member': () => {
-    const currentMembers = this.members.filter(user => user !== Meteor.userId());
-    Meteor.call('updateMembers', this._id, currentMembers);
-  },
-
   'click #delete_group': () => {
     Meteor.call('deleteGroup', FlowRouter.getParam('id'));
     $('#modalDeleteGroup').modal('close');

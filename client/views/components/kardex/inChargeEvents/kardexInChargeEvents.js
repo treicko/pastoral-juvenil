@@ -2,10 +2,10 @@
 
 import KardexController from './../../../../../lib/controllers/kardex.controller';
 
-Template.kardexInChargeGroups.onRendered(function() {
+Template.kardexInChargeEvents.onRendered(function() {
 });
 
-Template.kardexInChargeGroups.onCreated(function() {
+Template.kardexInChargeEvents.onCreated(function() {
   this.inChargeUserGroups = new ReactiveVar([]);
   this.kardexController = new ReactiveVar(new KardexController());
 
@@ -15,13 +15,13 @@ Template.kardexInChargeGroups.onCreated(function() {
     if (Template.instance().subscriptionsReady()) {
       const groupsFound = Groups.find({}).fetch();
       if (groupsFound && groupsFound.length) {
-        const inChargeGroups = this.kardexController.get().getInChargeDataByUser(groupsFound);
+        const inChargeGroups = this.kardexController.get().getInChargeGroupsByUser(groupsFound);
         this.inChargeUserGroups.set(inChargeGroups);
       }
     }
   });
 });
 
-Template.kardexInChargeGroups.helpers({
+Template.kardexInChargeEvents.helpers({
   inChargeGroups: () => Template.instance().inChargeUserGroups.get(),
 });

@@ -1,19 +1,22 @@
 /* global Template ReactiveVar Groups Meteor */
 
+import KardexController from './../../../../../lib/controllers/kardex.controller';
+
 Template.kardexGroups.onRendered(function() {
 });
 
 Template.kardexGroups.onCreated(function() {
   this.assistantUserGroups = new ReactiveVar([]);
+  this.kardexController = new ReactiveVar(new KardexController());
 
   this.autorun(() => {
     this.subscribe('assistantGroupsByUser', Meteor.user().profile.name);
 
     if (Template.instance().subscriptionsReady()) {
       const groupsFound = Groups.find({}).fetch();
-      console.log('Grupos para el user: ', groupsFound);
       if (groupsFound && groupsFound.length) {
-        this.assistantUserGroups.set(groupsFound);
+        const assistantGroups = this.kardexController.get().getAssistantDataByUser(groupsFound);
+        this.assistantUserGroups.set(assistantGroups);
       }
     }
   });

@@ -61,7 +61,7 @@ Template.newGroup.events({
     const newGroup = {
       name: event.target.group_name_create.value,
       location: event.target.group_ubication_create.value,
-      inCharge: inCharges,
+      inCharges,
       description: event.target.group_description_create.value,
       latitude: groupPosition.lat(),
       longitude: groupPosition.lng(),
@@ -77,7 +77,7 @@ Template.newGroup.events({
       event.target.group_ubication_create.classList.add('invalid');
       document.getElementById('label_group_ubication_create').classList.add('active');
     }
-    if (!newGroup.inCharge.length) {
+    if (!newGroup.inCharges.length) {
       document.getElementById('label_group_in_charges_create').classList.add('active');
       document.getElementById('label_group_in_charges_create').classList.add('chip-invalid');
     }
@@ -89,7 +89,7 @@ Template.newGroup.events({
 
     const isValidform = !!newGroup.name &&
       !!newGroup.location &&
-      !!newGroup.inCharge.length &&
+      !!newGroup.inCharges.length &&
       !!newGroup.description;
 
     if (isValidform) {

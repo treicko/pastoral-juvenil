@@ -41,13 +41,13 @@
       <div class="input-field">
         <label class="active label-disabled">Encargadas/os del grupo:</label><br>
         <div class="row">
-          {{#each group.inCharge}}
+          {{#each inCharge in inCharges}}
             <div class="col s12 m6 l6">
               <ul class="collection">
                 <li class="collection-item avatar collection-charge-members">
                   <i class="material-icons circle gray">person</i>
-                  <span class="title">{{name}}</span>
-                  <p>Telefono: {{phone}}<br></p>
+                  <span class="title">{{inCharge.name}}</span>
+                  <p>Telefono: {{inCharge.phone}}<br></p>
                   <a href="#!"><i class="tiny material-icons">mail</i> Mensaje</a>
                 </li>
               </ul>
@@ -59,13 +59,13 @@
       <div class="input-field">
         <label class="active label-disabled">Miembros del grupo:</label><br>
         <div class="row">
-          {{#each group.membersForShow}}
+          {{#each member in members}}
             <div class="col s12 m6 l6">
               <ul class="collection">
                 <li class="collection-item avatar collection-charge-members">
                   <i class="material-icons circle green">person</i>
-                  <span class="title">{{name}}</span>
-                  <p>Telefono: {{phone}}</p>
+                  <span class="title">{{member.name}}</span>
+                  <p>Telefono: {{member.phone}}</p>
                   <a href="#!"><i class="tiny material-icons">mail</i> Mensaje</a>
                 </li>
               </ul>
@@ -92,12 +92,21 @@
         <div class="col s12 m12 l12">
           <label class="active label-disabled" for="group_description">Publicaciones del grupo:</label>
           <div class="card blue-grey darken-1">
-            <div class="card-content white-text">
-              Este grupo tiene <span class="members-info">35</span> publicaciones.
-            </div>
-            <div class="card-action">
-              <a href="/groups/{{group._id}}/publications"><i class="tiny material-icons">comment</i> Ver Publicaciones</a>
-            </div>
+            {{# if hasPublications publicationsCount}}
+              <div class="card-content white-text">
+                Este grupo tiene <span class="members-info">{{publicationsCount}}</span> publicaciones.
+              </div>
+              <div class="card-action">
+                <a href="/groups/{{group._id}}/publications"><i class="tiny material-icons">forum</i> Ver Publicaciones</a>
+              </div>
+            {{else}}
+              <div class="card-content white-text">
+                Se el primero el realizar una publicaci&oacute;n <i class="tiny material-icons">forum</i>
+              </div>
+              <div class="card-action">
+                <a href="/groups/{{group._id}}/publications"><i class="tiny material-icons">forum</i> Crear publicaci&oacute;n</a>
+              </div>
+            {{/if}}
           </div>
         </div>
       </div>

@@ -1,22 +1,23 @@
-/* global Template ReactiveVar Events */
+/* global Template ReactiveVar Events Meteor */
 
 Template.kardexEvents.onRendered(function() {
 });
 
 Template.kardexEvents.onCreated(function() {
-  this.kardexEventsFound = new ReactiveVar([]);
+  this.assistantUserEvents = new ReactiveVar([]);
   this.autorun(() => {
-    this.subscribe('memberEvents');
+    this.subscribe('assistantEventsByUser', Meteor.user().profile.name);
 
     if (Template.instance().subscriptionsReady()) {
       const eventsFound = Events.find({}).fetch();
       if (eventsFound && eventsFound.length) {
-        this.kardexEventsFound.set(eventsFound);
+        const assistantEvents = this.kardexController.get().getAssistantGroupsByUser(eventsFound);
+        this.assistantUserEvents.set(assistantEvents);
       }
     }
   });
 });
 
 Template.kardexEvents.helpers({
-  events: () => Template.instance().kardexEventsFound.get(),
+  assistantEvents: () => Template.instance().assistantUserEvents.get(),
 });

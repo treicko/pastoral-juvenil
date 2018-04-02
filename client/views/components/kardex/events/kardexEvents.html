@@ -1,19 +1,15 @@
 <template name="kardexEvents">
-  <div class="parishes-container">
-    <label class="active label-disabled">Eventos como encargado:</label>
-    <div class="collection">
-      {{#if Template.subscriptionsReady}}
-        {{#each events}}
-          <a href="/events/{{_id}}" class="collection-item">
-            <span class="title">{{name}}</span>
-            <p><i class="tiny material-icons">location_on</i> {{ubication}}</p>
-            <i class="material-icons secondary-content">format_list_bulleted</i>
-          </a>
-        {{/each}}
-      {{else}}
-        <p>Loading...</p>
-      {{/if}}
-    </div>
-    <label class="active label-disabled">Eventos como participante:</label>
+  <div class="collection">
+    {{#if Template.subscriptionsReady}}
+      {{#each event in assistantEvents}}
+        <a href="/events/{{event._id}}" class="collection-item">
+          <span class="title">{{event.name}}</span>
+          <p><i class="tiny material-icons">location_on</i> {{event.ubication}}</p>
+          <i class="material-icons secondary-content">format_list_bulleted</i>
+        </a>
+      {{/each}}
+    {{else}}
+      <p>Loading...</p>
+    {{/if}}
   </div>
 </template>

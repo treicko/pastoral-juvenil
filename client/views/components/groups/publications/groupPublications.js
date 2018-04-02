@@ -1,4 +1,4 @@
-/* global Template ReactiveVar FlowRouter Meteor $ */
+/* global Template ReactiveVar FlowRouter Meteor $ Groups */
 /* eslint-disable no-param-reassign */
 import GroupController from './../../../../../lib/controllers/group.controller';
 
@@ -7,19 +7,35 @@ Template.groupPublications.onRendered(function() {
 
 Template.groupPublications.onCreated(function() {
   this.groupController = new ReactiveVar(new GroupController());
+  this.group = new ReactiveVar(null);
+
   this.autorun(() => {
     const groupId = FlowRouter.getParam('id');
-    this.subscribe('singleGroup', groupId);
+    this.subscribe('singleGroupByPublications', groupId);
+
+    if (Template.instance().subscriptionsReady()) {
+      const groupFound = Groups.find({ _id: groupId }).fetch();
+      if (groupFound && groupFound.length) {
+        this.group.set(groupFound[0]);
+      }
+    }
   });
 });
 
 Template.groupPublications.helpers({
   group: () => {
-    const groupFound = Template.instance().groupController.get().getGroupById(FlowRouter.getParam('id'));
+    const groupFound = Template.instance().group.get();
     if (groupFound) {
       return groupFound;
     }
     return {};
+  },
+  publications: () => {
+    const groupFound = Template.instance().group.get();
+    if (groupFound) {
+      return groupFound.publications;
+    }
+    return [];
   },
   user: () => {
     const currentUser = Meteor.user();

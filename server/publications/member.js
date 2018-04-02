@@ -4,6 +4,14 @@ Meteor.publish('members', function() {
   return Members.find({});
 });
 
+Meteor.publish('membersByEdit', function() {
+  return Members.find({}, { fields: { name: 1 } });
+});
+
+Meteor.publish('membersByShow', function() {
+  return Members.find({}, { fields: { name: 1, phone: 1 } });
+});
+
 Meteor.publish('membersNameAndUserId', function() {
   return Members.find({}, { fields: { name: 1, userId: 1 } });
 });

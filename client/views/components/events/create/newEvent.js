@@ -1,4 +1,4 @@
-/* global Template $ moment ReactiveVar GoogleMaps Meteor Materialize Kardex */
+/* global Template $ moment ReactiveVar GoogleMaps Meteor Materialize Kardex Members */
 import EventController from './../../../../../lib/controllers/event.controller';
 
 Template.newEvent.onRendered(function() {
@@ -32,6 +32,38 @@ Template.newEvent.onRendered(function() {
 
   document.getElementById('event_hour_create').value = moment().add(1, 'hours').format('HH:mm');
   document.getElementById('label_event_description_create').classList.remove('description-invalid');
+
+  this.members = new ReactiveVar([]);
+  const membersData = {};
+
+  this.autorun(() => {
+    this.subscribe('membersNameAndUserId');
+
+    if (Template.instance().subscriptionsReady()) {
+      const membersFound = Members.find({}).fetch();
+      if (membersFound && membersFound.length) {
+        this.members.set(membersFound);
+        membersFound.forEach((member) => {
+          membersData[member.name] = 'http://lorempixel.com/250/250/people/';
+        });
+      }
+    }
+
+    $('.chips').material_chip();
+    $('.chips-placeholder').material_chip({});
+    $('.chips-autocomplete').material_chip({
+      autocompleteOptions: {
+        data: membersData,
+        limit: 10,
+        minLength: 1,
+      },
+    });
+    $('.chips').on('chip.add', function(e) {
+      if (e.currentTarget.id === 'in_charges_event_create') {
+        document.getElementById('label_event_in_charges_create').classList.remove('chip-invalid');
+      }
+    });
+  });
 });
 
 Template.newEvent.onCreated(function() {
@@ -79,6 +111,12 @@ Template.newEvent.events({
 
   'submit #new-event': (event) => {
     event.preventDefault();
+    const inChargesData = $('#in_charges_event_create').material_chip('data');
+    const membersData = $('#members_event_create').material_chip('data');
+    const inCharges =
+      Template.instance().eventController.get().getMembersOrInChargesFromData(inChargesData);
+    const members =
+      Template.instance().eventController.get().getMembersOrInChargesFromData(membersData);
     const eventToCreate = {
       name: event.target.event_name_create.value,
       ubication: event.target.event_ubication_create.value,
@@ -113,13 +151,18 @@ Template.newEvent.events({
       document.getElementById('label_event_description_create').classList.add('active');
       document.getElementById('label_event_description_create').classList.add('description-invalid');
     }
+    if (!inCharges.length) {
+      document.getElementById('label_event_in_charges_create').classList.add('active');
+      document.getElementById('label_event_in_charges_create').classList.add('chip-invalid');
+    }
 
     const isValidform = !!eventToCreate.name &&
       !!eventToCreate.ubication &&
       !!eventToCreate.date &&
       !!eventToCreate.hour &&
       !!eventToCreate.description &&
-      !!eventToCreate.radio;
+      !!eventToCreate.radio &&
+      !!inCharges.length;
 
     if (isValidform) {
       const eventPosition = Template.instance().eventController.get().getEventPosition();
@@ -135,11 +178,14 @@ Template.newEvent.events({
         participants: [],
         comments: [],
         interested: [],
+        inCharges,
+        members,
       };
 
       Template.instance().eventController.get().createEvent({
         newEvent,
         userKardex: Template.instance().userKardex.get(),
+        memberList: Template.instance().members.get(),
       });
       document.getElementById('label_event_description_create').classList.remove('description-invalid');
       $('form')[0].reset();

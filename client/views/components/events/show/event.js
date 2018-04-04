@@ -1,4 +1,4 @@
-/* global Template FlowRouter Meteor ReactiveVar GoogleMaps Kardex Meteor $ */
+/* global Template FlowRouter Meteor ReactiveVar GoogleMaps Kardex Meteor Events Members $ */
 
 import EventController from './../../../../../lib/controllers/event.controller';
 
@@ -7,18 +7,34 @@ Template.event.onRendered(function() {
 });
 
 Template.event.onCreated(function() {
-  this.eventController = new ReactiveVar(new EventController());
   const eventId = FlowRouter.getParam('id');
+  this.eventController = new ReactiveVar(new EventController());
+  this.event = new ReactiveVar(null);
+  this.members = new ReactiveVar(null);
+
   this.autorun(() => {
     this.subscribe('singleKardexByUser', Meteor.userId());
     this.subscribe('singleEvent', eventId);
-  });
+    this.subscribe('membersByShow');
 
-  GoogleMaps.ready('showMap', (map) => {
-    this.eventController.get().setMap(map);
-    this.autorun(() => {
-      this.eventController.get().setEventForShowOnMap(eventId);
-    });
+    if (Template.instance().subscriptionsReady()) {
+      GoogleMaps.ready('showMap', (map) => {
+        this.eventController.get().setMap(map);
+        this.autorun(() => {
+          const eventFound = Events.find({ _id: eventId }).fetch();
+          const members = Members.find({}).fetch();
+
+          if (eventFound && eventFound.length) {
+            this.event.set(eventFound[0]);
+            this.eventController.get().setEventForShowOnMap(eventFound[0]);
+          }
+
+          if (members) {
+            this.members.set(members);
+          }
+        });
+      });
+    }
   });
 });
 
@@ -31,9 +47,36 @@ Template.event.helpers({
     }
     return isMemberEnrolled;
   },
-  event: () => {
-    const eventId = FlowRouter.getParam('id');
-    return Template.instance().eventController.get().getEventByIdForShow(eventId);
+  event: () => Template.instance().event.get(),
+  eventDate: () => {
+    const event = Template.instance().event.get();
+    if (event) {
+      return Template.instance().eventController.get().getEventDateForShow(event);
+    }
+    return '';
+  },
+  eventHour: () => {
+    const event = Template.instance().event.get();
+    if (event) {
+      return Template.instance().eventController.get().getEventHourForShow(event);
+    }
+    return '';
+  },
+  inCharges: () => {
+    const event = Template.instance().event.get();
+    const members = Template.instance().members.get();
+    if (event && members) {
+      return Template.instance().eventController.get().getInChargeForShow(event.inCharges, members);
+    }
+    return [];
+  },
+  members: () => {
+    const event = Template.instance().event.get();
+    const members = Template.instance().members.get();
+    if (event && members) {
+      return Template.instance().eventController.get().getMembersForShow(event.members, members);
+    }
+    return [];
   },
 });
 

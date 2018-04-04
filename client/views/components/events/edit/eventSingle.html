@@ -43,15 +43,41 @@
         <div class="row">
           <div class="input-field col s12 m6 l6">
             <i class="material-icons prefix">perm_contact_calendar</i>
-            <input id="event_date_edit" type="text" class="datepicker" value="{{event.date}}">
+            <input id="event_date_edit" type="text" class="datepicker" value="{{eventDate}}">
             <label class="error-message active" id="label_event_date_edit" for="event_date_edit" data-error="Agrega una fecha para el evento">Fecha</label>
           </div>
           <div class="input-field col s12 m6 l6">
             <i class="material-icons prefix">schedule</i>
-            <input id="event_hour_edit" type="text" class="timepicker" value="{{event.hour}}">
+            <input id="event_hour_edit" type="text" class="timepicker" value="{{eventHour}}">
             <label class="error-message active" id="label_event_hour_edit" for="event_hour_edit" data-error="Agrega una Hora para el evento">Hora</label>
           </div>
         </div>
+
+        <div class="input-field chip-input-field">
+          <div id="inCharges_events_edit" class="chips chips-autocomplete"></div>
+          <label id="label_inCharges_event_edit" class="active label-chip" for="inCharges_events_edit">Encargados del grupo</label>
+        </div>
+
+        <div class="input-field chip-input-field">
+          <div id="members_event_edit" class="chips chips-autocomplete"></div>
+          <label class="active label-chip" for="members_event_edit">Miembros del grupo</label>
+        </div>
+
+
+        <!-- <div class="row">
+          <div class="input-field col s12 m12 l12">
+            <label id="label_event_in_charges_create">Encargados del evento</label>
+            <div id="in_charges_event_create" class="chips chips-placeholder chips-autocomplete"></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col s12 m12 l12">
+              <label>Inscritos actualmente</label>
+            <div id="members_event_create" class="chips chips-placeholder chips-autocomplete"></div>
+          </div>
+        </div> -->
+
 
         <div class="row">
           <div class="input-field col s12 m12 l12">

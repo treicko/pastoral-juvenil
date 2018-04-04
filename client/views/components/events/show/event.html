@@ -76,33 +76,52 @@
       <div class="row">
         <div class="input-field col s12 m6 l6">
           <i class="material-icons prefix">perm_contact_calendar</i>
-          <input id="event_date_show" type="text" class="datepicker" value="{{event.date}}" readonly>
+          <input id="event_date_show" type="text" class="datepicker" value="{{eventDate}}" readonly>
           <label class="active label-disabled" for="event_date_show">Fecha</label>
         </div>
 
         <div class="input-field col s12 m6 l6">
           <i class="material-icons prefix">schedule</i>
-          <input id="event_hour_show" type="time" class="timepicker" value="{{event.hour}}" readonly>
+          <input id="event_hour_show" type="time" class="timepicker" value="{{eventHour}}" readonly>
           <label class="active label-disabled" for="event_hour_show">Hora</label>
         </div>
       </div>
 
       <div class="input-field">
-        <label class="active label-disabled">Intereses/Actividades:</label><br>
+        <label class="active label-disabled">Encargadas/os del grupo:</label><br>
         <div class="row">
-          {{#each group.inCharge}}
+          {{#each inCharge in inCharges}}
             <div class="col s12 m6 l6">
               <ul class="collection">
                 <li class="collection-item avatar collection-charge-members">
                   <i class="material-icons circle gray">person</i>
-                  <span class="title">{{name}}</span>
-                  <p>Telefono: {{phone}}<br></p>
+                  <span class="title">{{inCharge.name}}</span>
+                  <p>Telefono: {{inCharge.phone}}<br></p>
                   <a href="#!"><i class="tiny material-icons">mail</i> Mensaje</a>
                 </li>
               </ul>
             </div>
           {{/each}}
         </div>
+      </div>
+
+      <div class="input-field">
+        <label class="active label-disabled">Miembros del grupo:</label><br>
+        <div class="row">
+          {{#each member in members}}
+            <div class="col s12 m6 l6">
+              <ul class="collection">
+                <li class="collection-item avatar collection-charge-members">
+                  <i class="material-icons circle green">person</i>
+                  <span class="title">{{member.name}}</span>
+                  <p>Telefono: {{member.phone}}</p>
+                  <a href="#!"><i class="tiny material-icons">mail</i> Mensaje</a>
+                </li>
+              </ul>
+            </div>
+          {{/each}}
+        </div>
+        <p><span class="members-info">{{group.members.length }} peronas</span> son parte de este grupo. <a href="#!">Ver todos.</a></p>
       </div>
 
       <div class="row">

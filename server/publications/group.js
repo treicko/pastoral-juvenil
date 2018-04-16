@@ -26,6 +26,7 @@ Meteor.publish('singleGroupByEdit', function(id) {
         latitude: 1,
         longitude: 1,
         members: 1,
+        parish: 1,
       },
     },
   );
@@ -49,6 +50,7 @@ Meteor.publish('singleGroupByShow', function(id) {
         longitude: 1,
         members: 1,
         publications: 1,
+        parish: 1,
       },
     },
   );
@@ -74,3 +76,26 @@ Meteor.publish('inChargeGroupsByUser', function(userName) {
   );
 });
 
+Meteor.publish('assistantGroupsByUserNumber', function(userName) {
+  check(userName, String);
+  return Groups.find(
+    { members: { $in: [userName] } },
+    { fields: { name: 1 } },
+  );
+});
+
+Meteor.publish('inChargeGroupsByUserNumber', function(userName) {
+  check(userName, String);
+  return Groups.find(
+    { inCharges: { $in: [userName] } },
+    { fields: { name: 1 } },
+  );
+});
+
+Meteor.publish('groupsByParishName', function(parishName) {
+  check(parishName, String);
+  return Groups.find(
+    { parish: parishName },
+    { fields: { parish: 1 } },
+  );
+});

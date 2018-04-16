@@ -39,7 +39,12 @@
         </div>
 
         {{> showMap }}
-        
+
+        <div class="input-field">
+          <input type="text" id="event_parish_edit" class="autocomplete validate" autocomplete="off" value="{{event.parish}}">
+          <label class="col s12 m12 l12 error-message" id="label_event_parish_edit" for="event_parish_edit" data-error="Agrega una parroquia para el evento">Parroquia/Capilla</label>
+        </div>
+
         <div class="row">
           <div class="input-field col s12 m6 l6">
             <i class="material-icons prefix">perm_contact_calendar</i>

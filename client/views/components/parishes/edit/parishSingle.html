@@ -30,6 +30,11 @@
 
         {{> showMap }}
 
+        <div class="input-field">
+          <input type="text" id="parish_vicarage_edit" class="autocomplete validate" autocomplete="off" value="{{parish.vicarage}}">
+          <label class="col s12 m12 l12 error-message" id="label_parish_vicarage_edit" for="parish_vicarage_edit" data-error="Agrega una parroquia para el grupo">Parroquia/Capilla</label>
+        </div>
+
         <div class="input-field chip-input-field">
           <div id="parish_inCharges_edit" class="chips chips-autocomplete"></div>
           <label class="active label-chip" for="parish_inCharges_edit">Encargados</label>

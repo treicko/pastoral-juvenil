@@ -1,8 +1,28 @@
-/* global Template $ FlowRouter ReactiveVar GoogleMaps Events Members */
+/* global Template $ FlowRouter ReactiveVar GoogleMaps Events Members Parishes */
 
 import EventController from './../../../../../lib/controllers/event.controller';
 
 Template.eventSingle.onRendered(function() {
+  this.autorun(() => {
+    this.subscribe('parishesNumber');
+
+    if (Template.instance().subscriptionsReady()) {
+      const parishesFound = Parishes.find({}).fetch();
+
+      if (parishesFound && parishesFound.length > 0) {
+        const parishesData = {};
+        parishesFound.forEach((parish) => {
+          parishesData[parish.name] = null;
+        });
+        $('#event_parish_edit').autocomplete({
+          data: parishesData,
+          limit: 10,
+          minLength: 1,
+        });
+      }
+    }
+  });
+
   $('.datepicker').pickadate({
     selectMonths: true, // Creates a dropdown to control month
     selectYears: 15, // Creates a dropdown of 15 years to control year,
@@ -30,6 +50,7 @@ Template.eventSingle.onRendered(function() {
     }
   });
   document.getElementById('label_event_description_edit').classList.remove('description-invalid');
+  document.getElementById('label_event_parish_edit').classList.add('active');
 });
 
 Template.eventSingle.onCreated(function() {
@@ -39,7 +60,7 @@ Template.eventSingle.onCreated(function() {
   this.members = new ReactiveVar(null);
 
   this.autorun(() => {
-    this.subscribe('singleEvent', eventId);
+    this.subscribe('singleEventByEdit', eventId);
     this.subscribe('membersByEdit');
 
     if (Template.instance().subscriptionsReady()) {
@@ -135,6 +156,7 @@ Template.eventSingle.events({
       inCharges,
       members,
       interested: [],
+      parish: event.target.event_parish_edit.value,
     };
 
     if (!eventEdited.name) {
@@ -162,6 +184,10 @@ Template.eventSingle.events({
       document.getElementById('label_event_description_edit').classList.add('active');
       document.getElementById('label_event_description_edit').classList.add('description-invalid');
     }
+    if (!eventEdited.parish) {
+      event.target.event_parish_edit.classList.add('invalid');
+      document.getElementById('label_event_parish_edit').classList.add('active');
+    }
 
     const isValidform = !!eventEdited.name &&
       !!eventEdited.ubication &&
@@ -169,7 +195,8 @@ Template.eventSingle.events({
       !!eventDate &&
       !!eventHour &&
       !!eventEdited.inCharges.length &&
-      !!eventEdited.description;
+      !!eventEdited.description &&
+      !!eventEdited.parish;
 
     if (isValidform) {
       const eventPosition = Template.instance().eventController.get().getEventPosition();

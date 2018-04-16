@@ -17,9 +17,9 @@
                   <i class="large material-icons">assignment</i>
                 </div>
                 <div class="col s8 m8 l8">
-                  <p>Eventos: {{ userkardex.events.length }}</p>
-                  <p>Grupos: {{ userkardex.groups.length }}</p>
-                  <p>Roles: 2</p>
+                  <br>
+                  <p>Eventos: {{ evenstNumber }}</p>
+                  <p>Grupos: {{ groupsNumber }}</p>
                 </div>
               </div>
             </div>
@@ -41,10 +41,14 @@
                   <i class="large material-icons">location_city</i>
                 </div>
                 <div class="col s8 m8 l8">
-                  <p>Cantidad: {{ parishNumber }}</p>
-                  <p>Grupos: {{ groupsNumber }}</p>
-                  <p>Eventos: {{ evenstNumber }}</p>
+                  <br>
+                  <p>Grupos: {{ groupsNumerForParishSelected }}</p>
+                  <p>Eventos: {{ eventsNumerForParishSelected }}</p>
                 </div>
+              </div>
+              <div class="input-field">
+                <input type="text" id="report_parish_selected" class="autocomplete validate" autocomplete="off" value="{{parishSelected}}">
+                <label class="col s12 m12 l12 error-message" id="label_report_parish_selected" for="report_parish_selected" data-error="Selecciona una parroquia para el reporte">Parroquia/Capilla seleccionada</label>
               </div>
             </div>
             <div class="card-action">
@@ -65,9 +69,14 @@
                   <i class="large material-icons">bubble_chart</i>
                 </div>
                 <div class="col s8 m8 l8">
-                  <p>Cantidad: {{ vicaragesNumber }}</p>
-                  <p>Depto: Cochabamba</p>
+                  <br>
+                  <p>Parroquias: {{ parishNumberForVicarageSelected }}</p>
+                  <!-- <p>Depto: Cochabamba</p> -->
                 </div>
+              </div>
+              <div class="input-field">
+                <input type="text" id="report_vicarage_selected" class="autocomplete validate" autocomplete="off" value="{{vicarageSelected}}">
+                <label class="col s12 m12 l12 error-message" id="label_report_vicarage_selected" for="report_parish_selected" data-error="Selecciona una vicaria para el reporte">Vicar&iacute;a seleccionada</label>
               </div>
             </div>
             <div class="card-action">

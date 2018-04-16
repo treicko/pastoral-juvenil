@@ -39,6 +39,11 @@
       {{> showMap }}
 
       <div class="input-field">
+        <input id="group_parish_show" class="input-disabled" type="text" value="{{group.parish}}" disabled>
+        <label class="active label-disabled" for="group_parish_show">Parroquia/Capilla</label>
+      </div>
+
+      <div class="input-field">
         <label class="active label-disabled">Encargadas/os del grupo:</label><br>
         <div class="row">
           {{#each inCharge in inCharges}}

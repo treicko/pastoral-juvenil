@@ -14,7 +14,7 @@ Template.event.onCreated(function() {
 
   this.autorun(() => {
     this.subscribe('singleKardexByUser', Meteor.userId());
-    this.subscribe('singleEvent', eventId);
+    this.subscribe('singleEventByShow', eventId);
     this.subscribe('membersByShow');
 
     if (Template.instance().subscriptionsReady()) {

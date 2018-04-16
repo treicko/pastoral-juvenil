@@ -1,4 +1,4 @@
-/* global Template Members $ ReactiveVar GoogleMaps */
+/* global Template Members $ ReactiveVar GoogleMaps Parishes Materialize */
 import GroupController from './../../../../../lib/controllers/group.controller';
 
 Template.newGroup.onRendered(function() {
@@ -7,13 +7,30 @@ Template.newGroup.onRendered(function() {
 
   this.autorun(() => {
     this.subscribe('membersNameAndUserId');
+    this.subscribe('parishesNumber');
 
     if (Template.instance().subscriptionsReady()) {
       const membersFound = Members.find({}).fetch();
+      const parishesFound = Parishes.find({}).fetch();
+
       if (membersFound && membersFound.length > 0) {
         this.members.set(membersFound);
         membersFound.forEach((member) => {
           membersData[member.name] = 'http://lorempixel.com/250/250/people/';
+        });
+      }
+
+      if (parishesFound && parishesFound.length > 0) {
+        const parishesData = {};
+
+        parishesFound.forEach((parish) => {
+          parishesData[parish.name] = null;
+        });
+
+        $('#parish_create').autocomplete({
+          data: parishesData,
+          limit: 10,
+          minLength: 1,
         });
       }
     }
@@ -32,6 +49,7 @@ Template.newGroup.onRendered(function() {
         document.getElementById('label_group_in_charges_create').classList.remove('chip-invalid');
       }
     });
+    $('select').material_select();
     document.getElementById('label_group_description_create').classList.remove('description-invalid');
   });
 });
@@ -47,7 +65,16 @@ Template.newGroup.onCreated(function() {
   });
 });
 
+Template.newGroup.helpers({
+});
+
 Template.newGroup.events({
+  'click #cancel_new_group': () => {
+    Materialize.updateTextFields();
+    $('form')[0].reset();
+    $('ul.tabs').tabs('select_tab', 'groups');
+  },
+
   'submit #new-group': (event) => {
     event.preventDefault();
     const groupPosition = Template.instance().groupController.get().getGroupPosition();
@@ -65,6 +92,7 @@ Template.newGroup.events({
       description: event.target.group_description_create.value,
       latitude: groupPosition.lat(),
       longitude: groupPosition.lng(),
+      parish: event.target.parish_create.value,
       members,
       publications: [],
     };
@@ -87,10 +115,16 @@ Template.newGroup.events({
       document.getElementById('label_group_description_create').classList.add('description-invalid');
     }
 
+    if (!newGroup.parish) {
+      event.target.parish_create.classList.add('invalid');
+      document.getElementById('label_parish_create').classList.add('active');
+    }
+
     const isValidform = !!newGroup.name &&
       !!newGroup.location &&
       !!newGroup.inCharges.length &&
-      !!newGroup.description;
+      !!newGroup.description &&
+      !!newGroup.parish;
 
     if (isValidform) {
       Template.instance().groupController.get().saveGroup({

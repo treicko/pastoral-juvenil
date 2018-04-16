@@ -1,18 +1,33 @@
-/* global Template $ ReactiveVar GoogleMaps Meteor Materialize Members */
+/* global Template $ ReactiveVar GoogleMaps Meteor Materialize Members Vicarages */
 import ParishController from './../../../../../lib/controllers/parish.controller';
 
 Template.newParish.onRendered(function() {
-  let members = [];
   const membersData = {};
-
   this.autorun(() => {
     this.subscribe('members');
+    this.subscribe('vicaragesNumber');
 
     if (Template.instance().subscriptionsReady()) {
-      members = Members.find({}).fetch();
+      const members = Members.find({}).fetch();
+      const vicarages = Vicarages.find({}).fetch();
+
       if (members.length > 0) {
         members.forEach((member) => {
           membersData[member.name] = 'http://lorempixel.com/250/250/people/';
+        });
+      }
+
+      if (vicarages && vicarages.length > 0) {
+        const vicaragesData = {};
+
+        vicarages.forEach((vicarage) => {
+          vicaragesData[vicarage.name] = null;
+        });
+
+        $('#parish_vicarage_create').autocomplete({
+          data: vicaragesData,
+          limit: 10,
+          minLength: 1,
         });
       }
     }
@@ -60,6 +75,7 @@ Template.newParish.events({
       name: event.target.parish_name_create.value,
       location: event.target.parish_ubication_create.value,
       inCharge: inCharges,
+      vicarage: event.target.parish_vicarage_create.value,
     };
 
     if (!newParish.name) {
@@ -70,9 +86,14 @@ Template.newParish.events({
       event.target.parish_ubication_create.classList.add('invalid');
       document.getElementById('label_parish_ubication_create').classList.add('active');
     }
+    if (!newParish.vicarage) {
+      event.target.parish_vicarage_create.classList.add('invalid');
+      document.getElementById('label_parish_vicarage_create').classList.add('active');
+    }
 
     const isValidform = !!newParish.name &&
-      !!newParish.location;
+      !!newParish.location &&
+      !!newParish.vicarage;
 
     if (isValidform) {
       const parishPosition = Template.instance().parishController.get().getParishPosition();

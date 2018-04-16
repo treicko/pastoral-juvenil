@@ -1,4 +1,4 @@
-/* global Template $ moment ReactiveVar GoogleMaps Meteor Materialize Kardex Members */
+/* global Template $ moment ReactiveVar GoogleMaps Meteor Materialize Kardex Members Parishes */
 import EventController from './../../../../../lib/controllers/event.controller';
 
 Template.newEvent.onRendered(function() {
@@ -38,13 +38,29 @@ Template.newEvent.onRendered(function() {
 
   this.autorun(() => {
     this.subscribe('membersNameAndUserId');
+    this.subscribe('parishesNumber');
 
     if (Template.instance().subscriptionsReady()) {
+      const parishesData = {};
       const membersFound = Members.find({}).fetch();
+      const parishesFound = Parishes.find({}).fetch();
+
       if (membersFound && membersFound.length) {
         this.members.set(membersFound);
         membersFound.forEach((member) => {
           membersData[member.name] = 'http://lorempixel.com/250/250/people/';
+        });
+      }
+
+      if (parishesFound && parishesFound.length > 0) {
+        parishesFound.forEach((parish) => {
+          parishesData[parish.name] = null;
+        });
+
+        $('#event_parish_create').autocomplete({
+          data: parishesData,
+          limit: 10,
+          minLength: 1,
         });
       }
     }
@@ -124,6 +140,7 @@ Template.newEvent.events({
       date: event.target.event_date_create.value,
       hour: event.target.event_hour_create.value,
       description: event.target.event_description_create.value,
+      parish: event.target.event_parish_create.value,
     };
 
     if (!eventToCreate.name) {
@@ -155,6 +172,10 @@ Template.newEvent.events({
       document.getElementById('label_event_in_charges_create').classList.add('active');
       document.getElementById('label_event_in_charges_create').classList.add('chip-invalid');
     }
+    if (!eventToCreate.parish) {
+      event.target.event_parish_create.classList.add('invalid');
+      document.getElementById('label_event_parish_create').classList.add('active');
+    }
 
     const isValidform = !!eventToCreate.name &&
       !!eventToCreate.ubication &&
@@ -162,7 +183,8 @@ Template.newEvent.events({
       !!eventToCreate.hour &&
       !!eventToCreate.description &&
       !!eventToCreate.radio &&
-      !!inCharges.length;
+      !!inCharges.length &&
+      !!eventToCreate.parish;
 
     if (isValidform) {
       const eventPosition = Template.instance().eventController.get().getEventPosition();
@@ -180,6 +202,7 @@ Template.newEvent.events({
         interested: [],
         inCharges,
         members,
+        parish: eventToCreate.parish,
       };
 
       Template.instance().eventController.get().createEvent({

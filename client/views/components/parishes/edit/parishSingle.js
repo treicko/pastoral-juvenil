@@ -1,8 +1,31 @@
-/* global Template ReactiveVar FlowRouter GoogleMaps Members $ */
+/* global Template ReactiveVar FlowRouter GoogleMaps Members Vicarages $ */
 import ParishController from './../../../../../lib/controllers/parish.controller';
 
 Template.parishSingle.onRendered(function() {
+  this.autorun(() => {
+    this.subscribe('vicaragesNumber');
+
+    if (Template.instance().subscriptionsReady()) {
+      const vicarages = Vicarages.find({}).fetch();
+
+      if (vicarages && vicarages.length > 0) {
+        const vicaragesData = {};
+
+        vicarages.forEach((vicarage) => {
+          vicaragesData[vicarage.name] = null;
+        });
+
+        $('#parish_vicarage_edit').autocomplete({
+          data: vicaragesData,
+          limit: 10,
+          minLength: 1,
+        });
+      }
+    }
+  });
+
   $('.chips').material_chip();
+  document.getElementById('label_parish_vicarage_edit').classList.add('active');
 });
 
 Template.parishSingle.onCreated(function() {
@@ -67,6 +90,7 @@ Template.parishSingle.events({
       name: event.target.parish_name_edit.value,
       location: event.target.parish_ubication_edit.value,
       inCharge: inCharges,
+      vicarage: event.target.parish_vicarage_edit.value,
     };
 
     if (!editedParish.name) {
@@ -77,9 +101,14 @@ Template.parishSingle.events({
       event.target.parish_ubication_create.classList.add('invalid');
       document.getElementById('label_parish_ubication_edit').classList.add('active');
     }
+    if (!editedParish.vicarage) {
+      event.target.parish_vicarage_edit.classList.add('invalid');
+      document.getElementById('label_parish_vicarage_edit').classList.add('active');
+    }
 
     const isValidform = !!editedParish.name &&
-      !!editedParish.location;
+      !!editedParish.location &&
+      !!editedParish.vicarage;
 
     if (isValidform) {
       const parishId = FlowRouter.getParam('id');

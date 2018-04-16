@@ -1,14 +1,37 @@
-/* global Template ReactiveVar FlowRouter GoogleMaps Members Groups $ */
+/* global Template ReactiveVar FlowRouter GoogleMaps Members Groups $ Parishes */
 
 import GroupController from './../../../../../lib/controllers/group.controller';
 
 Template.groupSingle.onRendered(function() {
+  this.autorun(() => {
+    this.subscribe('parishesNumber');
+
+    if (Template.instance().subscriptionsReady()) {
+      const parishesFound = Parishes.find({}).fetch();
+
+      if (parishesFound && parishesFound.length > 0) {
+        const parishesData = {};
+
+        parishesFound.forEach((parish) => {
+          parishesData[parish.name] = null;
+        });
+
+        $('#group_parish_edit').autocomplete({
+          data: parishesData,
+          limit: 10,
+          minLength: 1,
+        });
+      }
+    }
+  });
+
   $('.chips').on('chip.add', function(e) {
     if (e.currentTarget.id === 'in_charges_create') {
       document.getElementById('label_inCharges_edit').classList.remove('chip-invalid');
     }
   });
   document.getElementById('label_group_description_edit').classList.remove('description-invalid');
+  document.getElementById('label_group_parish_edit').classList.add('active');
 });
 
 Template.groupSingle.onCreated(function() {
@@ -19,6 +42,7 @@ Template.groupSingle.onCreated(function() {
   this.autorun(() => {
     this.subscribe('singleGroupByEdit', groupId);
     this.subscribe('membersByEdit');
+    this.subscribe('parishesNumber');
 
     if (Template.instance().subscriptionsReady()) {
       GoogleMaps.ready('showMap', (map) => {
@@ -90,6 +114,7 @@ Template.groupSingle.events({
       description: event.target.group_description_edit.value,
       latitude: groupPosition.lat(),
       longitude: groupPosition.lng(),
+      parish: event.target.group_parish_edit.value,
       inCharges,
       members,
     };
@@ -112,10 +137,16 @@ Template.groupSingle.events({
       document.getElementById('label_group_description_edit').classList.add('description-invalid');
     }
 
+    if (!editedGroup.parish) {
+      event.target.group_parish_edit.classList.add('invalid');
+      document.getElementById('label_group_parish_edit').classList.add('active');
+    }
+
     const isValidform = !!editedGroup.name &&
       !!editedGroup.location &&
       !!editedGroup.inCharges.length &&
-      !!editedGroup.description;
+      !!editedGroup.description &&
+      !!editedGroup.parish;
 
     if (isValidform) {
       const groupId = FlowRouter.getParam('id');

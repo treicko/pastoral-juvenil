@@ -28,7 +28,7 @@ Template.eventsDashboardSection.helpers({
 });
 
 Template.eventsDashboardSection.events({
-  'click .eventRegister': (event, templateInstance) => {
+  'click .eventRegister': () => {
     $('#modalRegister').modal('open');
 
     $('.modal').modal({

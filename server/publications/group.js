@@ -99,3 +99,17 @@ Meteor.publish('groupsByParishName', function(parishName) {
     { fields: { parish: 1 } },
   );
 });
+
+Meteor.publish('groupsByParishDetail', function(parishName) {
+  check(parishName, String);
+  return Groups.find(
+    { parish: parishName },
+    {
+      fields: {
+        name: 1,
+        latitude: 1,
+        longitude: 1,
+      },
+    },
+  );
+});

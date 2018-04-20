@@ -2,7 +2,7 @@
 
 Template.kardexDetail.onRendered(function() {
   $('ul.tabs').tabs({
-    onShow: (elem) => {      
+    onShow: () => {
       /* if (GoogleMaps.loaded()) {
         const center = GoogleMaps.maps.showMap.instance.getCenter();
         google.maps.event.trigger(GoogleMaps.maps.showMap.instance, 'resize');

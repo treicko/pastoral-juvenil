@@ -1,12 +1,31 @@
 <template name="vicarageDetail">
-  <article>
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h3 class="panel-title">Vicarages Detail</h3>
+  <div>
+    <nav class="breadcrumb-nav">
+      <div class="nav-wrapper">
+        <div class="col s12 m12 l12">
+          <a href="/reports" class="breadcrumb">Reportes</a>
+          <a class="breadcrumb">{{vicarageName}}</a>
+        </div>
       </div>
-      <div class="panel-body">
-        <p> charts</p>
+    </nav>
+
+    <div class="parish-show-container">
+      <div class="center-align">
+        <h3>
+          Vicaria
+          <a
+            href="/vicarages/{{vicarageId}}"
+            class="btn-floating btn-large waves-effect waves-light orange accent-4 right-align">
+            <i class="large material-icons">bubble_chart</i>
+          </a>
+        </h3>
       </div>
     </div>
-  </article>
+    <div class="input-field">
+      <input id="vicarage_detail_name_show" class="input-disabled" type="text" value="{{vicarageName}}" disabled>
+      <label class="active label-disabled" for="vicarage_detail_name_show">Nombre de la vicar&iacute;a</label>
+    </div>
+
+    {{> showMap }}
+  </div>
 </template>

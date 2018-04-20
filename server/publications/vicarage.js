@@ -12,3 +12,8 @@ Meteor.publish('singleVicarage', function(id) {
 Meteor.publish('vicaragesNumber', function() {
   return Vicarages.find({}, { fields: { name: 1 } });
 });
+
+Meteor.publish('singleVicarageDetailByName', function(vicarageName) {
+  check(vicarageName, String);
+  return Vicarages.find({ name: vicarageName }, { fields: { name: 1 } });
+});

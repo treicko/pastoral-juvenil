@@ -98,3 +98,17 @@ Meteor.publish('eventsByParishName', function(parishName) {
     { fields: { parish: 1 } },
   );
 });
+
+Meteor.publish('eventsByParishDetail', function(parishName) {
+  check(parishName, String);
+  return Events.find(
+    { parish: parishName },
+    {
+      fields: {
+        name: 1,
+        latitude: 1,
+        longitude: 1,
+      },
+    },
+  );
+});

@@ -20,3 +20,22 @@ Meteor.publish('parishesByVicarageName', function(vicarageName) {
     { fields: { vicarage: 1 } },
   );
 });
+
+Meteor.publish('singleParishDetailByName', function(parishName) {
+  check(parishName, String);
+  return Parishes.find({ name: parishName }, { fields: { name: 1 } });
+});
+
+Meteor.publish('parishesByVicarageDetail', function(vicarageName) {
+  check(vicarageName, String);
+  return Parishes.find(
+    { vicarage: vicarageName },
+    {
+      fields: {
+        name: 1,
+        latitude: 1,
+        longitude: 1,
+      },
+    },
+  );
+});

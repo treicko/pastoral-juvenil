@@ -132,8 +132,8 @@ Template.newGroup.events({
         memberList: Template.instance().members.get(),
       });
       document.getElementById('label_group_description_create').classList.remove('description-invalid');
-      $('form')[0].reset();
-      $('ul.tabs').tabs('select_tab', 'groups');
+      /* $('form')[0].reset();
+      $('ul.tabs').tabs('select_tab', 'groups'); */
     }
   },
 

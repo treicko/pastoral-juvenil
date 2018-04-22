@@ -1,0 +1,25 @@
+<template name="notifications">
+  <div class="row">
+    <div class="col s12 m12 l12">
+      <div class="parishes-container">
+
+        <label class="active label-disabled">Notificaciones:</label>
+        <div class="collection">
+          {{#if Template.subscriptionsReady}}
+            {{#each notification in notifications}}
+              <a id="{{notification._id}}" href="{{notification.entityTag}}{{notification.entityId}}" class="collection-item {{statusNotification notification.isUnRead}}">
+                <span class="title-notification">{{notification.memberActionName}}</span>
+                <span>{{notification.action}}</span>
+                <span class="title-notification">{{notification.entity}}</span>
+                <p><i class="tiny material-icons">query_builder</i> {{notification.createdAt}}</p>
+                <i class="material-icons secondary-content">chevron_right</i>
+              </a>
+            {{/each}}
+          {{else}}
+            <p>Loading...</p>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

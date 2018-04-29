@@ -7,7 +7,7 @@
         <div class="collection">
           {{#if Template.subscriptionsReady}}
             {{#each notification in notifications}}
-              <a id="{{notification._id}}" href="{{notification.entityTag}}{{notification.entityId}}" class="collection-item {{statusNotification notification.isUnRead}}">
+              <a id="{{notification._id}}" href="{{notification.entityTag}}" class="collection-item {{statusNotification notification.isUnRead}}">
                 <span class="title-notification">{{notification.memberActionName}}</span>
                 <span>{{notification.action}}</span>
                 <span class="title-notification">{{notification.entity}}</span>

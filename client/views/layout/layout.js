@@ -38,12 +38,13 @@ Template.layout.helpers({
   userEmail: () => Meteor.user().emails[0].address,
   unReadMessageUser: () => {
     const member = Members.find({}).fetch();
+    console.log('Member: ', member);
     if (member && member.length > 0) {
       return member[0].unReadMessage;
     }
-    return 0;
+    return [];
   },
-  hasUnreadMessage: unReadMessageCount => unReadMessageCount > 0,
+  hasUnreadMessage: unReadMessageCount => unReadMessageCount.length > 0,
 });
 
 Template.registerHelper('active', (routeName) => {

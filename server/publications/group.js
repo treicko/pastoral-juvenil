@@ -33,7 +33,17 @@ Meteor.publish('singleGroupByEdit', function(id) {
 });
 
 Meteor.publish('singleGroupByPublications', function() {
-  return Groups.find({}, { fields: { name: 1, publications: 1 } });
+  return Groups.find(
+    {},
+    {
+      fields: {
+        name: 1,
+        publications: 1,
+        inCharges: 1,
+        members: 1,
+      },
+    },
+  );
 });
 
 Meteor.publish('singleGroupByShow', function(id) {

@@ -52,17 +52,28 @@ Template.message.events({
   'keypress .group-publication-comment': (event) => {
     if (event.which === 13) {
       const message = Template.instance().message.get();
-      const newComment = {
-        userComment: {
-          userId: Meteor.user()._id,
-          comment: `${event.target.value}`,
-        },
-        messageId: message._id,
-        duplicateMessageId: message.duplicateMessageId,
-      };
+      const receiver = Template.instance().receiver.get();
 
-      Template.instance().messageController.get().addCommentToMessage(newComment);
-      event.target.value = ''; // eslint-disable-line no-param-reassign
+      if (message && receiver) {
+        const newComment = {
+          userComment: {
+            userId: Meteor.user()._id,
+            comment: `${event.target.value}`,
+          },
+          receiver: {
+            userId: receiver.userId,
+            unReadMessage: receiver.unReadMessage,
+          },
+          messageId: message._id,
+          duplicateMessageId: message.duplicateMessageId,
+        };
+  
+        console.log('User receiver id: ', Template.instance().receiver.get());
+        console.log('Receiver UserId: ', Template.instance().receiver.get()._id);
+  
+        Template.instance().messageController.get().addCommentToMessage(newComment);
+        event.target.value = ''; // eslint-disable-line no-param-reassign
+      }
     }
   },
 });

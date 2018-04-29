@@ -6,8 +6,9 @@ Template.messages.onRendered(function() {
   $('ul.tabs').tabs();
 
   this.autorun(() => {
-    if (Template.instance().currentMember.get().unReadMessage > 0) {
-      Meteor.call('updateMemberByUserId', Meteor.user()._id, { unReadMessage: 0 });
+    const currentMember = Template.instance().currentMember.get();
+    if (currentMember.unReadMessage && currentMember.unReadMessage.length > 0) {
+      Meteor.call('updateMemberByUserId', Meteor.user()._id, { unReadMessage: [] });
     }
   });
 });

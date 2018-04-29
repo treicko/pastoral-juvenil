@@ -58,7 +58,10 @@ Template.groupPublications.events({
       userImage: '',
       comments: [],
     };
-    Template.instance().groupController.get().savePublication(newPublication);
+    Template.instance().groupController.get().savePublication({
+      newPublication,
+      group: Template.instance().group.get(),
+    });
     $('form')[0].reset();
     $('#group_publication_description').trigger('autoresize');
     return false;
@@ -75,7 +78,10 @@ Template.groupPublications.events({
         comment: `${event.target.value}`,
       };
 
-      Template.instance().groupController.get().saveComment(newComment);
+      Template.instance().groupController.get().saveComment({
+        newComment,
+        group: Template.instance().group.get(),
+      });
       event.target.value = '';
       $(':focus').blur();
     }

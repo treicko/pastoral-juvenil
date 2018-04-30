@@ -22,10 +22,20 @@ Template.layout.onRendered(function() {
 
 Template.layout.onCreated(function() {
   const userId = Meteor.user()._id;
-  this.currentMember = new ReactiveVar({});
+  this.memberUnReadMessage = new ReactiveVar([]);
+  this.memberUnReadNotification = new ReactiveVar(0);
 
   this.autorun(() => {
-    this.subscribe('singleUnreadMessageMember', userId);
+    this.subscribe('singleUnreadMessageAndNotificationMember', userId);
+
+    if (Template.instance().subscriptionsReady()) {
+      const members = Members.find({}).fetch();
+
+      if (members && members.length > 0) {
+        this.memberUnReadMessage.set(members[0].unReadMessage);
+        this.memberUnReadNotification.set(members[0].unReadNotification);
+      }
+    }
   });
 });
 
@@ -36,15 +46,10 @@ Template.layout.onDestroyed(function () {
 Template.layout.helpers({
   userName: () => Meteor.user().profile.name,
   userEmail: () => Meteor.user().emails[0].address,
-  unReadMessageUser: () => {
-    const member = Members.find({}).fetch();
-    console.log('Member: ', member);
-    if (member && member.length > 0) {
-      return member[0].unReadMessage;
-    }
-    return [];
-  },
+  unReadMessageUser: () => Template.instance().memberUnReadMessage.get(),
+  unReadNotificationUser: () => Template.instance().memberUnReadNotification.get(),
   hasUnreadMessage: unReadMessageCount => unReadMessageCount.length > 0,
+  hasUnreadNotification: unReadNotificationCount => unReadNotificationCount > 0,
 });
 
 Template.registerHelper('active', (routeName) => {

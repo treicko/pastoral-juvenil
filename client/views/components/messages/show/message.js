@@ -67,10 +67,6 @@ Template.message.events({
           messageId: message._id,
           duplicateMessageId: message.duplicateMessageId,
         };
-  
-        console.log('User receiver id: ', Template.instance().receiver.get());
-        console.log('Receiver UserId: ', Template.instance().receiver.get()._id);
-  
         Template.instance().messageController.get().addCommentToMessage(newComment);
         event.target.value = ''; // eslint-disable-line no-param-reassign
       }

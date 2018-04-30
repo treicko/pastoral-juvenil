@@ -4,6 +4,10 @@
 import NotificationController from './../../../../../lib/controllers/notification.controller';
 
 Template.notifications.onRendered(function() {
+  this.autorun(() => {
+    const userId = Meteor.user()._id;
+    Meteor.call('updateMemberByUserId', userId, { unReadNotification: 0 });
+  });
 });
 
 Template.notifications.onCreated(function() {

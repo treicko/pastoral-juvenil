@@ -82,6 +82,10 @@ Template.newMessage.events({
               userId: currentUserId,
               comment: message,
             },
+            receiver: {
+              userId: receiver.userId,
+              unReadMessage: receiver.unReadMessage,
+            },
             messageId: messageFound._id,
             duplicateMessageId: messageFound.duplicateMessageId,
           };
@@ -91,7 +95,6 @@ Template.newMessage.events({
           FlowRouter.go(`/messages/${messageFound._id}?receiver=${messageFound.receiverId}`);
         } else {
           Template.instance().messageController.get().createMessage(newMessage);
-
           $('form')[0].reset();
           $('ul.tabs').tabs('select_tab', 'messages');
         }

@@ -20,6 +20,11 @@ a:hover {
   opacity: 1;
 }
 
+.avatar {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 body {
   background-image: url('images/login.jpg');
   background-repeat: repeat;

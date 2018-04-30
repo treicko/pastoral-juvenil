@@ -4,19 +4,24 @@
       <div id="menu">
         <ul id="slide-out" class="side-nav fixed">
           <li>
-            <div class="user-view">
+            <div class="user-view center-align">
               <div class="background">
                 <img class="user-background-profile" src="/images/bkg1.jpg">
               </div>
-              <a href="#!user"><img class="circle" src="http://lorempixel.com/250/250/people/"></a>
+              <a href="#!user"><img class="circle avatar" src="http://lorempixel.com/250/250/people/"></a>
               <a href="#!name"><span class="white-text name">{{ userName }}</span></a>
               <a href="#!email"><span class="white-text email">{{ userEmail }}</span></a>
             </div>
           </li>
-          <li class="{{active 'notifications'}}"><a href="/notifications"><i class="material-icons">notifications_none</i>Notificaciones</a></li>
+          <li class="{{active 'notifications'}}">
+            <a href="/notifications"><i class="material-icons">notifications</i>Notificaciones
+              {{# if hasUnreadNotification unReadNotificationUser}}
+                <span class="new badge red darken-1" data-badge-caption="{{ unReadNotificationUser }}">+</span>
+              {{/if}}
+            </a>
+          </li>
           <li class="{{active 'events'}}"><a href="/events"><i class="material-icons">event</i>Eventos</a></li>
           <li class="{{active 'groups'}}"><a href="/groups"><i class="material-icons">group</i>Grupos</a></li>
-          <!-- <li class="{{active 'members'}}"><a href="/members">Miembros</a></li> -->
           <li class="{{active 'parishes'}}"><a href="/parishes"><i class="material-icons">location_city</i>Parroquias</a></li>
           <li class="{{active 'vicarages'}}"><a href="/vicarages"><i class="material-icons">bubble_chart</i>Vicar&iacute;as</a></li>
           <li class="{{active 'messages'}}">
@@ -24,7 +29,8 @@
               {{# if hasUnreadMessage unReadMessageUser}}
                 <span class="new badge red darken-1" data-badge-caption="{{ unReadMessageUser.length }}">+</span>
               {{/if}}
-            </a></li>
+            </a>
+          </li>
           <li class="{{active 'reports'}}"><a href="/reports"><i class="material-icons">equalizer</i>Estad&iacute;sticas</a></li>
           <li>{{>atNavButton}}</li>
         </ul>

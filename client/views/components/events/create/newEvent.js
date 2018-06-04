@@ -28,6 +28,8 @@ Template.newEvent.onRendered(function() {
     // aftershow: function(){} // Function for after opening timepicker
   });
 
+  $('#textarea1').trigger('autoresize');
+
   $('input#event_name_create').characterCounter();
 
   document.getElementById('event_hour_create').value = moment().add(1, 'hours').format('HH:mm');

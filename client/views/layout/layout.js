@@ -2,7 +2,9 @@
 
 Template.layout.onRendered(function() {
   this.autorun(() => {
-    document.body.style.backgroundImage = "url('images/bg02.png')";
+    /* document.body.style.backgroundImage = "url('images/bg02.png')"; */
+    document.body.style.backgroundImage = "url('images/bg.png')";
+    /* document.body.style.backgroundColor = '#fafafa'; */
     const elems = document.getElementsByClassName('waves-effect waves-light btn');
     for (let i = 0; i < elems.length; i += 1) {
       elems[i].removeAttribute('class');

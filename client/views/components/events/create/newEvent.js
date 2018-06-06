@@ -50,7 +50,7 @@ Template.newEvent.onRendered(function() {
       if (membersFound && membersFound.length) {
         this.members.set(membersFound);
         membersFound.forEach((member) => {
-          membersData[member.name] = 'http://lorempixel.com/250/250/people/';
+          membersData[member.name] = '/images/avatar2.jpg';
         });
       }
 

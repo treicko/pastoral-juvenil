@@ -1,8 +1,5 @@
 {
   "public": {
-    "ga": {
-      "account": "UA-96358959-1"
-    }
   },
   "compilerOptions": {
   "target": "ES6",
